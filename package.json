@@ -6,15 +6,19 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
+    "query-string": "^6.10.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy-production": "react-scripts build && scp -r ./build/* ccollins@react.ccollins.io:/var/www/react.ccollins.io/html/",
+    "deploy-dev": "react-scripts build && scp -r ./build/* cjc@dev.ccollins.io:/home/cjc/domains/dev.ccollins.io/public_html/"
   },
   "eslintConfig": {
     "extends": "react-app"
