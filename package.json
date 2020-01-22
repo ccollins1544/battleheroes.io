@@ -1,0 +1,31 @@
+{
+  "name": "battleheroes.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "license": "ISC",
+  "homepage": "https://github.com/ccollins1544/battleheroes.io#readme",
+  "scripts": {
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:prod": "node server.js",
+    "start:dev": "concurrently \"nodemon --ignore 'react-client/*'\" \"npm run client\"",
+    "client": "cd react-client && npm run start",
+    "seed": "node scripts/seedDB.js",
+    "install": "cd react-client && npm install",
+    "build": "cd react-client && npm run build",
+    "heroku-postbuild": "npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.18.7"
+  },
+  "dependencies": {
+    "axios": "^0.19.1",
+    "date-fns": "^2.9.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "if-env": "^1.0.4",
+    "mongoose": "^5.8.9",
+    "morgan": "^1.9.1"
+  }
+}
