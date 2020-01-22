@@ -12,6 +12,10 @@ export function Row({ fluid, children }) {
   return <div className={`row${fluid ? "-fluid" : ""}`}>{children}</div>;
 }
 
+export function SectionRow({ fluid, elementID, children }) {
+  return <div className={["section-block", `row${fluid ? "-fluid" : ""}`].join(" ")} id={elementID}>{children}</div>;
+}
+
 // This Col component lets us size bootstrap columns with less syntax
 // e.g. <Col size="md-12"> instead of <div className="col-md-12">
 export function Col({ size, children }) {

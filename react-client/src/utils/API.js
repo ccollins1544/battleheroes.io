@@ -1,6 +1,10 @@
 import axios from "axios";
 
 export default {
+  user: () => axios.get('/user'),
+ 
+  logout: () => axios.post('/user/logout'),
+
   // Gets all books
   // getBooks: () => axios.get("/api/books"),
   getBooks: () => fetch(`/api/books`),

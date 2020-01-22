@@ -1,0 +1,102 @@
+[
+  {
+    "_id": 1,
+    "name": "Banjo Kazzoie",
+    "image": "./img/banjo-kazzoie.png"
+  },
+  {
+    "_id": 2,
+    "name": "Charazard",
+    "image": "./img/charazard.png"
+  },
+  {
+    "_id": 3,
+    "name": "Chrom",
+    "image": "./img/chrom.png"
+  },
+  {
+    "_id": 4,
+    "name": "Daisy",
+    "image": "./img/daisy.png"
+  },
+  {
+    "_id": 5,
+    "name": "Donky Kong",
+    "image": "./img/donky-kong.png"
+  },
+  {
+    "_id": 6,
+    "name": "Fox",
+    "image": "./img/fox.png"
+  },
+  {
+    "_id": 7,
+    "name": "Jigglypuff",
+    "image": "./img/jigglypuff.png"
+  },
+  {
+    "_id": 8,
+    "name": "Kirby",
+    "image": "./img/kirby.png"
+  },
+  {
+    "_id": 9,
+    "name": "Link",
+    "image": "./img/link.png"
+  },
+  {
+    "_id": 10,
+    "name": "Luigi",
+    "image": "./img/luigi.png"
+  },
+  {
+    "_id": 11,
+    "name": "Mario",
+    "image": "./img/mario.png"
+  },
+  {
+    "_id": 12,
+    "name": "Meta-knight",
+    "image": "./img/meta-knight.png"
+  },
+  {
+    "_id": 13,
+    "name": "Ness",
+    "image": "./img/ness.png"
+  },
+  {
+    "_id": 14,
+    "name": "Pac Man",
+    "image": "./img/pac-man.png"
+  },
+  {
+    "_id": 15,
+    "name": "Princess Peach",
+    "image": "./img/princess-peach.png"
+  },
+  {
+    "_id": 16,
+    "name": "Pikachu",
+    "image": "./img/pikachu.png"
+  },
+  {
+    "_id": 17,
+    "name": "Samus",
+    "image": "./img/samus.png"
+  },
+  {
+    "_id": 18,
+    "name": "Sonic",
+    "image": "./img/sonic.png"
+  },
+  {
+    "_id": 19,
+    "name": "Squirtle",
+    "image": "./img/squirtle.png"
+  },
+  {
+    "_id": 20,
+    "name": "Yoshi",
+    "image": "./img/yoshi.png"
+  }
+]

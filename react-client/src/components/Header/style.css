@@ -1,0 +1,57 @@
+:root {
+  --accent-text: #0092CA;
+  --primary-menu-background: #52616B;
+  --secondary-menu-text: #F0F5F9;
+  --secondary-menu-background: rgba(0, 0, 0, 0.8);
+  --body-text: #1E2022;
+  --body-background: #F0F5F9;
+  --button-text: #C9D6Df;
+  --button-background: #1E2022;
+  --cool-red: #E9290F;
+  --cool-green: #28a745;
+  --footer-hover-text: rgba(233, 41, 15, .9);
+  --gold: #DAA520;
+}
+
+.container-fluid {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.badge-success {
+  color: #fff;
+  background-color: var(--cool-green);
+}
+
+.badge-secondary {
+  color: #fff;
+  background-color: var(--gold);
+}
+
+.score {
+  color: var(--cool-green) !important;
+}
+
+.top_score {
+  color: var(--gold) !important;
+}
+
+.game_message {
+  padding: 3px;
+  position: absolute;
+  width: 50%;
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+}
+
+.game_message.success {
+  color: var(--cool-green);
+}
+
+.game_message.fail {
+  color: var(--cool-red);
+}

@@ -10,11 +10,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
-
-/* ===============[ Express Config ]=======================*/
+const session = require("express-session");
+const dbConnection = require("./models/db.js"); // Connects to db
+const MongoStore = require('connect-mongo')(session)
+const passport = require("./passport");
 const PORT = process.env.PORT || 3001;
 const app = express();
 
+/* ===============[ Express Config ]=======================*/
 // Use Features
 app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
@@ -25,16 +28,18 @@ if (process.env.NODE_ENV === "production"){
   app.use(express.static(path.resolve(__dirname,'react-client/build')));
 }
 
-/* ===============[ Connect to the MongoDB ]===============*/
-// mongoose.Promise = global.Promise;
-mongoose.connect(
-  process.env.MONGODB_URI || 
-  "mongodb://localhost/battle_heroes", 
-  { 
-    useNewUrlParser: true,
-    useUnifiedTopology: true 
-  }
+/* ===============[ Passport Session ]====================*/
+// We need to use sessions to keep track of our user's login status
+app.use(
+  session({ 
+    secret: "showmethemoney", 
+    store: new MongoStore({ mongooseConnection: dbConnection }),
+    resave: false, 
+    saveUninitialized: false 
+  })
 );
+app.use(passport.initialize());
+app.use(passport.session());
   
 /* ===============[ Add routes, both API and view ]========*/
 const routes = require("./routes");
