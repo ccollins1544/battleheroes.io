@@ -2,6 +2,7 @@ import React, { Component, useContext } from "react";
 import { BrowserRouter as Router, Route, Link, Switch, Redirect, useLocation } from "react-router-dom";
 import { UserProvider } from "./userContext";
 import UserContext from "./userContext";
+import { allChatListener } from "./utils/socket_client.js";
 import "./App.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -11,6 +12,17 @@ import SignUp from "./pages/SignUp";
 import Index from "./pages";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    // call our chatListener function and define
+    // an anonymous callback function that
+    // simply console.log's the received
+    // message
+
+    allChatListener(message => {
+      console.log(message);
+    });
+  }
 
   render(){
     return (
