@@ -1,0 +1,140 @@
+:root {
+  --accent-text: #E9290F;
+  --body-text: #000;
+  --body-background: #fff;
+  --primary-menu-text: #7289da;
+  --primary-menu-background: #2c2f33;
+  --secondary-menu-text: #99aab5;
+  --secondary-menu-background: #23272a;
+  --button-text: #fff;
+  --button-background: #7289da;
+  --discord-blue: #7289da;
+  --discord-gray: #99aab5;
+  --discord-dark: #2c2f33;
+  --discord-darker: #23272a;
+  --react-menu-blue: #282c34;
+}
+
+/*--------------[ 2.0 PAGE NAVI ]-----------------------*/
+/* 2.1 Main Nav
+/*------------------------------------------------------*/
+.App-header>.container-fluid {
+  background-color: var(--primary-menu-background) !important;
+}
+
+#main-nav,
+#mobile-nav {
+  max-width: 1080px;
+  margin: 0 auto;
+  background-color: var(--primary-menu-background) !important;
+}
+
+#main-nav .navbar-nav .nav-link,
+#mobile-nav .navbar-nav .nav-link {
+  font-size: 1.3em;
+  cursor: pointer;
+  color: var(--primary-menu-text);
+}
+
+/* Active Nav Link */
+#main-nav .navbar-nav .nav-link:focus,
+#main-nav .navbar-nav .active>.nav-link,
+#main-nav .navbar-nav .nav-link.active,
+#main-nav .navbar-nav .nav-link.show,
+#main-nav .navbar-nav .show>.nav-link,
+#mobile-nav .navbar-nav .nav-link:focus,
+#mobile-nav .navbar-nav .active>.nav-link,
+#mobile-nav .navbar-nav .nav-link.active,
+#mobile-nav .navbar-nav .nav-link.show,
+#mobile-nav .navbar-nav .show>.nav-link {
+  color: var(--accent-text);
+}
+
+/* Focused or Hover Nav Link */
+#main-nav .navbar-nav .nav-link:hover,
+#mobile-nav .navbar-nav .nav-link:hover {
+  color: var(--secondary-menu-text);
+}
+
+/* Navbar Brand */
+.navbar-brand {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 1rem;
+  font-family: "Montserrat";
+  background-color: var(--primary-menu-background);
+}
+
+.navbar-dark .navbar-brand {
+  color: var(--accent-text);
+}
+
+.navbar-dark .navbar-brand:focus,
+.navbar-dark .navbar-brand:hover {
+  color: var(--button-text);
+  -webkit-animation-name: navbar_brand_animation;
+  /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 2s;
+  /* Safari 4.0 - 8.0 */
+  animation-name: navbar_brand_animation;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-timing-function: ease-in-out;
+}
+
+/* Navbar Brand Animation */
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes navbar_brand_animation {
+  from {
+    color: var(--accent-text);
+  }
+
+  to {
+    color: var(--primary-menu-text);
+  }
+}
+
+/* Standard syntax */
+@keyframes navbar_brand_animation {
+  from {
+    color: var(--accent-text);
+  }
+
+  to {
+    color: var(--primary-menu-text);
+  }
+}
+
+
+/* 2.2 Hamburger Nav
+/*------------------------------------------------------*/
+#mobile-nav {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+#mobile-nav .navbar {
+  background-color: var(--body-text) !important;
+}
+
+.navbar-toggler:not(.collapsed) {
+  border-color: rgba(255, 255, 255, .5);
+}
+
+/* Collapsible Navbar */
+#navbarToggleMenu {
+  z-index: 1;
+}
+
+#navbarToggleMenu .bg-dark {
+  background-color: rgba(0, 0, 0, 1) !important;
+}
+
+#navbarToggleMenu ul.navbar-nav {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}

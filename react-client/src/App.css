@@ -1,0 +1,132 @@
+/**
+ * MAIN CSS
+ * Author:  Christopher Collins
+ * Version: 2.2.2
+ * License: none (public domain)
+ */
+/*------------------------------------------------------
+>>> TABLE OF CONTENTS
+/*------------------------------------------------------
+0.0 THEME COLORS
+  0.1 Color Variables
+
+1.0 MAIN LAYOUT INFO
+  1.1 AVATAR
+  1.2 Comment Section
+  1.3 Main Section
+  1.4 Add Comment Form
+  
+/*------------------------------------------------------*/
+/*--------------[ 0.0 THEME COLORS ]--------------------*/
+/*------------------------------------------------------*/
+/* 0.1 Color Variables
+/*------------------------------------------------------*/
+:root {
+  --accent-text: #E9290F;
+  --body-text: #000;
+  --body-background: #fff;
+  --primary-menu-text: #7289da;
+  --primary-menu-background: #2c2f33;
+  --secondary-menu-text: #99aab5;
+  --secondary-menu-background: #23272a;
+  --button-text: #fff;
+  --button-background: #7289da;
+  --discord-blue: #7289da;
+  --discord-gray: #99aab5;
+  --discord-dark: #2c2f33;
+  --discord-darker: #23272a;
+  --react-menu-blue: #282c34;
+}
+
+/*------------------------------------------------------*/
+/*--------------[ 1.0 MAIN LAYOUT INFO ]----------------*/
+/*------------------------------------------------------*/
+/* 1.1 AVATAR
+/*------------------------------------------------------*/
+.avatar_image {
+  float: left;
+  margin: 0 20px 0 0;
+}
+
+.avatar_image .image_wrap {
+  display: block;
+  width: 200px;
+}
+
+.avatar_image .image_wrap img {
+  max-width: 100%;
+  height: auto;
+  border-color: var(--primary-menu-background);
+  background-color: var(--body-text);
+  box-shadow: 0px 12px 18px -6px var(--primary-menu-background);
+}
+
+/* 1.2 Comment Section (#comment-section)
+/*------------------------------------------------------*/
+section.section-block,
+article#main-container {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+section#comment-section.jumbotron {
+  display: none;
+  margin-top: 15px;
+  padding: 0.5rem 1rem 1rem 1rem;
+  background-color: var(--body-text);
+  border: solid 1px var(--primary-menu-background);
+  max-width: 75%;
+}
+
+/* 1.3 Main Section (#main-section)
+/*------------------------------------------------------*/
+.section-block.row>.col-lg-12 {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.card {
+  margin-bottom: 15px;
+}
+
+.card.bg-dark {
+  background-color: var(--primary-menu-background) !important;
+  border-color: var(--primary-menu-background);
+  box-shadow: 0px 12px 18px -6px var(--primary-menu-background);
+}
+
+.card.bg-light {
+  background-color: var(--secondary-menu-text) !important;
+  border-color: var(--primary-menu-background);
+  box-shadow: 0px 12px 18px -6px var(--primary-menu-background);
+}
+
+.card-body.bg-light,
+.card-body.bg-dark {
+  background-color: var(--body-background) !important;
+}
+
+.card.bg-dark .card-header,
+.card.bg-dark .card-header * {
+  color: var(--secondary-menu-text) !important;
+}
+
+.card.bg-light .card-header, 
+.card.bg-light .card-header * {
+  color: var(--primary-menu-background) !important;
+}
+
+
+/* 1.4 Add Comment Form (#add-comment-form)
+/*------------------------------------------------------*/
+td.add-comment-form {
+  padding: 0px;
+}
+
+#add-comment-form label {
+  font-weight: bold;
+}
+
+#add-comment-form .form-control {
+  background-color: #fff;
+}
