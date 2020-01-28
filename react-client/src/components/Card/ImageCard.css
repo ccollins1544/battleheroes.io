@@ -1,14 +1,18 @@
 :root {
-  --accent-text: #0092CA;
-  --primary-menu-background: #52616B;
-  --secondary-menu-text: #F0F5F9;
-  --secondary-menu-background: rgba(0, 0, 0, 0.8);
-  --body-text: #1E2022;
-  --body-background: #F0F5F9;
-  --button-text: #C9D6Df;
-  --button-background: #1E2022;
-  --cool-red: #E9290F;
-  --footer-hover-text: rgba(233, 41, 15, .9);
+  --accent-text: #E9290F;
+  --body-text: #000;
+  --body-background: #fff;
+  --primary-menu-text: #7289da;
+  --primary-menu-background: #2c2f33;
+  --secondary-menu-text: #99aab5;
+  --secondary-menu-background: #23272a;
+  --button-text: #fff;
+  --button-background: #7289da;
+  --discord-blue: #7289da;
+  --discord-gray: #99aab5;
+  --discord-dark: #2c2f33;
+  --discord-darker: #23272a;
+  --react-menu-blue: #282c34;
 }
 
 .card-img-top {
