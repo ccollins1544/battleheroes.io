@@ -7,6 +7,9 @@ import "./App.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
+import Challenge from "./pages/Challenge";
+import ChooseHero from "./pages/ChooseHero";
+import Battle from "./pages/Battle";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Index from "./pages";
@@ -33,8 +36,11 @@ class App extends Component {
 
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route path="/login" component={Login} />
-              <Route path="/signup" component={SignUp} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/challenge" component={Challenge}></Route>
+              <Route exact path="/choose-hero" component={ChooseHero}></Route>
+              <Route exact path="/battle"component={Battle}></Route>
               <Route path="*" component={Index} /> 
             </Switch>
 

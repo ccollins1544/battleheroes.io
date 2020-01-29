@@ -22,6 +22,15 @@ const Header = () => {
           <Link to="/" className="navbar-brand mb-0 h1" ><FontAwesomeIcon icon={faShieldAlt} /> BattleHeroes</Link>
           <div className="navbar-collapse collapse show">
             <ul className="navbar-nav ml-auto">
+                <li className="nav-item">
+                  <Link to="/choose-hero" className="nav-link"><FontAwesomeIcon icon={faShieldAlt} /> Choose Hero</Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/challenge" className="nav-link"><FontAwesomeIcon icon={faShieldAlt} /> Challenge</Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/battle" className="nav-link"><FontAwesomeIcon icon={faShieldAlt} /> Battle</Link>
+                </li>
               {userState.loggedIn ? (
                 <li className="nav-item">
                   <Link to="/" className="nav-link" onClick={(e) => handleLogout(e)}><FontAwesomeIcon icon={faUserSlash} /> {userState.username}</Link>
