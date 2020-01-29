@@ -4,6 +4,9 @@ import API from "./utils/API";
 import { BrowserRouter as Router, Route, Link, Switch, Redirect, useLocation } from "react-router-dom";
 import './App.css';
 import Books from './pages/Books';
+import Challenge from'./pages/Challenge';
+import ChooseHero from ',/pages/ChooseHero';
+import Battle from './pages/Battle';
 import Footer from './components/Footer'
 import Home from './pages/Home';
 import Index from './pages';
@@ -69,6 +72,9 @@ class App extends Component {
             />
             <Route exact path="/books" component={Books} />
             <Route path="*" component={Index} /> 
+            <Route exact path="/challenge" component={Challenge}></Route>
+            <Route exact path="/choosehero" component={ChooseHero}></Route>
+            <Route exact path="/battle"component={Battle}></Route>
           </Switch>
         </div>
       </Router>
