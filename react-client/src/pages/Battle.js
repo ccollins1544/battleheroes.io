@@ -3,7 +3,6 @@ import { Redirect, useLocation } from "react-router-dom";
 import Wrapper from "../components/Wrapper";
 import Chat from "../components/Chat";
 import { SectionRow, Col } from "../components/Grid";
-import Chat from "../components/Chat/";
 import Jumbotron from "../components/Jumbotron";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
