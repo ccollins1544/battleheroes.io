@@ -1,19 +1,36 @@
-import React from "react";
-import ImageCard from "../Card/ImageCard";
+import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import API from "../../utils/API";
+import HeroCard from "../Card/heroCard";
+import UserContext from "../../userContext";
 
-function Hero({ id, addClasses="col-lg-3 col-md-6 col-sm-12", src, heading, subtitle, text, handleHeroClick }){
+const Hero = () => {
+  const { handleHeroClick } = useContext(UserContext);
+  const [ heroes, setHeroes ] = useState([]);
+
+  useEffect(() => {
+    API.getAllHeroes()
+      .then( response => response.data )
+      .then( json => setHeroes(json));
+  }, []);
+
   return (
-    <ImageCard 
-      id={id}
-      key={id}
-      addClasses={addClasses}
-      src={src}
-      heading={heading}
-      subtitle={subtitle}
-      text={text}
-      handleHeroClick={handleHeroClick}
-    />
-  )
+    <>
+      {heroes.length > 0 && heroes.map(hero => {
+        return (
+          <HeroCard 
+            id={hero._id}
+            key={hero._id}
+            addClasses="col-lg-3 col-md-6 col-sm-12"
+            src={hero.image}
+            heading={hero.name}  
+            subtitle={"HP: "+hero.hp}
+            handleHeroClick={handleHeroClick}
+          />
+        );
+      })}
+    </>
+  );
 }
 
 export default Hero;
