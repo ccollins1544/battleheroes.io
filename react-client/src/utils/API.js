@@ -6,4 +6,6 @@ export default {
 
   login: loginData => axios.post('/user/login', loginData),
   logout: () => axios.post('/user/logout'),
+
+  getAllHeroes: () => axios.get('./heroes.json'),  // fetch('/api/heroes')
 };

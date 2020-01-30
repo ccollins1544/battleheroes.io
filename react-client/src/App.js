@@ -25,11 +25,7 @@ import Chat from "./components/Chat";
 class App extends Component {
   constructor(props) {
     super(props);
-    // call our chatListener function and define
-    // an anonymous callback function that
-    // simply console.log's the received
-    // message
-
+    
     allChatListener(message => {
       console.log(message);
     });
@@ -46,10 +42,10 @@ class App extends Component {
               <Route exact path="/" component={Home} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={SignUp} />
-              <Route exact path="/challenge" component={Challenge}></Route>
               <Route exact path="/choose-hero" component={ChooseHero}></Route>
-              <Route exact path="/battle" component={Battle}></Route>
-              <Route path="*" component={Index} />
+              <Route exact path="/challenge" component={Challenge}></Route>
+              <Route exact path="/battle"component={Battle}></Route>
+              <Route path="*" component={Index} /> 
             </Switch>
 
             <Footer />
