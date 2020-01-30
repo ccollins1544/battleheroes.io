@@ -12,7 +12,8 @@ function UserProvider({ children }){
     password: '',
     confirmPassword: '',
     redirectTo: null,
-    user_id: 0
+    user_id: 0,
+    selectedHero: []
   });
 
   const updateUser = (userObject) => {
@@ -64,7 +65,7 @@ function UserProvider({ children }){
             loggedIn: true,
             username: response.data.username,
             user_id: response.data._id,
-            redirectTo: '/'
+            redirectTo: '/challenge'
           }));
         }
       }).catch(error => {
@@ -84,8 +85,7 @@ function UserProvider({ children }){
 
         if (!response.data.errmsg) {
 					console.log('successful signup')
-          //redirect to login page
-          
+          //redirect to login page      
           setUser(prevState => ({...prevState, redirectTo: '/login'}));
 				} else {
 					console.log('username already taken')
@@ -119,15 +119,25 @@ function UserProvider({ children }){
       });
   }
 
+  const handleHeroClick = id => {   
+    let goTo = userState.loggedIn ? '/challenge' : '/login'
+    
+    setUser(prevState => ({...prevState,
+      redirectTo: goTo,
+      selectedHero: [id]
+    }));
+  }
+
   return (
     <UserContext.Provider value={{
       userState, 
-      updateUser: updateUser,
-      getUser: getUser,
-      handleUserChange: handleUserChange,
-      handleLoginSubmit: handleLoginSubmit,
-      handleRegisterSubmit: handleRegisterSubmit,
-      handleLogout: handleLogout, 
+      updateUser,
+      getUser,
+      handleUserChange,
+      handleLoginSubmit,
+      handleRegisterSubmit,
+      handleLogout, 
+      handleHeroClick
     }} >
       {children}
     </UserContext.Provider>
