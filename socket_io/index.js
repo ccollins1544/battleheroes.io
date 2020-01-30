@@ -1,9 +1,11 @@
-
+const http = require("http");
+const io = require("socket.io");
 const db = require("../models");
+const { addUser, removeUser, getUser, getUsersInRoom } = require("./users");
 
-function SocketServer(express_app){
-  const socket_server = require("http").createServer(express_app); 
-  const io = require("socket.io")(socket_server);
+function SocketServer(express_app) {
+  const socket_server = http.createServer(express_app);
+  const io = socket.io(socket_server);
 
   // This enables CORs and ensures that our frontend,
   // running on a different server can connect to our backend
@@ -18,10 +20,37 @@ function SocketServer(express_app){
     // we should see this printed out whenever we have
     // a successful connection
     console.log("Client Successfully Connected");
-    // console.log("token", token);
+    socket.on("join", ({ name, room }, callback) => {
+      const { error, user } = addUser({ id: socket.id, name, room });
 
+      if (error) return callback(error);
+
+        socket.emit("message", { user: "admin", text: `${user.name}, welcome to the room ${user.room}`  });
+        // broadcast send message to everyone except the user that sent and the .to is to specify a room
+        socket.broadcast.to(user.room).emit("message", { user: "admin", text: `${user.name}, has joined.!`})
+        // built in socket join that joins user to room
+        socket.join(user.room);
+
+        io.to(user.room).emit("roomData", { room: user.room, users: getUsersInRoom(user.room)})
+
+        callback();
+
+    });
+
+    socket.on("sendMessage", (message, callback) => {
+      const user = getUser(socket.id);
+      // these would be used to pass down messages to chat component
+      io.to(user.room).emit("message", { user: user.name, text: message});
+      io.to(user.room).emit("roomData", { room: user.room, users: getUsersInRoom(user.room)})
+
+      callback();
+    })
+    // this is referring to the connection that jus happened.
     socket.on("disconnect", function() {
-      console.log("user disconnected");
+      const user = removeUser(socket.id);
+      if(user) {
+        io.to(user.room).emit("message", { user: "admin", text: `${user.name} has left the chat`})
+      }
     });
 
     //Someone is typing
@@ -50,13 +79,10 @@ function SocketServer(express_app){
       socket.emit("all received", chatData);
     });
 
-    // we then send out a new message to the
-    // `chat` channel with "Hello World"
-    // Our clientside should be able to see
-    // this and print it out in the console
-    socket.emit("all received", { message: "operations online...", sender: "server"});
+
+    });
   });
-  
+
   return socket_server;
 }
 
