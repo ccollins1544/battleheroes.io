@@ -25,12 +25,12 @@
   --accent-text: #E9290F;
   --body-text: #000;
   --body-background: #fff;
-  --primary-menu-text: #7289da;
+  --primary-menu-text: #0092CA;
   --primary-menu-background: #2c2f33;
   --secondary-menu-text: #99aab5;
   --secondary-menu-background: #23272a;
   --button-text: #fff;
-  --button-background: #7289da;
+  --button-background: #0092CA;
   --discord-blue: #7289da;
   --discord-gray: #99aab5;
   --discord-dark: #2c2f33;
@@ -85,10 +85,7 @@ section#comment-section.jumbotron {
   padding-right: 0px;
 }
 
-.card {
-  margin-bottom: 15px;
-}
-
+/*
 .card.bg-dark {
   background-color: var(--primary-menu-background) !important;
   border-color: var(--primary-menu-background);
@@ -115,7 +112,7 @@ section#comment-section.jumbotron {
 .card.bg-light .card-header * {
   color: var(--primary-menu-background) !important;
 }
-
+*/
 
 /* 1.4 Add Comment Form (#add-comment-form)
 /*------------------------------------------------------*/

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import "./ImageCard.css"
-import Tilt from "react-tilt"
+import "./heroCard.css";
+import Tilt from "react-tilt";
 
-class ImageCard extends Component {
+class HeroCard extends Component {
   constructor(props) {
     super(props);
+
+    console.log("props", props);
     
     this.state = {
       hover: false
@@ -56,4 +58,4 @@ class ImageCard extends Component {
   }
 }
 
-export default ImageCard;
+export default HeroCard;

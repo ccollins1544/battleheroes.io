@@ -38,10 +38,10 @@ class App extends Component {
               <Route exact path="/" component={Home} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={SignUp} />
-              <Route exact path="/challenge" component={Challenge}></Route>
               <Route exact path="/choose-hero" component={ChooseHero}></Route>
+              <Route exact path="/challenge" component={Challenge}></Route>
               <Route path="/battle" component={Battle}></Route>
-              <Route path="*" component={Index} />
+              <Route path="*" component={Index} /> 
             </Switch>
 
             <Footer />

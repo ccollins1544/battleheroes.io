@@ -2,12 +2,14 @@
   --accent-text: #E9290F;
   --body-text: #000;
   --body-background: #fff;
-  --primary-menu-text: #7289da;
+  --primary-menu-text: #0092CA;
   --primary-menu-background: #2c2f33;
   --secondary-menu-text: #99aab5;
   --secondary-menu-background: #23272a;
   --button-text: #fff;
-  --button-background: #7289da;
+  --button-background: #0092CA;
+  --hero-card-bg: #1e2022;
+  --hero-card-bg-hover: rgba(30, 32, 34, 0.6) !important;
   --discord-blue: #7289da;
   --discord-gray: #99aab5;
   --discord-dark: #2c2f33;
@@ -22,10 +24,8 @@
 }
 
 .card.bg-dark {
-  padding-right: 15px;
-  padding-left: 15px;
   color: var(--accent-text);
-  background-color: var(--body-text);
+  background-color: var(--hero-card-bg) !important;
   border-color: var(--primary-menu-background);
   box-shadow: 3px 3px 5px 0px var(--primary-menu-background);
 }
@@ -35,6 +35,6 @@
   padding-left: 0px;
   color: var(--button-text);
   border-color: var(--accent-text);
-  background-color: var(--button-background);
+  background-color: var(--hero-card-bg-hover) !important;
   box-shadow: 5px 5px 10px 0px var(--accent-text);
 }
