@@ -1,34 +1,42 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Redirect, useLocation } from "react-router-dom";
 import Wrapper from "../components/Wrapper";
 import { SectionRow, Col } from "../components/Grid";
-import Card from "../components/Card";
+import Chat from "../components/Chat/";
 import Jumbotron from "../components/Jumbotron";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useLocation } from "react-router-dom";
+import UserContext from "../userContext";
 
 function Battle() {
-  let location = useLocation();
+  const { userState } = useContext(UserContext);
 
-  return (
-    <Wrapper className="App" id="main-container">
-      <SectionRow id="main-section">
-        <Col size="lg-12">
-          <Jumbotron>
-        
-            <h1>Battle</h1>
-            <h3>No match for <code>{location.pathname}</code></h3>
-            <h1>
-              {/* <span role="img" aria-label="Face With Rolling Eyes Emoji">
-                
-              </span> */}
-            </h1>
+  // let location = useLocation(); 
+  // let urlArray = (location.pathname).split("/").filter(function (el) {
+  //   return el != "";
+  // });
+  
+  // let urlObject = {
+  //   page: urlArray[0],
+  //   user_id: urlArray[1],
+  //   game_id: urlArray[2],
+  // }
 
-          </Jumbotron>
-        </Col>
-      </SectionRow>
-    </Wrapper>
-  );
+  // console.log("STUFF", urlObject);
+
+  if (!userState.loggedIn) {
+    return <Redirect to={{ pathname: userState.redirectTo }} />
+  } else {
+    return (
+      <Wrapper className="App" id="main-container">
+        <SectionRow id="main-section">
+          <Col size="lg-12">
+            <Chat />
+          </Col>
+        </SectionRow>
+      </Wrapper>
+    );
+  }
 }
 
 export default Battle;

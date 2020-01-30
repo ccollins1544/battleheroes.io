@@ -1,87 +1,53 @@
 const http = require("http");
-const io = require("socket.io");
+const socketio = require("socket.io");
+        
+const { addUser, removeUser, getUser, getUsersInGame } = require("./users");
 const db = require("../models");
-const { addUser, removeUser, getUser, getUsersInRoom } = require("./users");
 
-function SocketServer(express_app) {
+function SocketServer(express_app) {  
   const socket_server = http.createServer(express_app);
-  const io = socket.io(socket_server);
+  const io = socketio(socket_server);
 
-  // This enables CORs and ensures that our frontend,
-  // running on a different server can connect to our backend
-  io.set("origins", "*:*");
+  // This enables CORs and ensures that our frontend, running on a different server can connect to our backend
+  io.set("origins", "*:*"); 
 
-  // whenever we receive a `connection` event
-  // our async function is then called
-  // io.on("connection", async (socket: any) => {
+  // whenever we receive a `connection` event our async function is then called 
   io.on("connection", async socket => {
-    // let token = socket.handshake.query.token;
 
-    // we should see this printed out whenever we have
     // a successful connection
     console.log("Client Successfully Connected");
-    socket.on("join", ({ name, room }, callback) => {
-      const { error, user } = addUser({ id: socket.id, name, room });
+    socket.on("join", ({ user_id, game_id }, callback) => {
+      const { error, user } = addUser({ id: socket.id, user_id, game_id });
 
-      if (error) return callback(error);
+      if(error) return callback(error);
 
-        socket.emit("message", { user: "admin", text: `${user.name}, welcome to the room ${user.room}`  });
-        // broadcast send message to everyone except the user that sent and the .to is to specify a room
-        socket.broadcast.to(user.room).emit("message", { user: "admin", text: `${user.name}, has joined.!`})
-        // built in socket join that joins user to room
-        socket.join(user.room);
+      socket.join(user.game_id);
 
-        io.to(user.room).emit("roomData", { room: user.room, users: getUsersInRoom(user.room)})
+      socket.emit('message', { user: 'admin', text: `${user.user_id}, welcome to game ${user.game_id}.`});
+      socket.broadcast.to(user.game_id).emit('message', { user: 'admin', text: `${user.user_id} has joined!` });
 
-        callback();
+      io.to(user.game_id).emit('gameData', { game_id: user.game_id, users: getUsersInGame(user.game_id) });
 
+      callback();
     });
 
     socket.on("sendMessage", (message, callback) => {
       const user = getUser(socket.id);
-      // these would be used to pass down messages to chat component
-      io.to(user.room).emit("message", { user: user.name, text: message});
-      io.to(user.room).emit("roomData", { room: user.room, users: getUsersInRoom(user.room)})
-
+      io.to(user.game_id).emit('message', { user: user.user_id, text: message });
       callback();
     })
+
     // this is referring to the connection that jus happened.
     socket.on("disconnect", function() {
       const user = removeUser(socket.id);
+
       if(user) {
-        io.to(user.room).emit("message", { user: "admin", text: `${user.name} has left the chat`})
+        io.to(user.game_id).emit('message', { user: 'Admin', text: `${user.user_id} has left.` });
+        io.to(user.game_id).emit('gameData', { game_id: user.game_id, users: getUsersInGame(user.game_id)});
       }
     });
 
-    //Someone is typing
-    socket.on("typing", data => {
-      socket.emit("notifyTyping", {
-        user: data.user,
-        message: data.message
-      });
-    });
-
-    //when someone stops typing
-    socket.on("stopTyping", () => {
-      socket.emit("notifyStopTyping");
-    });
-
-    socket.on("chat", chatData => {
-      //broadcast message to everyone in port:5000 except yourself.
-      socket.emit("chat received", chatData);
-
-      let chatMessage = new db.Chat({ message: message, sender: sender });
-      chatMessage.save().catch(err => console.log(err));
-    });
-
-    socket.on("all chat", chatData => {
-      //broadcast message to everyone in port:5000 except yourself.
-      socket.emit("all received", chatData);
-    });
-
-
-    });
-  });
+  }); // Connection 
 
   return socket_server;
 }
