@@ -1,5 +1,6 @@
 import React from "react";
 import Wrapper from "../components/Wrapper";
+import Chat from "../components/Chat";
 import { SectionRow, Col } from "../components/Grid";
 import Card from "../components/Card";
 import Jumbotron from "../components/Jumbotron";
@@ -16,13 +17,7 @@ function Battle() {
         <Col size="lg-12">
           <Jumbotron>
         
-            <h1>Battle</h1>
-            <h3>No match for <code>{location.pathname}</code></h3>
-            <h1>
-              {/* <span role="img" aria-label="Face With Rolling Eyes Emoji">
-                
-              </span> */}
-            </h1>
+           <Chat />
 
           </Jumbotron>
         </Col>

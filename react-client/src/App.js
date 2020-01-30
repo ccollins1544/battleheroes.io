@@ -1,5 +1,12 @@
 import React, { Component, useContext } from "react";
-import { BrowserRouter as Router, Route, Link, Switch, Redirect, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch,
+  Redirect,
+  useLocation
+} from "react-router-dom";
 import { UserProvider } from "./userContext";
 import UserContext from "./userContext";
 import { allChatListener } from "./utils/socket_client.js";
@@ -13,6 +20,7 @@ import Battle from "./pages/Battle";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Index from "./pages";
+import Chat from "./components/Chat";
 
 class App extends Component {
   constructor(props) {
@@ -23,7 +31,7 @@ class App extends Component {
     });
   }
 
-  render(){
+  render() {
     return (
       <UserProvider>
         <Router>
@@ -44,7 +52,7 @@ class App extends Component {
           </div>
         </Router>
       </UserProvider>
-    ); 
+    );
   }
 }
 
