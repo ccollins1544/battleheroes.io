@@ -1,202 +1,122 @@
 [
   {
     "_id": 1,
-    "name": "Banjo Kazzoie",
-    "image": "./img/banjo-kazzoie.png",
+    "name": "Apocalypse",
+    "image": "./img/apocalypse.png",
     "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
+    "attack2_dmg": 20,
+    "attack1_dmg": 10,
+    "attack1_description": "Telepathic Strike",
+    "attack2_description": "Techno-Organic Machine Gun"
   },
   {
     "_id": 2,
-    "name": "Charazard",
-    "image": "./img/charazard.png",
-    "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
-  },
-  {
-    "_id": 3,
-    "name": "Chrom",
-    "image": "./img/chrom.png",
-    "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
-  },
-  {
-    "_id": 4,
-    "name": "Daisy",
-    "image": "./img/daisy.png",
-    "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
-  },
-  {
-    "_id": 5,
     "name": "Donky Kong",
     "image": "./img/donky-kong.png",
     "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
+    "attack2_dmg": 20,
+    "attack1_dmg": 10,
+    "attack1_description": "Barrel Throw",
+    "attack2_description": "Ground & Pound"
+  },
+  {
+    "_id": 3,
+    "name": "Frieza",
+    "image": "./img/frieza.png",
+    "hp": 100,
+    "attack2_dmg": 20,
+    "attack1_dmg": 10,
+    "attack1_description": "Death Comet",
+    "attack2_description": "Destroy The Planet!"
+  },
+  {
+    "_id": 4,
+    "name": "Gengar",
+    "image": "./img/gengar.png",
+    "hp": 100,
+    "attack2_dmg": 20,
+    "attack1_dmg": 10,
+    "attack1_description": "Paralyzing Lick",
+    "attack2_description": "Shadow Ball"
+  },
+  {
+    "_id": 5,
+    "name": "Goke",
+    "image": "./img/goku.png",
+    "hp": 100,
+    "attack2_dmg": 20,
+    "attack1_dmg": 10,
+    "attack1_description": "Kamehameha",
+    "attack2_description": "Spirit Bomb"
   },
   {
     "_id": 6,
-    "name": "Fox",
-    "image": "./img/fox.png",
+    "name": "Green Ranger",
+    "image": "./img/greenranger.png",
     "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
+    "attack2_dmg": 20,
+    "attack1_dmg": 10,
     "attack1_description": "major stuff",
     "attack2_description": "major stuff again"
   },
   {
     "_id": 7,
-    "name": "Jigglypuff",
-    "image": "./img/jigglypuff.png",
+    "name": "Kid Buur",
+    "image": "./img/kid-buu.png",
     "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
+    "attack2_dmg": 20,
+    "attack1_dmg": 10,
+    "attack1_description": "Vanishing Beam",
+    "attack2_description": "Continuous Energy Bullets"
   },
   {
     "_id": 8,
-    "name": "Kirby",
-    "image": "./img/kirby.png",
-    "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
-  },
-  {
-    "_id": 9,
     "name": "Link",
     "image": "./img/link.png",
     "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
+    "attack2_dmg": 20,
+    "attack1_dmg": 10,
+    "attack1_description": "Arrow Barrage",
+    "attack2_description": "Master Sword Slash"
   },
   {
-    "_id": 10,
-    "name": "Luigi",
-    "image": "./img/luigi.png",
-    "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
-  },
-  {
-    "_id": 11,
-    "name": "Mario",
-    "image": "./img/mario.png",
-    "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
-  },
-  {
-    "_id": 12,
-    "name": "Meta-knight",
-    "image": "./img/meta-knight.png",
-    "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
-  },
-  {
-    "_id": 13,
-    "name": "Ness",
-    "image": "./img/ness.png",
-    "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
-  },
-  {
-    "_id": 14,
-    "name": "Pac Man",
-    "image": "./img/pac-man.png",
-    "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
-  },
-  {
-    "_id": 15,
-    "name": "Princess Peach",
-    "image": "./img/princess-peach.png",
-    "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
-  },
-  {
-    "_id": 16,
+    "_id": 9,
     "name": "Pikachu",
     "image": "./img/pikachu.png",
     "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
+    "attack2_dmg": 20,
+    "attack1_dmg": 10,
+    "attack1_description": "Iron Tail",
+    "attack2_description": "Thunderbolt"
   },
   {
-    "_id": 17,
+    "_id": 10,
     "name": "Samus",
     "image": "./img/samus.png",
     "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
+    "attack2_dmg": 20,
+    "attack1_dmg": 10,
+    "attack1_description": "Charge Shot",
+    "attack2_description": "Zero Laser"
   },
   {
-    "_id": 18,
-    "name": "Sonic",
-    "image": "./img/sonic.png",
-    "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
-  },
-  {
-    "_id": 19,
+    "_id": 11,
     "name": "Squirtle",
     "image": "./img/squirtle.png",
     "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
+    "attack2_dmg": 20,
+    "attack1_dmg": 10,
+    "attack1_description": "Head Smash",
+    "attack2_description": "Hydro Pump"
   },
   {
-    "_id": 20,
-    "name": "Yoshi",
-    "image": "./img/yoshi.png",
+    "_id": 12,
+    "name": "The Creech",
+    "image": "./img/the-creech.png",
     "hp": 100,
-    "attack2_dmg": 25,
-    "attack1_dmg": 15,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
+    "attack2_dmg": 20,
+    "attack1_dmg": 10,
+    "attack1_description": "Metallic Tentacle Melee",
+    "attack2_description": "Double Fist Plasma Cannons"
   }
 ]
