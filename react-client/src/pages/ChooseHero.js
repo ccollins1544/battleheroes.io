@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import logo from "../logo.svg";
 import { Col, Row, Container } from "../components/Grid";
@@ -26,6 +27,29 @@ function ChooseHero() {
       </Row>
     </Container>
   );
+=======
+import React, { useContext } from "react";
+import { Redirect } from "react-router-dom";
+import Wrapper from "../components/Wrapper";
+import { SectionRow , Col } from "../components/Grid";
+import UserContext from "../userContext";
+import Hero from "../components/Hero/"
+
+const ChooseHero = () => {
+  const { userState } = useContext(UserContext);
+
+  if (userState.redirectTo) {
+    return <Redirect to={{ pathname: userState.redirectTo }} />
+  } else {
+    return (
+      <Wrapper className="App" id="main-container">
+        <SectionRow id="main-section">
+          <Hero />
+        </SectionRow>
+      </Wrapper>
+    );
+  }
+>>>>>>> 120643eed4561d4b04a46bb7bac8412d8b20edf1
 }
 
 export default ChooseHero;

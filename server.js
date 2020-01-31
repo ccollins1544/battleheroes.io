@@ -40,12 +40,27 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-  
+
+/* ===============[ SOCKET.IO Config ]====================*/
+const socket_server = require("./socket_io")(app);
+const SOCKET_PORT = process.env.SOCKET_PORT || 5000;
+const HOST = process.env.HOST || "localhost"
+const socket_url = `http://${HOST}:${SOCKET_PORT}/`
+
 /* ===============[ Add routes, both API and view ]========*/
+const cors = require('cors');
 const routes = require("./routes");
+app.use(cors());
 app.use(routes);
 
 // Start the API server
 app.listen(PORT, function(){
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
+
+// Start the SOCKET server
+socket_server.listen(SOCKET_PORT, () => {
+  console.log(`🌎  ==> Socket Server is running on ${socket_url}`);
+});
+
+

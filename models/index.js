@@ -1,4 +1,4 @@
 module.exports = {
-  Book: require("./book.js"),
-  User: require("./user.js")
+  User: require("./user.js"),
+  Chat: require("./chat.js")
 };

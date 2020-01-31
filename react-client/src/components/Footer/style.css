@@ -1,0 +1,277 @@
+:root {
+  --accent-text: #E9290F;
+  --body-text: #000;
+  --body-background: #fff;
+  --primary-menu-text: #7289da;
+  --primary-menu-background: #2c2f33;
+  --secondary-menu-text: #99aab5;
+  --secondary-menu-background: #23272a;
+  --button-text: #fff;
+  --button-background: #7289da;
+  --discord-blue: #7289da;
+  --discord-gray: #99aab5;
+  --discord-dark: #2c2f33;
+  --discord-darker: #23272a;
+  --react-menu-blue: #282c34;
+}
+
+/* Navbar Brand */
+.navbar-brand {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 1rem;
+  font-family: "Montserrat";
+  background-color: var(--primary-menu-background);
+}
+
+.navbar-dark .navbar-brand {
+  color: var(--accent-text);
+}
+
+.navbar-dark .navbar-brand:focus,
+.navbar-dark .navbar-brand:hover {
+  color: var(--button-text);
+  -webkit-animation-name: navbar_brand_animation;
+  /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 2s;
+  /* Safari 4.0 - 8.0 */
+  animation-name: navbar_brand_animation;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-timing-function: ease-in-out;
+}
+
+/* Navbar Brand Animation */
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes navbar_brand_animation {
+  from {
+    color: var(--accent-text);
+  }
+
+  to {
+    color: var(--primary-menu-text);
+  }
+}
+
+/* Standard syntax */
+@keyframes navbar_brand_animation {
+  from {
+    color: var(--accent-text);
+  }
+
+  to {
+    color: var(--primary-menu-text);
+  }
+}
+
+/*--------------[ 4.0 FOOTER ]--------------------------*/
+/* 4.1 Footer Links and Credits
+/*------------------------------------------------------*/
+#main-footer {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  height: 83px;
+}
+
+/* Footer Links */
+#footer-nav {
+  position: absolute;
+  bottom: 33px;
+  width: 100%;
+  padding: 0 1rem;
+  background-color: var(--primary-menu-background) !important;
+}
+
+#footer-nav .navbar-collapse {
+  display: flex;
+  justify-content: flex-end;
+  flex-flow: row nowrap;
+}
+
+#footer-nav ul.navbar-nav {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+}
+
+#footer-nav .nav-item {
+  margin: 0 0.5rem;
+}
+
+#footer-nav .nav-link {
+  color: var(--button-text);
+}
+
+.fa-linkedin:hover {
+  color: #0077B5;
+  -webkit-animation-name: lnkedin_animation;
+  /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 2s;
+  /* Safari 4.0 - 8.0 */
+  animation-name: lnkedin_animation;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-timing-function: ease-in-out;
+}
+
+/* LinkedIN Animation */
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes lnkedin_animation {
+  from {
+    color: var(--primary-menu-text);
+  }
+
+  to {
+    color: #0077B5;
+  }
+}
+
+/* Standard syntax */
+@keyframes lnkedin_animation {
+  from {
+    color: var(--primary-menu-text);
+  }
+
+  to {
+    color: #0077B5;
+  }
+}
+
+.fa-dev:hover {
+  color: #000;
+  -webkit-animation-name: devio_animation;
+  /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 2s;
+  /* Safari 4.0 - 8.0 */
+  animation-name: devio_animation;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-timing-function: ease-in-out;
+}
+
+/* DevIO Animation */
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes devio_animation {
+  from {
+    color: var(--primary-menu-text);
+  }
+
+  to {
+    color: #000;
+  }
+}
+
+/* Standard syntax */
+@keyframes devio_animation {
+  from {
+    color: var(--primary-menu-text);
+  }
+
+  to {
+    color: #000;
+  }
+}
+
+.fa-github:hover {
+  color: var(--secondary-menu-text);
+  -webkit-animation-name: github_animation;
+  /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 2s;
+  /* Safari 4.0 - 8.0 */
+  animation-name: github_animation;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-timing-function: ease-in-out;
+}
+
+/* GitHub Animation */
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes github_animation {
+  from {
+    color: var(--primary-menu-text);
+  }
+
+  to {
+    color: var(--secondary-menu-text);
+  }
+}
+
+/* Standard syntax */
+@keyframes github_animation {
+  from {
+    color: var(--primary-menu-text);
+  }
+
+  to {
+    color: #959da5;
+  }
+}
+
+/* Footer Credits */
+#footer-bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  display: -ms-flexbox;
+  flex-flow: row nowrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: nowrap;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: justify;
+  justify-content: center;
+  padding: 0.3rem 1rem;
+  background-color: var(--secondary-menu-background);
+}
+
+#footer-info {
+  text-align: center;
+  color: var(--button-text);
+}
+
+.footer-link {
+  color: var(--button-text);
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  text-decoration: none;
+  color: var(--primary-menu-text);
+  -webkit-animation-name: footer_link_animation;
+  /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 2s;
+  /* Safari 4.0 - 8.0 */
+  animation-name: footer_link_animation;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+/* Footer Link Animation */
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes footer_link_animation {
+  from {
+    color: var(--primary-menu-text);
+  }
+
+  to {
+    color: var(--accent-text);
+  }
+}
+
+/* Standard syntax */
+@keyframes footer_link_animation {
+  from {
+    color: var(--primary-menu-text);
+  }
+
+  to {
+    color: var(--accent-text);
+  }
+}
