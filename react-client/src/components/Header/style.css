@@ -138,3 +138,8 @@
   flex-flow: row wrap;
   justify-content: space-evenly;
 }
+
+#hero-icon {
+  width: 25px;
+  margin-right: 10px;
+}

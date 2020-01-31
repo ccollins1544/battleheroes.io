@@ -33,6 +33,8 @@ const Chat = () => {
         alert(error);
       }
     });
+
+    console.log("WTF", messages);
   }, [ENDPOINT, location.search]);
 
   useEffect(() => {

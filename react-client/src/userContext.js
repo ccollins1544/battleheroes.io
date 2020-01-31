@@ -122,12 +122,12 @@ function UserProvider({ children }){
       });
   }
 
-  const handleHeroClick = id => {   
+  const handleHeroClick = ({_id, name, image, hp, attck2_dmg, attack1_dmg, attack1_description, attack2_description}) => {   
     let goTo = userState.loggedIn ? '/challenge' : '/login'
     
     setUser(prevState => ({...prevState,
       redirectTo: goTo,
-      selectedHero: [id]
+      selectedHero: [{_id, name, image, hp, attck2_dmg, attack1_dmg, attack1_description, attack2_description}]
     }));
   }
 

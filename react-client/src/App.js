@@ -31,7 +31,7 @@ class App extends Component {
     return (
       <UserProvider>
         <Router>
-          <div className="App">
+          <div className="App" >
             <Header />
 
             <Switch>
