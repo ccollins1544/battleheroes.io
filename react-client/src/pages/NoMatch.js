@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import API from "../utils/API";
 import Wrapper from "../components/Wrapper";
 import { Col, Row, SectionRow, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
@@ -18,6 +17,7 @@ function NoMatch() {
           <Jumbotron>
             <h1>404 Page Not Found</h1>
             <h3>No match for <code>{location.pathname}</code></h3>
+            <code></code>
             <h1>
               <span role="img" aria-label="Face With Rolling Eyes Emoji">
                 🙄

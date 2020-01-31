@@ -1,20 +1,20 @@
 // helper functions for socket.io 
-
 const users = [];
 
-const addUser = ({ id, name, room }) => {
-  name = name.trim().toLowerCase();
-  room = room.trim().toLowerCase();
+const addUser = ({ id, user_id, game_id }) => {
+  user_id = user_id.trim().toLowerCase();
+  game_id = game_id.trim().toLowerCase();
 
-  const existingUser = users.find(
-    user => user.room === room && user.name === name
-  );
+  const existingUser = users.find((user) => user.game_id === game_id && user.user_id === user_id);
 
-  if (existingUser) {
-    return { error: "user exists" };
-  }
-  const user = { id, name, room };
+  if(!user_id || !game_id) return { error: 'user_id and game_id are required.' };
+  if(existingUser) return { error: 'user_id is taken.' };
+
+  const user = { id, user_id, game_id };
+
   users.push(user);
+
+  return { user };
 };
 
 const removeUser = id => {
@@ -26,7 +26,6 @@ const removeUser = id => {
 };
 
 const getUser = id => users.find(user => user.id === id);
+const getUsersInGame = game_id => users.filter(user => user.game_id === game_id);
 
-const getUsersInRoom = room => users.filter(user => user.room === room);
-
-module.exports = { addUser, removeUser, getUser, getUsersInRoom };
+module.exports = { addUser, removeUser, getUser, getUsersInGame };

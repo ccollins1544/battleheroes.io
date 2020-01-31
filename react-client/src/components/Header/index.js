@@ -29,7 +29,7 @@ const Header = () => {
                   <Link to="/challenge" className="nav-link"><FontAwesomeIcon icon={faShieldAlt} /> Challenge</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/battle" className="nav-link"><FontAwesomeIcon icon={faShieldAlt} /> Battle</Link>
+                  <Link to={`/battle?user_id=${userState.user_id}&game_id=${userState.game_id}`} className="nav-link"><FontAwesomeIcon icon={faShieldAlt} /> Battle</Link>
                 </li>
               {userState.loggedIn ? (
                 <li className="nav-item">

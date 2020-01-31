@@ -1,29 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Redirect, useLocation } from "react-router-dom";
 import Wrapper from "../components/Wrapper";
 import Chat from "../components/Chat";
 import { SectionRow, Col } from "../components/Grid";
-import Card from "../components/Card";
 import Jumbotron from "../components/Jumbotron";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useLocation } from "react-router-dom";
+import UserContext from "../userContext";
 
 function Battle() {
-  let location = useLocation();
+  const { userState } = useContext(UserContext);
 
-  return (
-    <Wrapper className="App" id="main-container">
-      <SectionRow id="main-section">
-        <Col size="lg-12">
-          <Jumbotron>
-        
-           <Chat />
-
-          </Jumbotron>
-        </Col>
-      </SectionRow>
-    </Wrapper>
-  );
+  if (!userState.loggedIn) {
+    return <Redirect to={{ pathname: userState.redirectTo }} />
+  } else {
+    return (
+      <Wrapper className="App" id="main-container">
+        <SectionRow id="main-section">
+          <Col size="lg-12">
+            <Chat />
+          </Col>
+        </SectionRow>
+      </Wrapper>
+    );
+  }
 }
 
 export default Battle;
