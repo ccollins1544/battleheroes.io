@@ -13,6 +13,7 @@ function UserProvider({ children }){
     confirmPassword: '',
     redirectTo: null,
     user_id: 0,
+    game_id: 0,
     selectedHero: []
   });
 
@@ -38,7 +39,8 @@ function UserProvider({ children }){
         setUser(prevState => ({...prevState,
           loggedIn: false,
           username: null,
-          user_id: 0
+          user_id: 0,
+          game_id: 0
         }));
       }
     })
@@ -109,7 +111,8 @@ function UserProvider({ children }){
               password: '',
               confirmPassword: '',
               redirectTo: '/', 
-              user_id: 0
+              user_id: 0,
+              game_id: 0
             })
 
             window.location.reload(true);

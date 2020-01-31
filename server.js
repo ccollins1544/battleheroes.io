@@ -48,7 +48,9 @@ const HOST = process.env.HOST || "localhost"
 const socket_url = `http://${HOST}:${SOCKET_PORT}/`
 
 /* ===============[ Add routes, both API and view ]========*/
+const cors = require('cors');
 const routes = require("./routes");
+app.use(cors());
 app.use(routes);
 
 // Start the API server
@@ -60,3 +62,5 @@ app.listen(PORT, function(){
 socket_server.listen(SOCKET_PORT, () => {
   console.log(`🌎  ==> Socket Server is running on ${socket_url}`);
 });
+
+
