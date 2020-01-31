@@ -1,12 +1,12 @@
 import React from "react";
 import ReactEmoji from "react-emoji";
 // message used to actually display message to user destructuring the object that had message
-const Message = ({ message: { user, text }, user_id }) => {
+const Message = ({ message: { user, text }, user_id, username }) => {
   let isSentByCurrentUser = false;
 
-  const trimmedName = user_id.trim().toLowerCase();
+  const trimmedName = username === "anonymous" || username === undefined ? user_id : username.trim().toLowerCase();
 
-  if (user === trimmedName) {
+  if (user === user_id) {
     isSentByCurrentUser = true;
   }
   return isSentByCurrentUser ? (

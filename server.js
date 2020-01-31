@@ -62,5 +62,3 @@ app.listen(PORT, function(){
 socket_server.listen(SOCKET_PORT, () => {
   console.log(`🌎  ==> Socket Server is running on ${socket_url}`);
 });
-
-

@@ -8,8 +8,7 @@ import { fas, faUser, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
   const { userState, handleUserChange, handleLoginSubmit } = useContext(UserContext);
-  console.log("login page");
-
+  
   return (
     <Wrapper className="App" id="main-container">
       <SectionRow id="main-section">

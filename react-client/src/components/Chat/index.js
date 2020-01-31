@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
+import UserContext from "../../userContext";
+import API from "../../utils/API";
 import queryString from "query-string";
 import io from "socket.io-client";
 import InfoChat from "../InfoChat/";
@@ -14,6 +16,8 @@ const HOST = process.env.HOST || "localhost"
 const ENDPOINT = `http://${HOST}:${SOCKET_PORT}/`
 
 const Chat = () => {
+  const { userState } = useContext(UserContext);
+
   let location = useLocation();
   const [user_id, setUserID] = useState("");
   const [game_id, setGameID] = useState("");
@@ -34,7 +38,6 @@ const Chat = () => {
       }
     });
 
-    console.log("WTF", messages);
   }, [ENDPOINT, location.search]);
 
   useEffect(() => {
@@ -60,6 +63,13 @@ const Chat = () => {
       socket.emit("sendMessage", message, () => setMessage(""));
     }
   };
+
+  // let username = "anonymous";
+  // if(user_id !== 0 || user_id !== undefined && userState.loggedIn !== user_id ){
+  //   API.getUserById(user_id).then(res => username = res.data )
+  // }else if (userState.loggedIn) {
+  //   username = userState.username.split("@")[0];
+  // }
 
   return (
     <div className="outerContainer">
