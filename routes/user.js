@@ -62,6 +62,15 @@ router.get('/', (req, res, next) => {
   }
 })
 
+router.get('/:user_id', (req, res) => {
+  User.findOne(
+    { _id: req.params.user_id }, 
+    { username: 1, _id: 0 }
+  )
+  .then(dbModel => res.json(dbModel.username))
+  .catch(err => res.status(422).json(err));
+})
+
 router.post('/logout', (req, res) => {
   if (req.user) {
     req.logout()

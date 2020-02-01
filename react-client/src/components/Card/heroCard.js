@@ -5,9 +5,8 @@ import Tilt from "react-tilt";
 class HeroCard extends Component {
   constructor(props) {
     super(props);
-
-    console.log("props", props);
     
+    // console.log("HERO OBJ", props.heroObject);
     this.state = {
       hover: false
     }
@@ -45,7 +44,7 @@ class HeroCard extends Component {
           className="card-img-top Tilt-inner" 
           src={this.props.src} 
           alt={this.props.heading} 
-          onClick={() => this.props.handleHeroClick(this.props.id)} 
+          onClick={() => this.props.handleHeroClick(this.props.heroObject)} 
         />
         <div className="card-body bg-dark text-center" style={this.state.hover ? {opacity: 1} : {opacity: 0}} >
           <h5 className="card-title">{this.props.heading}</h5>
