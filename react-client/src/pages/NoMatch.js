@@ -1,14 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import Wrapper from "../components/Wrapper";
-import { Col, Row, SectionRow, Container } from "../components/Grid";
+import { Col, SectionRow } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 import { useLocation } from "react-router-dom";
-import UserContext from "../userContext";
-
 
 function NoMatch() {
   let location = useLocation();
-  const { userState, getUser } = useContext(UserContext);
 
   return (
     <Wrapper className="App" id="main-container">
@@ -24,12 +21,6 @@ function NoMatch() {
               </span>
             </h1>
           </Jumbotron>
-          <Col size="md-12">
-            <pre>{JSON.stringify(userState, null, 2)}</pre>
-            <div>
-              <button onClick={() => getUser()}>Get User</button>
-            </div>
-          </Col>
         </Col>
       </SectionRow>
     </Wrapper>

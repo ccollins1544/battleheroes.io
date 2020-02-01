@@ -62,6 +62,7 @@ app.listen(PORT, function(){
 socket_server.listen(SOCKET_PORT, () => {
   console.log(`🌎  ==> Socket Server is running on ${socket_url}`);
 });
+<<<<<<< HEAD
 
 
 //SMTP Server/Hostname: smtp.gmail.com
@@ -69,3 +70,5 @@ socket_server.listen(SOCKET_PORT, () => {
 //SMTP password: [Luna83222$]
 //SMTP Port: 587
 //TLS/SSL: Required
+=======
+>>>>>>> 9c434aade2095d76ca78ac1096fff532b79994ba

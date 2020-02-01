@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import API from "../../utils/API";
 import HeroCard from "../Card/heroCard";
 import UserContext from "../../userContext";
@@ -25,6 +24,7 @@ const Hero = () => {
             src={hero.image}
             heading={hero.name}  
             subtitle={"HP: "+hero.hp}
+            heroObject={hero}
             handleHeroClick={handleHeroClick}
           />
         );

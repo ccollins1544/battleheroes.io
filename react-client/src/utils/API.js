@@ -8,4 +8,5 @@ export default {
   logout: () => axios.post('/user/logout'),
 
   getAllHeroes: () => axios.get('./heroes.json'),  // fetch('/api/heroes')
+  getUserById: user_id => axios.get('/user/' + user_id),
 };

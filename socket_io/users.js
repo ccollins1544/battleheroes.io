@@ -2,13 +2,13 @@
 const users = [];
 
 const addUser = ({ id, user_id, game_id }) => {
-  user_id = user_id.trim().toLowerCase();
-  game_id = game_id.trim().toLowerCase();
+  user_id = user_id === undefined ? 0 : user_id.trim().toLowerCase();
+  game_id = game_id === undefined ? 0 : game_id.trim().toLowerCase();
 
   const existingUser = users.find((user) => user.game_id === game_id && user.user_id === user_id);
 
   if(!user_id || !game_id) return { error: 'user_id and game_id are required.' };
-  if(existingUser) return { error: 'user_id is taken.' };
+  // if(existingUser) return { error: 'user_id is taken.' }; // crashes when refreshing 
 
   const user = { id, user_id, game_id };
 
