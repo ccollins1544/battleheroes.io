@@ -22,6 +22,7 @@ const ChooseHero = () => {
     }
 
     setBackground(bg_style);
+    return; 
   }, []);
 
   return (
