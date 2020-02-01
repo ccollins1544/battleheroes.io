@@ -5,6 +5,8 @@
 /react-client/node_modules
 /.pnp
 .pnp.js
+/react-client/package-lock.json
+package-lock.json
 
 # testing
 /coverage
