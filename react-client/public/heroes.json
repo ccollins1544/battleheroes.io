@@ -2,7 +2,7 @@
   {
     "_id": 1,
     "name": "Apocalypse",
-    "image": "./img/apocalypse.png",
+    "image": "./img/X-Men-Apocalypse.png",
     "hp": 100,
     "attack2_dmg": 20,
     "attack1_dmg": 10,
