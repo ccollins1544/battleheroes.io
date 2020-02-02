@@ -21,7 +21,7 @@ const Contact = () => {
 
   const validateForm = () => {
     let isValid = false;
-    if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(contactForm.from_email) === false){
+    if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(contactForm.from_email) === false && contactForm.from_email !== userState.username){
       Utils.AlertMessage("You have entered an invalid email address!", "danger");
     }else if(contactForm.subject.length < 1 ){
       Utils.AlertMessage("Missing subject", "info");
