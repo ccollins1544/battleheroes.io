@@ -18,7 +18,7 @@ const SignUp = () => {
 
   const validateForm = () => {
     let isValid = false;
-    if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(signupForm.username) === false && signupForm.from_email !== userState.username){
+    if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(signupForm.username) === false ){
       Utils.AlertMessage("You have entered an invalid email address!", "danger");
     }else if(signupForm.password !== signupForm.confirm_password){
       Utils.AlertMessage("Your passwords don't match!", "danger");

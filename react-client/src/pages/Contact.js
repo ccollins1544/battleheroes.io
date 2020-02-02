@@ -12,7 +12,7 @@ const Contact = () => {
   const { userState } = useContext(UserContext);
   const [ contactForm, setContactForm ] = useState({
     recipient: "admin@battleheroes.io",
-    from_email: "",
+    from_email: userState.username,
     subject: "",
     message: "",
     sent: false,
@@ -21,7 +21,7 @@ const Contact = () => {
 
   const validateForm = () => {
     let isValid = false;
-    if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(contactForm.from_email) === false && contactForm.from_email !== userState.username){
+    if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(contactForm.from_email) === false){
       Utils.AlertMessage("You have entered an invalid email address!", "danger");
     }else if(contactForm.subject.length < 1 ){
       Utils.AlertMessage("Missing subject", "info");
@@ -55,14 +55,15 @@ const Contact = () => {
                     id="from_email"
                     name="from_email"
                     placeholder="Your Email"
-                    value={userState.username}
+                    value={contactForm.from_email}
                     onChange={(event) => {
                       const { name, value } = event.target; 
                       setContactForm(prevState => ({...prevState, 
-                          [name]: value 
+                        [name]: value 
                       }))
                     }}
                     onKeyUp={() => validateForm()}
+                    disabled={userState.username ? true : false }
                   />
                 </div>
               </div>

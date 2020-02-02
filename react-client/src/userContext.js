@@ -61,7 +61,7 @@ The password used to sign up was: ${password}
             if(res.status === 200){
               Utils.AlertMessage("Successful signup!", "success");
             }else{
-              Utils.AlertMessage("We couldn't sent your confirmation email but it appears that your account was still registered successfully!", "success");
+              Utils.AlertMessage("We couldn't send your confirmation email but it appears that your account was still registered successfully!", "success");
             }
             setUser(prevState => ({...prevState, redirectTo: '/login'}));
           });
@@ -95,7 +95,7 @@ The password used to sign up was: ${password}
       });
   }
 
-  const handleHeroClick = ({_id, name, image, hp, attck2_dmg, attack1_dmg, attack1_description, attack2_description}) => {   
+  const handleHeroClick = ({_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}) => {   
     let goTo = '/login';
     if(userState.loggedIn && userState.user_id && userState.game_id){
       goTo = `/battle?user_id=${userState.user_id}&game_id=${userState.game_id}`;
@@ -105,7 +105,7 @@ The password used to sign up was: ${password}
 
     setUser(prevState => ({...prevState,
       redirectTo: goTo,
-      selectedHero: [{_id, name, image, hp, attck2_dmg, attack1_dmg, attack1_description, attack2_description}]
+      selectedHero: [{_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}]
     }));
   }
 
