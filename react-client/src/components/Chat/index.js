@@ -55,6 +55,7 @@ const Chat = () => {
       socket.off();
     }
   }, [messages])
+  
 
 
   const sendMessage = event => {
@@ -88,3 +89,6 @@ const Chat = () => {
 };
 
 export default Chat;
+
+
+
