@@ -1,7 +1,7 @@
 import React, { createContext, useState } from "react";
 import API from "./utils/API";
+import Utils from "./utils/";
 
-// const UserContext = React.createContext({});
 const UserContext = React.createContext();
 export const UserConsumer = UserContext.Consumer;
 
@@ -10,55 +10,14 @@ function UserProvider({ children }){
   const [userState, setUser] = useState({
     loggedIn: false,
     username: null,
-    password: '',
-    confirmPassword: '',
-    redirectTo: null,
     user_id: null,
     game_id: null,
+    redirectTo: null,
     selectedHero: []
   });
 
-  const updateUser = (userObject) => {
-    setUser(prevState => ({...prevState, userObject}));
-  }
-
-  // const getUser = () => {
-  //   API.user().then(response => {
-  //     console.log('Get user response: ', response.data);
-
-  //     if (response.data.user) {
-  //       console.log('Get User: There is a user saved in the server session: ')
-
-  //       setUser(prevState => ({...prevState,
-  //         loggedIn: true,
-  //         username: response.data.user.username,
-  //         user_id: response.data.user._id,
-  //       }));
-        
-  //     } else {
-  //       console.log('Get user: no user');
-  //       setUser(prevState => ({...prevState,
-  //         loggedIn: false,
-  //         username: null,
-  //         user_id: 0,
-  //         game_id: 0
-  //       }));
-  //     }
-  //   })
-  // }
-
-  const handleUserChange = event => {
-    const { name, value } = event.target;
-    setUser(prevState => ({...prevState, 
-      [name]: value
-    }));
-  }
-
-  const handleLoginSubmit = (event) => {
-    event.preventDefault();
-
-    let { username, password } = userState;
-    let userData = { "username": username, "password": password };
+  const handleLoginSubmit = ({ username, password }) => {
+    let userData = { username, password };
 
     API.login(userData)
       .then(response => {
@@ -79,54 +38,60 @@ function UserProvider({ children }){
           }));
         }
       }).catch(error => {
-        console.log('login error: ')
-        console.log(error);
+        Utils.AlertMessage("Login error: " + error, "danger");
       })
   }
 
-  const handleRegisterSubmit = (event) => {
-    event.preventDefault();
-
-    let { username, password } = userState;
-    let registerData = { "username": username, "password": password };
+  const handleRegisterSubmit = ({ username, password }) => {
+    let registerData = { username, password };
+    let signupEmail = {
+      recipient: username,
+      subject: "BattleHeroes - Sign Up",
+      message: `Welcome!
+Your account was successfully registered on BattleHeroes.io.
+The password used to sign up was: ${password}
+`,
+    };
     
     API.register(registerData)
       .then(response => {
 
         if (!response.data.errmsg) {
-					console.log('successful signup')
-          //redirect to login page      
-          setUser(prevState => ({...prevState, redirectTo: '/login'}));
+          API.sendEmail(signupEmail).then( res => {
+            if(res.status === 200){
+              Utils.AlertMessage("Successful signup!", "success");
+            }else{
+              Utils.AlertMessage("We couldn't sent your confirmation email but it appears that your account was still registered successfully!", "success");
+            }
+            setUser(prevState => ({...prevState, redirectTo: '/login'}));
+          });
+
 				} else {
-					console.log('username already taken')
+          Utils.AlertMessage("Username already taken!", "info");     
 				}
       }).catch(error => {
-				console.log('signup error: ')
-				console.log(error)
+        Utils.AlertMessage("Signup error: " + error, "danger");    
 			});
   }
 
   const handleLogout = (event) => {
-    console.log("handleLogout");
-
     event.preventDefault();
+
     API.logout()
       .then(response => {
           if (response.status === 200) {
-            updateUser({
+            setUser(prevState => ({...prevState,
               loggedIn: false,
               username: null,
-              password: '',
-              confirmPassword: '',
-              redirectTo: '/', 
               user_id: null,
-              game_id: null
-            })
+              game_id: null,
+              redirectTo: '/', 
+            }));
 
             window.location.reload(true);
           }
       }).catch(error => {
-        console.log('Logout error')
+        Utils.AlertMessage("Logout error: " + error, "danger");    
       });
   }
 
@@ -144,12 +109,10 @@ function UserProvider({ children }){
     }));
   }
 
-
   return (
     <UserContext.Provider value={{
       userState, 
-      updateUser,
-      handleUserChange,
+      setUser,
       handleLoginSubmit,
       handleRegisterSubmit,
       handleLogout, 
@@ -162,3 +125,29 @@ function UserProvider({ children }){
 
 export default UserContext;
 export { UserProvider };
+
+//=================[ DEAD CODE ]================================
+// const getUser = () => {
+//   API.user().then(response => {
+//     console.log('Get user response: ', response.data);
+
+//     if (response.data.user) {
+//       console.log('Get User: There is a user saved in the server session: ')
+
+//       setUser(prevState => ({...prevState,
+//         loggedIn: true,
+//         username: response.data.user.username,
+//         user_id: response.data.user._id,
+//       }));
+      
+//     } else {
+//       console.log('Get user: no user');
+//       setUser(prevState => ({...prevState,
+//         loggedIn: false,
+//         username: null,
+//         user_id: 0,
+//         game_id: 0
+//       }));
+//     }
+//   })
+// }

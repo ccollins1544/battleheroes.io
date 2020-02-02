@@ -1,4 +1,5 @@
 import React, { Component, useContext } from "react";
+import { UserProvider } from "./userContext";
 import {
   BrowserRouter as Router,
   Route,
@@ -7,9 +8,6 @@ import {
   Redirect,
   useLocation
 } from "react-router-dom";
-import { UserProvider } from "./userContext";
-import UserContext from "./userContext";
-// import { allChatListener } from "./utils/socket_client.js";
 import "./App.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";

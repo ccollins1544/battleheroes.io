@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
+import UserContext from "../../userContext";
 import API from "../../utils/API";
 import HeroCard from "../Card/heroCard";
-import UserContext from "../../userContext";
 
 const Hero = () => {
   const { handleHeroClick } = useContext(UserContext);

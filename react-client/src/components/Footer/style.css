@@ -241,6 +241,7 @@
   text-decoration: none;
 }
 
+.fa-id-card:hover,
 .footer-link:hover {
   text-decoration: none;
   color: var(--primary-menu-text);

@@ -22,7 +22,7 @@ module.exports = {
 
     transporter.sendMail(mailOptions, (err, data) => {
       if(err) res.status(400).json(err);
-      res.status(200).send("Email Sent");
+      res.status(200).send("Email Sent!");
     });
   }
 };
