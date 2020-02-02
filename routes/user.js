@@ -42,7 +42,9 @@ router.post(
   (req, res) => {
     console.log('logged in', req.user);
     var userInfo = {
-      username: req.user.username
+      _id: req.user._id,
+      username: req.user.username,
+      game_id: null
     };
     res.send(userInfo);
   }

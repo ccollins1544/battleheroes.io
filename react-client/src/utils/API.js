@@ -9,4 +9,6 @@ export default {
 
   getAllHeroes: () => axios.get('./heroes.json'),  // fetch('/api/heroes')
   getUserById: user_id => axios.get('/user/' + user_id),
+
+  sendChallenge: messageData => axios.post('/api/sendemail', messageData)
 };

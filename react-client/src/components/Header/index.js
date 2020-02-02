@@ -6,14 +6,8 @@ import { fas, faShieldAlt, faUser, faUserSlash , faUserPlus} from "@fortawesome/
 import "./style.css";
 
 const Header = () => {
-  const { userState, handleLogout, getUser } = useContext(UserContext);
-  const [ gameLog, setGameLog ] = useState(null);
-
-  useEffect(() => { 
-    if(userState.user_id === 0 || !userState.user_id ){
-      getUser();
-    }
-  }, []);
+  const { userState, handleLogout } = useContext(UserContext);
+  // const [ gameLog, setGameLog ] = useState(null);
 
   let location = useLocation();
   console.log("location: "+ location.pathname + " ?= redirect: " + userState.redirectTo);
@@ -33,30 +27,43 @@ const Header = () => {
                     <Link to="/choose-hero" className="nav-link"><FontAwesomeIcon icon={faShieldAlt} /> Choose Hero</Link>
                   </li>
                 )}
+
                 {userState.loggedIn ? (
                   <>
-                    <li className="nav-item">
-                      <Link to="/challenge" className="nav-link"><FontAwesomeIcon icon={faShieldAlt} /> Challenge</Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to={`/battle?user_id=${userState.user_id}&game_id=${userState.game_id}`} className="nav-link"><FontAwesomeIcon icon={faShieldAlt} /> Battle</Link>
-                    </li>
-                    <li className="nav-item">
-                      {userState.selectedHero.length > 0 ? 
-                        <span className="nav-link">
-                          <img id="hero-icon" 
-                            src={userState.selectedHero[0].image} 
-                            alt={userState.selectedHero[0].name}  
-                            title={userState.selectedHero[0].name}
-                          /> 
-                          {userState.username}
-                        </span>
-                        : 
+                    {userState.user_id && userState.game_id ? (
+                      <li className="nav-item">
+                        <Link to={`/battle?user_id=${userState.user_id}&game_id=${userState.game_id}`} className="nav-link"><FontAwesomeIcon icon={faShieldAlt} /> Battle</Link>
+                      </li>
+                    ) : (
+                      <li className="nav-item">
+                        <Link to="/challenge" className="nav-link"><FontAwesomeIcon icon={faShieldAlt} /> Challenge</Link>
+                      </li>
+                    )}
+                    
+                    {userState.selectedHero.length > 0 ? (
+                      <>
+                        <li className="nav-item">
+                          <span className="nav-link">
+                            <img id="hero-icon" 
+                              src={userState.selectedHero[0].image} 
+                              alt={userState.selectedHero[0].name}  
+                              title={userState.selectedHero[0].name}
+                              />
+                          </span>
+                        </li>
+                        <li className="nav-item">
+                          <Link to="#" className="nav-link" onClick={(e) => handleLogout(e)}>
+                            {userState.username} <FontAwesomeIcon icon={faUserSlash} />
+                          </Link>
+                        </li>
+                      </>
+                    ) : (
+                      <li className="nav-item">
                         <Link to="#" className="nav-link" onClick={(e) => handleLogout(e)}>
                           <FontAwesomeIcon icon={faUserSlash} /> {userState.username}
                         </Link>
-                      }          
-                    </li>
+                      </li>
+                    )}  
                   </>
                 ) : (
                   <>

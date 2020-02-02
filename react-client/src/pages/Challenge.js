@@ -6,7 +6,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function Challenge() {
-  
+  const [ messageData, setMessageData ] = useState({
+    recipient: "chris@ccollins.io",
+    subject: "You've been challenged again",
+    message: "second attempt should still be working!"
+  });
+
   const [ background, setBackground ] = useState({});
   useEffect(() => {
     const bg_collection = [
@@ -30,6 +35,10 @@ function Challenge() {
     }
 
     setBackground(bg_style);
+    console.log("Message Data", messageData);
+
+    // API.sendChallenge(messageData)
+    //   .then( res => console.log("sendChallenge response;", res));
   }, []);
 
   return (
