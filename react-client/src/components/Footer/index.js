@@ -40,10 +40,10 @@ function Footer(){
       <div id="footer-bottom">
         <div id="footer-info">
           Copyright © 2020 |&nbsp;&nbsp;
-          <a className="footer-link" href="https://github.com/TylerWebb92" target="_blank"> <FontAwesomeIcon icon={faLinkedin} size="1x" /> Tyler Webb&nbsp;&nbsp;</a>
-          <a className="footer-link" href="https://github.com/ccollins1544" target="_blank"> <FontAwesomeIcon icon={faLinkedin} size="1x" /> Christopher Collins&nbsp;&nbsp;</a>
-          <a className="footer-link" href="https://github.com/mayrton1" target="_blank"> <FontAwesomeIcon icon={faLinkedin} size="1x" /> Matthew Ayrton&nbsp;&nbsp;</a>
-          <a className="footer-link" href="https://github.com/DangerDan88" target="_blank"> <FontAwesomeIcon icon={faLinkedin} size="1x" /> Daniel Osornio</a>
+          <a className="footer-link" href="https://www.linkedin.com/in/tyler-webb-363843199/" target="_blank"> <FontAwesomeIcon icon={faLinkedin} size="1x" /> Tyler Webb&nbsp;&nbsp;</a>
+          <a className="footer-link" href="https://www.linkedin.com/in/ccollins1544/" target="_blank"> <FontAwesomeIcon icon={faLinkedin} size="1x" /> Christopher Collins&nbsp;&nbsp;</a>
+          <a className="footer-link" href="https://www.linkedin.com/in/matthew-ayrton-902550177/" target="_blank"> <FontAwesomeIcon icon={faLinkedin} size="1x" /> Matthew Ayrton&nbsp;&nbsp;</a>
+          <a className="footer-link" href="https://www.linkedin.com/in/daniel-osornio-837547188/" target="_blank"> <FontAwesomeIcon icon={faLinkedin} size="1x" /> Daniel Osornio</a>
         </div>
       </div>
     </footer>
