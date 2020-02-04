@@ -3,6 +3,13 @@
  * @subpackage server
  * @author Tyler Webb, Christopher Collins, Matthew Ayrton, Daniel Osornio
  * @version 2.0.0
+ * 
+ * @todo 
+ * -game_log: relates to users (users relates to game_log)
+ * -challenge page
+ * -battle page
+ * -chatbox on battle page
+ * 
  */
 /* ===============[ Dependencies  ]========================*/
 require("dotenv").config();

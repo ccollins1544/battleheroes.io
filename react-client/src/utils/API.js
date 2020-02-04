@@ -7,8 +7,10 @@ export default {
   login: loginData => axios.post('/user/login', loginData),
   logout: () => axios.post('/user/logout'),
 
-  getAllHeroes: () => axios.get('./heroes.json'),  // fetch('/api/heroes')
-  getUserById: user_id => axios.get('/user/' + user_id),
+  // getAllHeroes: () => axios.get('./_heroes.json'),
+  getAllHeroes: () => axios.get('/api/heroes'),
+  getBySlug: slug => fetch('/api/heroes/' + slug),
 
+  getUserById: user_id => axios.get('/user/' + user_id),
   sendEmail: messageData => axios.post('/api/sendemail', messageData)
 };
