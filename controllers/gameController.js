@@ -55,8 +55,15 @@ module.exports = {
     let { user_id } = req.body;
 
     db.User.find({
-      'game_status': { $in: [ 0, 1 ] }, 
-      '_id': { $ne: user_id }
+      $and : [
+        { $or: [
+          { 'game_status': { $in: [ 0, 1 ] } }, 
+          { 'game_status': { $exists: false } }
+        ]},
+        {
+          '_id': { $ne: user_id }
+        }
+      ]
     })
     .then(dbPlayers => res.json(dbPlayers))
     .catch(err => res.status(422).json(err));

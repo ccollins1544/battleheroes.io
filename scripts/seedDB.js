@@ -1,3 +1,4 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 const db = require("../models");
 
@@ -37,9 +38,11 @@ db.user_groups.remove({})
   .then(() => db.user_groups.collection.insertMany(user_groups_seed))
   .then(data => {
     console.log(data.result.n + " records inserted!");
+    // process.exit(0);
   })
   .catch(err => {
     console.error(err);
+    // process.exit(1);
   });
 
 const game_status_seed = [
@@ -73,9 +76,11 @@ db.game_status.remove({})
   .then(() => db.game_status.collection.insertMany(game_status_seed))
   .then(data => {
     console.log(data.result.n + " records inserted!");
+    // process.exit(0);
   })
   .catch(err => {
     console.error(err);
+    // process.exit(1);
   });
 
 const heroesSeed = [
