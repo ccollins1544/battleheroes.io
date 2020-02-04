@@ -1,10 +1,10 @@
-import React, { useContext, useSate} from "react";
+import React, { useContext} from "react";
 import "./style.css";
 import { Redirect, Route, Link } from "react-router-dom";
 import UserContext from "../../userContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
+import { fas, faIdCard } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { fab, faLinkedin, faDev, faGithub} from "@fortawesome/free-brands-svg-icons";
 // Add all icons to the library so you can use it in your page
@@ -25,19 +25,14 @@ function Footer(){
         <div className="navbar-collapse">
           <ul className="navbar-nav">
             <li className="nav-item"> 
-              <a className="nav-link" href="" target="_blank" >
-                <FontAwesomeIcon icon={faLinkedin} size="2x" />
-              </a>
-            </li>
-            <li className="nav-item"> 
-              <a className="nav-link" href="" target="_blank">
-                <FontAwesomeIcon icon={faDev} size="2x" />
-              </a>
-            </li>
-            <li className="nav-item"> 
-              <a className="nav-link" href="" target="_blank">
+              <a className="nav-link" href="https://github.com/ccollins1544/battleheroes.io" target="_blank">
                 <FontAwesomeIcon icon={faGithub} size="2x" />
               </a>
+            </li>
+            <li className="nav-item"> 
+              <Link to="/contact" className="nav-link">
+                <FontAwesomeIcon icon={faIdCard} size="2x" />
+              </Link>
             </li>
           </ul>
         </div>
@@ -46,8 +41,10 @@ function Footer(){
       <div id="footer-bottom">
         <div id="footer-info">
           Copyright © 2020 | 
-          <Link to="/" className="footer-link" > BattleHeroes.io</Link> |
-          <a className="footer-link" href="https://github.com/ccollins1544/battleheroes.io"> Repo Link</a>
+          <a className="footer-link" href="https://github.com/TylerWebb92" target="_blank"> <FontAwesomeIcon icon={faLinkedin} size="1x" /> Tyler Webb</a>
+          <a className="footer-link" href="https://github.com/ccollins1544" target="_blank"> <FontAwesomeIcon icon={faLinkedin} size="1x" /> Christopher Collins</a>
+          <a className="footer-link" href="https://github.com/mayrton1" target="_blank"> <FontAwesomeIcon icon={faLinkedin} size="1x" /> Matthew Ayrton</a>
+          <a className="footer-link" href="https://github.com/DangerDan88" target="_blank"> <FontAwesomeIcon icon={faLinkedin} size="1x" /> Daniel Osornio</a>
         </div>
       </div>
     </footer>

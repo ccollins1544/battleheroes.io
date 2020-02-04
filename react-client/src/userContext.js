@@ -1,7 +1,8 @@
-import React, { Component, createContext, useState } from "react";
+import React, { createContext, useState } from "react";
 import API from "./utils/API";
 
-const UserContext = React.createContext({});
+// const UserContext = React.createContext({});
+const UserContext = React.createContext();
 export const UserConsumer = UserContext.Consumer;
 
 function UserProvider({ children }){
@@ -12,8 +13,8 @@ function UserProvider({ children }){
     password: '',
     confirmPassword: '',
     redirectTo: null,
-    user_id: 0,
-    game_id: 0,
+    user_id: null,
+    game_id: null,
     selectedHero: []
   });
 
@@ -21,30 +22,30 @@ function UserProvider({ children }){
     setUser(prevState => ({...prevState, userObject}));
   }
 
-  const getUser = () => {
-    API.user().then(response => {
-      console.log('Get user response: ', response.data);
+  // const getUser = () => {
+  //   API.user().then(response => {
+  //     console.log('Get user response: ', response.data);
 
-      if (response.data.user) {
-        console.log('Get User: There is a user saved in the server session: ')
+  //     if (response.data.user) {
+  //       console.log('Get User: There is a user saved in the server session: ')
 
-        setUser(prevState => ({...prevState,
-          loggedIn: true,
-          username: response.data.user.username,
-          user_id: response.data.user._id,
-        }));
+  //       setUser(prevState => ({...prevState,
+  //         loggedIn: true,
+  //         username: response.data.user.username,
+  //         user_id: response.data.user._id,
+  //       }));
         
-      } else {
-        console.log('Get user: no user');
-        setUser(prevState => ({...prevState,
-          loggedIn: false,
-          username: null,
-          user_id: 0,
-          game_id: 0
-        }));
-      }
-    })
-  }
+  //     } else {
+  //       console.log('Get user: no user');
+  //       setUser(prevState => ({...prevState,
+  //         loggedIn: false,
+  //         username: null,
+  //         user_id: 0,
+  //         game_id: 0
+  //       }));
+  //     }
+  //   })
+  // }
 
   const handleUserChange = event => {
     const { name, value } = event.target;
@@ -62,12 +63,19 @@ function UserProvider({ children }){
     API.login(userData)
       .then(response => {
         if (response.status === 200) {
-          // update App.js state
+          let goTo = '/choose-hero'
+
+          if(userState.selectedHero.length > 0 && response.data.game_id){
+            goTo = `/battle?user_id=${response.data._id}&game_id=${response.data.game_id}`;
+          }else if(userState.selectedHero.length > 0){
+            goTo = '/challenge';
+          }
+
           setUser(prevState => ({...prevState,
             loggedIn: true,
             username: response.data.username,
             user_id: response.data._id,
-            redirectTo: '/challenge'
+            redirectTo: goTo
           }));
         }
       }).catch(error => {
@@ -111,8 +119,8 @@ function UserProvider({ children }){
               password: '',
               confirmPassword: '',
               redirectTo: '/', 
-              user_id: 0,
-              game_id: 0
+              user_id: null,
+              game_id: null
             })
 
             window.location.reload(true);
@@ -123,20 +131,24 @@ function UserProvider({ children }){
   }
 
   const handleHeroClick = ({_id, name, image, hp, attck2_dmg, attack1_dmg, attack1_description, attack2_description}) => {   
-    // let goTo = userState.loggedIn ? '/challenge' : '/login'
-    let goTo = userState.loggedIn ? null : '/login'
-    
+    let goTo = '/login';
+    if(userState.loggedIn && userState.user_id && userState.game_id){
+      goTo = `/battle?user_id=${userState.user_id}&game_id=${userState.game_id}`;
+    }else if(userState.loggedIn){
+      goTo = '/challenge';
+    }
+
     setUser(prevState => ({...prevState,
       redirectTo: goTo,
       selectedHero: [{_id, name, image, hp, attck2_dmg, attack1_dmg, attack1_description, attack2_description}]
     }));
   }
 
+
   return (
     <UserContext.Provider value={{
       userState, 
       updateUser,
-      getUser,
       handleUserChange,
       handleLoginSubmit,
       handleRegisterSubmit,

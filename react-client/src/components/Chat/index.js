@@ -65,13 +65,6 @@ const Chat = () => {
     }
   };
 
-  // let username = "anonymous";
-  // if(user_id !== 0 || user_id !== undefined && userState.loggedIn !== user_id ){
-  //   API.getUserById(user_id).then(res => username = res.data )
-  // }else if (userState.loggedIn) {
-  //   username = userState.username.split("@")[0];
-  // }
-
   return (
     <div className="outerContainer">
       <div className="container">
