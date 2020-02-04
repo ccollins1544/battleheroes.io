@@ -24,6 +24,10 @@ const userSchema = new Schema({
 		type: Number,
 		ref: "game_status",
 		default: 0
+	},
+	heroes: {
+		type: Schema.Types.ObjectId,
+		ref: "Heroes"
 	}
 },
 {

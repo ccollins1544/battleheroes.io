@@ -5,7 +5,7 @@
  * @version 2.0.0
  * 
  * @todo 
- * -challenge page
+ * -challenge page: need to decide what game[] to play
  * -battle page
  * -chatbox on battle page
  * 
@@ -21,6 +21,7 @@ const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
 const session = require("express-session");
+const cookieParser = require("cookie-parser");
 const dbConnection = require("./models/db.js"); // Connects to db
 const MongoStore = require('connect-mongo')(session)
 const passport = require("./passport");
@@ -30,6 +31,7 @@ const app = express();
 /* ===============[ Express Config ]=======================*/
 // Use Features
 app.use(logger("dev"));
+app.use(cookieParser(process.env.SESSION_SECRET || "SuperSecretSession"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -40,12 +42,20 @@ if (process.env.NODE_ENV === "production"){
 
 /* ===============[ Passport Session ]====================*/
 // We need to use sessions to keep track of our user's login status
+const cookieExpirationDate = new Date();
+const cookieExpirationDays = 1;
+cookieExpirationDate.setDate(cookieExpirationDate.getDate() + cookieExpirationDays);
+
 app.use(
   session({ 
-    secret: "showmethemoney", 
+    secret: process.env.SESSION_SECRET || "SuperSecretSession", 
     store: new MongoStore({ mongooseConnection: dbConnection }),
     resave: false, 
-    saveUninitialized: false 
+    saveUninitialized: false,
+	  cookie: {
+	    httpOnly: true,
+	    expires: cookieExpirationDate 
+	  }
   })
 );
 app.use(passport.initialize());

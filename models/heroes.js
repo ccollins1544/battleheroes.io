@@ -10,12 +10,6 @@ const heroSchema = new Schema({
   attact2_dmg: Number,
   attack1_description: String,
   attack2_description: String, 
-  game: [
-		{
-			type: Schema.Types.ObjectId,
-			ref: "Game"
-		}	
-	],
   enabled: Boolean
 },
 {

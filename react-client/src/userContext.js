@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import API from "./utils/API";
 import Utils from "./utils/";
 
@@ -7,14 +7,7 @@ export const UserConsumer = UserContext.Consumer;
 
 function UserProvider({ children }){
   
-  const [userState, setUser] = useState({
-    loggedIn: false,
-    username: null,
-    user_id: null,
-    game_id: null,
-    redirectTo: null,
-    selectedHero: []
-  });
+  const [userState, setUser] = useState({});
 
   const handleLoginSubmit = ({ username, password }) => {
     let userData = { username, password };
@@ -33,11 +26,16 @@ function UserProvider({ children }){
           setUser(prevState => ({...prevState,
             loggedIn: true,
             username: response.data.username,
+            user_groups: response.data.user_groups,
             user_id: response.data._id,
+            game_status: response.data.game_status,
+            games: response.data.game,
+            selectedHero: response.data.heroes ? [response.data.heroes] : [],
             redirectTo: goTo
           }));
         }
-      }).catch(error => {
+      })
+      .catch(error => {
         Utils.AlertMessage("Login error: " + error, "danger");
       })
   }
@@ -133,6 +131,44 @@ The password used to sign up was: ${password}
     }
   }
 
+  useEffect(() => {
+    API.getUser()
+      .then( response => response.data )
+      .then( sessionUser => {
+        console.log("sessionUser",sessionUser);
+        let persist_loggedIn = false;
+        let persist_user_id = null;
+        let persist_username = null;
+        let persist_user_groups = [];
+        let persist_game_status = 0;
+        let persist_games = [];
+        let persist_selected_hero = [];
+
+        if(sessionUser.user){
+          persist_loggedIn = true;
+          persist_user_id = sessionUser.user._id;
+          persist_username = sessionUser.user.username;
+          persist_user_groups = sessionUser.user.user_groups;
+          persist_game_status = sessionUser.user.game_status;
+          persist_games = sessionUser.user.game;
+          persist_selected_hero = sessionUser.user.heroes ? [sessionUser.user.heroes] : [];
+        }
+      
+        setUser({
+          loggedIn: persist_loggedIn,
+          username: persist_username,
+          user_groups: persist_user_groups,
+          user_id: persist_user_id, 
+          game_id: null,
+          game_status: persist_game_status,
+          games: persist_games,
+          redirectTo: null,
+          selectedHero: persist_selected_hero
+        });
+    });
+    
+  }, []);
+
   return (
     <UserContext.Provider value={{
       userState, 
@@ -150,28 +186,3 @@ The password used to sign up was: ${password}
 export default UserContext;
 export { UserProvider };
 
-//=================[ DEAD CODE ]================================
-// const getUser = () => {
-//   API.user().then(response => {
-//     console.log('Get user response: ', response.data);
-
-//     if (response.data.user) {
-//       console.log('Get User: There is a user saved in the server session: ')
-
-//       setUser(prevState => ({...prevState,
-//         loggedIn: true,
-//         username: response.data.user.username,
-//         user_id: response.data.user._id,
-//       }));
-      
-//     } else {
-//       console.log('Get user: no user');
-//       setUser(prevState => ({...prevState,
-//         loggedIn: false,
-//         username: null,
-//         user_id: 0,
-//         game_id: 0
-//       }));
-//     }
-//   })
-// }

@@ -39,7 +39,7 @@ module.exports = {
         { '_id': startedGame.instigator_id },
         { 
           $push: { 'game': startedGame._id },
-          $set: { 'game_status': 1 }
+          $set: { 'game_status': 1, 'heroes': startedGame.instigator_hero_id }
         },
         { new: true }
       )
@@ -55,7 +55,7 @@ module.exports = {
     let { user_id } = req.body;
 
     db.User.find({
-      'game_status': { $in: [ 1, 2 ] }, 
+      'game_status': { $in: [ 0, 1 ] }, 
       '_id': { $ne: user_id }
     })
     .then(dbPlayers => res.json(dbPlayers))

@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Challenge = () => {
-  const { userState, findPlayers } = useContext(UserContext);
+  const { userState } = useContext(UserContext);
   const [ messageData, setMessageData ] = useState({
     recipient: "chris@ccollins.io",
     subject: "You've been challenged again",
@@ -44,7 +44,10 @@ const Challenge = () => {
     // console.log("Message Data", messageData);
     // API.sendChallenge(messageData)
     //   .then( res => console.log("sendChallenge response;", res));
-    API.searchChallenge().then( response => setPlayers(response.data));
+    API.searchChallenge().then( response => {
+      console.log("Search Challenge", response.data);
+      setPlayers(response.data)
+    });
 
   }, []);
 
@@ -57,7 +60,7 @@ const Challenge = () => {
       </SectionRow>
       <SectionRow >
         <Col size="lg-6">
-          {userState.selectedHero.length > 0 &&
+          {userState.selectedHero instanceof Array &&
             <HeroCard 
               id={userState.selectedHero[0]._id}
               key={userState.selectedHero[0]._id}

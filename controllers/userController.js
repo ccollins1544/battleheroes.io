@@ -30,9 +30,11 @@ module.exports = {
     });
   },
 
-  getUser: function (req, res){
+  getUser: (req, res, next) => {
     console.log('===== getUser ======')
-    console.log(req.user)
+    console.log(req.user);
+    // return next();
+    
     if (req.user) {
       res.json({
         user: req.user
@@ -49,7 +51,11 @@ module.exports = {
     var userInfo = {
       _id: req.user._id,
       username: req.user.username,
-      game_id: null
+      user_groups: req.user.user_groups,
+      game_id: null,
+      game_status: req.user.game_status,
+      game: req.user.game,
+      heroes: req.user.heroes,
     };
     res.send(userInfo);
   },

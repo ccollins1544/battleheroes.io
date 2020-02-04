@@ -15,14 +15,15 @@ passport.deserializeUser((id, done) => {
 	console.log('DeserializeUser called')
 	User.findOne(
 		{ _id: id },
-		'username',
-		(err, user) => {
-			console.log('*** Deserialize user, user:');
-			console.log(user);
-			console.log('--------------');
-			done(null, user);
-		}
+		{ username: 1, user_groups:1, game:1, game_status: 1, heroes: 1 }
 	)
+	.populate("heroes")
+	.then(user => {
+		console.log('*** Deserialize user, user:');
+		console.log(user);
+		console.log('--------------');
+		done(null, user);
+  });
 });
 
 //  Use Strategies 

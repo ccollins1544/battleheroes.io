@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default {
-  user: () => axios.get('/user'),
+  getUser: () => axios.get('/user'),
   register: registerData => axios.post('/user', registerData),
 
   login: loginData => axios.post('/user/login', loginData),
@@ -9,7 +9,8 @@ export default {
 
   // getAllHeroes: () => axios.get('./_heroes.json'),
   getAllHeroes: () => axios.get('/api/heroes'),
-  getBySlug: slug => fetch('/api/heroes/' + slug),
+  getHeroBySlug: slug => fetch('/api/heroes/' + slug),
+  getHeroById: hero_id => fetch('/api/hero/' + hero_id),
 
   getUserById: user_id => axios.get('/user/' + user_id),
   sendEmail: messageData => axios.post('/api/sendemail', messageData),
