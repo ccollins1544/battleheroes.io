@@ -5,11 +5,30 @@ mongoose.promise = Promise
 
 // Define userSchema
 const userSchema = new Schema({
-
 	username: { type: String, unique: false, required: false },
-	password: { type: String, unique: false, required: false }
-
-})
+	password: { type: String, unique: false, required: false },
+	user_groups: [
+		{
+			type: String,
+			ref: "user_groups",
+			default: "Player"
+		}
+	],
+	game: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "Game"
+		}	
+	],
+	game_status: {
+		type: Number,
+		ref: "game_status",
+		default: 0
+	}
+},
+{
+  timestamps: true
+});
 
 // Define schema methods
 userSchema.methods = {

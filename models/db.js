@@ -3,8 +3,14 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const uri = process.env.MONGODB_URI || "mongodb://localhost/battle_heroes";
+const db_settings = {
+  useNewUrlParser: true, 
+  useUnifiedTopology: true, 
+  useCreateIndex: true,
+  useFindAndModify: false
+}
 
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(uri, db_settings)
   .then(() => { 
     /** ready to use. The `mongoose.connect()` promise resolves to undefined. */ 
     console.log('Connected to Mongo');  

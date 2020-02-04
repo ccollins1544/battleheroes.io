@@ -5,11 +5,14 @@
  * @version 2.0.0
  * 
  * @todo 
- * -game_log: relates to users (users relates to game_log)
  * -challenge page
  * -battle page
  * -chatbox on battle page
  * 
+ * @bugs
+ * -re enable the send email feature
+ * -Remember chosen hero from active game.
+ * -Maybe allow players to change hero afterwards. 
  */
 /* ===============[ Dependencies  ]========================*/
 require("dotenv").config();

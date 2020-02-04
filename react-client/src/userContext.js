@@ -96,17 +96,41 @@ The password used to sign up was: ${password}
   }
 
   const handleHeroClick = ({_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}) => {   
+    let heroData = {
+      instigator_hero_id: _id, 
+      instigator_hero_hp: hp
+    };
+
     let goTo = '/login';
     if(userState.loggedIn && userState.user_id && userState.game_id){
       goTo = `/battle?user_id=${userState.user_id}&game_id=${userState.game_id}`;
+
+      setUser(prevState => ({...prevState,
+        redirectTo: goTo,
+        selectedHero: [{_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}]
+      }));
+
     }else if(userState.loggedIn){
       goTo = '/challenge';
-    }
 
-    setUser(prevState => ({...prevState,
-      redirectTo: goTo,
-      selectedHero: [{_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}]
-    }));
+      API.startGame(userState.user_id, heroData)
+      .then(response => {
+        console.log("start game", response);
+
+        setUser(prevState => ({...prevState,
+          redirectTo: goTo,
+          game_id: response.data._id,
+          selectedHero: [{_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}]
+        }));
+        
+      }).catch(err => console.log(err));
+
+    }else{ // goTo login
+      setUser(prevState => ({...prevState,
+        redirectTo: goTo,
+        selectedHero: [{_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}]
+      }));
+    }
   }
 
   return (

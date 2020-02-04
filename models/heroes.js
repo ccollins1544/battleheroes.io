@@ -10,18 +10,17 @@ const heroSchema = new Schema({
   attact2_dmg: Number,
   attack1_description: String,
   attack2_description: String, 
-  enabled: Boolean,
-  createdAt: { 
-    type: Date, 
-    default: Date.now 
-  },
-  updatedAt: {
-    type: Date, 
-    default: Date.now
-  }
-
+  game: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "Game"
+		}	
+	],
+  enabled: Boolean
+},
+{
+  timestamps: true
 });
 
 const Heroes = mongoose.model("Heroes", heroSchema);
-
 module.exports = Heroes;

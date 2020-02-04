@@ -10,6 +10,74 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   }
 );
 
+const user_groups_seed = [
+  {
+    "group_id": 0,
+    "name": "Player",
+    "description": "Can access challenge and battle pages."
+  },
+  {
+    "group_id": 1,
+    "name": "Admin",
+    "description": "Can access all pages."
+  },
+  {
+    "group_id": 2,
+    "name": "Beta",
+    "description": "Can access beta content."
+  },
+  {
+    "group_id": 3,
+    "name": "Inactive",
+    "description": "Disabled or inactive account."
+  },
+];
+
+db.user_groups.remove({})
+  .then(() => db.user_groups.collection.insertMany(user_groups_seed))
+  .then(data => {
+    console.log(data.result.n + " records inserted!");
+  })
+  .catch(err => {
+    console.error(err);
+  });
+
+const game_status_seed = [
+  {
+    "status_id": 0,
+    "name": "Available",
+    "description": "Ready to be challenged.",
+    "time_limit_minutes": 0
+  },
+  {
+    "status_id": 1,
+    "name": "Challenged",
+    "description": "Challenged by a player and waiting to accept.",
+    "time_limit_minutes": 1440
+  },
+  {
+    "status_id": 2,
+    "name": "Accepted",
+    "description": "Accepted a challenged and waiting for all players to also accept and ready up for a game.",
+    "time_limit_minutes": 15
+  },
+  {
+    "status_id": 3,
+    "name": "In_Game",
+    "description": "Currently playing a game.",
+    "time_limit_minutes": 30
+  },
+];
+
+db.game_status.remove({})
+  .then(() => db.game_status.collection.insertMany(game_status_seed))
+  .then(data => {
+    console.log(data.result.n + " records inserted!");
+  })
+  .catch(err => {
+    console.error(err);
+  });
+
 const heroesSeed = [
   {
     "name": "Apocalypse",
@@ -20,8 +88,7 @@ const heroesSeed = [
     "attack2_dmg": 20,
     "attack1_description": "Telepathic Strike",
     "attack2_description": "Techno-Organic Machine Gun",
-    "enabled": true,
-    "createdAt": Date.now()
+    "enabled": true
   },
   {
     "name": "Donky Kong",
@@ -32,8 +99,7 @@ const heroesSeed = [
     "attack2_dmg": 20,
     "attack1_description": "Barrel Throw",
     "attack2_description": "Ground & Pound",
-    "enabled": true,
-    "createdAt": Date.now()
+    "enabled": true
   },
   {
     "name": "Frieza",
@@ -44,8 +110,7 @@ const heroesSeed = [
     "attack2_dmg": 20,
     "attack1_description": "Death Comet",
     "attack2_description": "Destroy The Planet!",
-    "enabled": true,
-    "createdAt": Date.now()
+    "enabled": true
   },
   {
     "name": "Gengar",
@@ -56,8 +121,7 @@ const heroesSeed = [
     "attack2_dmg": 20,
     "attack1_description": "Paralyzing Lick",
     "attack2_description": "Shadow Ball",
-    "enabled": true,
-    "createdAt": Date.now()
+    "enabled": true
   },
   {
     "name": "Goke",
@@ -68,8 +132,7 @@ const heroesSeed = [
     "attack2_dmg": 20,
     "attack1_description": "Kamehameha",
     "attack2_description": "Spirit Bomb",
-    "enabled": true,
-    "createdAt": Date.now()
+    "enabled": true
   },
   {
     "name": "Green Ranger",
@@ -80,8 +143,7 @@ const heroesSeed = [
     "attack2_dmg": 20,
     "attack1_description": "Punch",
     "attack2_description": "Kick",
-    "enabled": true,
-    "createdAt": Date.now()
+    "enabled": true
   },
   {
     "name": "Kid Buur",
@@ -92,8 +154,7 @@ const heroesSeed = [
     "attack2_dmg": 20,
     "attack1_description": "Vanishing Beam",
     "attack2_description": "Continuous Energy Bullets",
-    "enabled": true,
-    "createdAt": Date.now()
+    "enabled": true
   },
   {
     "name": "Link",
@@ -104,8 +165,7 @@ const heroesSeed = [
     "attack2_dmg": 20,
     "attack1_description": "Arrow Barrage",
     "attack2_description": "Master Sword Slash",
-    "enabled": true,
-    "createdAt": Date.now()
+    "enabled": true
   },
   {
     "name": "Pikachu",
@@ -116,8 +176,7 @@ const heroesSeed = [
     "attack1_dmg": 10,
     "attack1_description": "Iron Tail",
     "attack2_description": "Thunderbolt",
-    "enabled": true,
-    "createdAt": Date.now()
+    "enabled": true
   },
   {
     "name": "Samus",
@@ -128,8 +187,7 @@ const heroesSeed = [
     "attack2_dmg": 20,
     "attack1_description": "Charge Shot",
     "attack2_description": "Zero Laser",
-    "enabled": true,
-    "createdAt": Date.now()
+    "enabled": true
   },
   {
     "name": "Squirtle",
@@ -140,8 +198,7 @@ const heroesSeed = [
     "attack2_dmg": 20,
     "attack1_description": "Head Smash",
     "attack2_description": "Hydro Pump",
-    "enabled": true,
-    "createdAt": Date.now()
+    "enabled": true
   },
   {
     "name": "The Creech",
@@ -152,10 +209,8 @@ const heroesSeed = [
     "attack2_dmg": 20,
     "attack1_description": "Metallic Tentacle Melee",
     "attack2_description": "Double Fist Plasma Cannons",
-    "enabled": true,
-    "createdAt": Date.now()
+    "enabled": true
   }
-
 ];
 
 db.Heroes.remove({})

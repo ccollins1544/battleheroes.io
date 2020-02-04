@@ -12,5 +12,8 @@ export default {
   getBySlug: slug => fetch('/api/heroes/' + slug),
 
   getUserById: user_id => axios.get('/user/' + user_id),
-  sendEmail: messageData => axios.post('/api/sendemail', messageData)
+  sendEmail: messageData => axios.post('/api/sendemail', messageData),
+
+  startGame: (user_id, heroData) => axios.post('/api/game/' + user_id, heroData),
+  searchChallenge: user_id => axios.get('/api/game/challenge', user_id),
 };
