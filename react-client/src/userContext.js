@@ -1,64 +1,16 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import API from "./utils/API";
+import Utils from "./utils/";
 
-// const UserContext = React.createContext({});
 const UserContext = React.createContext();
 export const UserConsumer = UserContext.Consumer;
 
 function UserProvider({ children }){
   
-  const [userState, setUser] = useState({
-    loggedIn: false,
-    username: null,
-    password: '',
-    confirmPassword: '',
-    redirectTo: null,
-    user_id: null,
-    game_id: null,
-    selectedHero: []
-  });
+  const [userState, setUser] = useState({});
 
-  const updateUser = (userObject) => {
-    setUser(prevState => ({...prevState, userObject}));
-  }
-
-  // const getUser = () => {
-  //   API.user().then(response => {
-  //     console.log('Get user response: ', response.data);
-
-  //     if (response.data.user) {
-  //       console.log('Get User: There is a user saved in the server session: ')
-
-  //       setUser(prevState => ({...prevState,
-  //         loggedIn: true,
-  //         username: response.data.user.username,
-  //         user_id: response.data.user._id,
-  //       }));
-        
-  //     } else {
-  //       console.log('Get user: no user');
-  //       setUser(prevState => ({...prevState,
-  //         loggedIn: false,
-  //         username: null,
-  //         user_id: 0,
-  //         game_id: 0
-  //       }));
-  //     }
-  //   })
-  // }
-
-  const handleUserChange = event => {
-    const { name, value } = event.target;
-    setUser(prevState => ({...prevState, 
-      [name]: value
-    }));
-  }
-
-  const handleLoginSubmit = (event) => {
-    event.preventDefault();
-
-    let { username, password } = userState;
-    let userData = { "username": username, "password": password };
+  const handleLoginSubmit = ({ username, password }) => {
+    let userData = { username, password };
 
     API.login(userData)
       .then(response => {
@@ -74,82 +26,153 @@ function UserProvider({ children }){
           setUser(prevState => ({...prevState,
             loggedIn: true,
             username: response.data.username,
+            user_groups: response.data.user_groups,
             user_id: response.data._id,
+            game_status: response.data.game_status,
+            games: response.data.game,
+            selectedHero: response.data.heroes ? [response.data.heroes] : [],
             redirectTo: goTo
           }));
         }
-      }).catch(error => {
-        console.log('login error: ')
-        console.log(error);
+      })
+      .catch(error => {
+        Utils.AlertMessage("Login error: " + error, "danger");
       })
   }
 
-  const handleRegisterSubmit = (event) => {
-    event.preventDefault();
-
-    let { username, password } = userState;
-    let registerData = { "username": username, "password": password };
+  const handleRegisterSubmit = ({ username, password }) => {
+    let registerData = { username, password };
+    let signupEmail = {
+      recipient: username,
+      subject: "BattleHeroes - Sign Up",
+      message: `Welcome!
+Your account was successfully registered on BattleHeroes.io.
+The password used to sign up was: ${password}
+`,
+    };
     
     API.register(registerData)
       .then(response => {
 
         if (!response.data.errmsg) {
-					console.log('successful signup')
-          //redirect to login page      
-          setUser(prevState => ({...prevState, redirectTo: '/login'}));
+          API.sendEmail(signupEmail).then( res => {
+            if(res.status === 200){
+              Utils.AlertMessage("Successful signup!", "success");
+            }else{
+              Utils.AlertMessage("We couldn't send your confirmation email but it appears that your account was still registered successfully!", "success");
+            }
+            setUser(prevState => ({...prevState, redirectTo: '/login'}));
+          });
+
 				} else {
-					console.log('username already taken')
+          Utils.AlertMessage("Username already taken!", "info");     
 				}
       }).catch(error => {
-				console.log('signup error: ')
-				console.log(error)
+        Utils.AlertMessage("Signup error: " + error, "danger");    
 			});
   }
 
   const handleLogout = (event) => {
-    console.log("handleLogout");
-
     event.preventDefault();
+
     API.logout()
       .then(response => {
           if (response.status === 200) {
-            updateUser({
+            setUser(prevState => ({...prevState,
               loggedIn: false,
               username: null,
-              password: '',
-              confirmPassword: '',
-              redirectTo: '/', 
               user_id: null,
-              game_id: null
-            })
+              game_id: null,
+              redirectTo: '/', 
+            }));
 
             window.location.reload(true);
           }
       }).catch(error => {
-        console.log('Logout error')
+        Utils.AlertMessage("Logout error: " + error, "danger");    
       });
   }
 
-  const handleHeroClick = ({_id, name, image, hp, attck2_dmg, attack1_dmg, attack1_description, attack2_description}) => {   
+  const handleHeroClick = ({_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}) => {   
+    let heroData = {
+      instigator_hero_id: _id, 
+      instigator_hero_hp: hp
+    };
+
     let goTo = '/login';
     if(userState.loggedIn && userState.user_id && userState.game_id){
       goTo = `/battle?user_id=${userState.user_id}&game_id=${userState.game_id}`;
+
+      setUser(prevState => ({...prevState,
+        redirectTo: goTo,
+        selectedHero: [{_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}]
+      }));
+
     }else if(userState.loggedIn){
       goTo = '/challenge';
-    }
 
-    setUser(prevState => ({...prevState,
-      redirectTo: goTo,
-      selectedHero: [{_id, name, image, hp, attck2_dmg, attack1_dmg, attack1_description, attack2_description}]
-    }));
+      API.startGame(userState.user_id, heroData)
+      .then(response => {
+        console.log("start game", response);
+
+        setUser(prevState => ({...prevState,
+          redirectTo: goTo,
+          game_id: response.data._id,
+          selectedHero: [{_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}]
+        }));
+        
+      }).catch(err => console.log(err));
+
+    }else{ // goTo login
+      setUser(prevState => ({...prevState,
+        redirectTo: goTo,
+        selectedHero: [{_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}]
+      }));
+    }
   }
 
+  useEffect(() => {
+    API.getUser()
+      .then( response => response.data )
+      .then( sessionUser => {
+        console.log("sessionUser",sessionUser);
+        let persist_loggedIn = false;
+        let persist_user_id = null;
+        let persist_username = null;
+        let persist_user_groups = [];
+        let persist_game_status = 0;
+        let persist_games = [];
+        let persist_selected_hero = [];
+
+        if(sessionUser.user){
+          persist_loggedIn = true;
+          persist_user_id = sessionUser.user._id;
+          persist_username = sessionUser.user.username;
+          persist_user_groups = sessionUser.user.user_groups;
+          persist_game_status = sessionUser.user.game_status;
+          persist_games = sessionUser.user.game;
+          persist_selected_hero = sessionUser.user.heroes ? [sessionUser.user.heroes] : [];
+        }
+      
+        setUser({
+          loggedIn: persist_loggedIn,
+          username: persist_username,
+          user_groups: persist_user_groups,
+          user_id: persist_user_id, 
+          game_id: null,
+          game_status: persist_game_status,
+          games: persist_games,
+          redirectTo: null,
+          selectedHero: persist_selected_hero
+        });
+    });
+    
+  }, []);
 
   return (
     <UserContext.Provider value={{
       userState, 
-      updateUser,
-      handleUserChange,
+      setUser,
       handleLoginSubmit,
       handleRegisterSubmit,
       handleLogout, 
@@ -162,3 +185,4 @@ function UserProvider({ children }){
 
 export default UserContext;
 export { UserProvider };
+

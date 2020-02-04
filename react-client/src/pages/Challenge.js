@@ -1,16 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import UserContext from "../userContext";
 import API from "../utils/API";
 import Wrapper from "../components/Wrapper";
+import HeroCard from "../components/Card/heroCard";
 import { SectionRow , Col } from "../components/Grid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-function Challenge() {
+const Challenge = () => {
+  const { userState } = useContext(UserContext);
   const [ messageData, setMessageData ] = useState({
     recipient: "chris@ccollins.io",
     subject: "You've been challenged again",
     message: "second attempt should still be working!"
   });
+
+  const [ players, setPlayers ] = useState([]);
 
   const [ background, setBackground ] = useState({});
   useEffect(() => {
@@ -35,10 +40,15 @@ function Challenge() {
     }
 
     setBackground(bg_style);
-    console.log("Message Data", messageData);
-
+    
+    // console.log("Message Data", messageData);
     // API.sendChallenge(messageData)
     //   .then( res => console.log("sendChallenge response;", res));
+    API.searchChallenge().then( response => {
+      console.log("Search Challenge", response.data);
+      setPlayers(response.data)
+    });
+
   }, []);
 
   return (
@@ -46,6 +56,45 @@ function Challenge() {
       <SectionRow id="main-section">
         <Col size="lg-12">
           <h1>Challenge</h1>
+        </Col>
+      </SectionRow>
+      <SectionRow >
+        <Col size="lg-6">
+          {userState.selectedHero instanceof Array &&
+            <HeroCard 
+              id={userState.selectedHero[0]._id}
+              key={userState.selectedHero[0]._id}
+              addClasses="col-lg-12 col-md-12 col-sm-12"
+              src={userState.selectedHero[0].image}
+              heading={userState.selectedHero[0].name}  
+              subtitle={"HP: "+userState.selectedHero[0].hp}
+              text={"Attack 1 ["+userState.selectedHero[0].attack1_dmg+"]: "+userState.selectedHero[0].attack1_description}
+              heroObject={userState.selectedHero[0]}
+              nohover={true}
+              handleHeroClick={()=>{}}
+            >
+              <p className="card-text">
+                {"Attack 2 ["+userState.selectedHero[0].attack2_dmg+"]: "+userState.selectedHero[0].attack2_description}
+              </p>
+            </HeroCard>
+          }
+        </Col>
+        <Col size="lg-6">
+          <form id="challenge_player_form">
+            <div className="form-row">
+              <div className="col">
+                <label className="col-sm-3 form-label" htmlFor="challenge_player">Available Players:</label>
+                <select className="form-control form-control-sm" name="challenge_player" id="challenge_player">
+                  {players.length > 0 && players.map(i => {
+                    return (i._id !== userState.user_id) && (
+                      <option value={i._id}>{i.username.split("@")[0]}</option>
+                    );
+                  })}
+                </select>
+              </div>
+            </div>
+            <button type="submit" className="btn btn-primary float-right" value="Submit">Submit</button>
+          </form>
         </Col>
       </SectionRow>
     </Wrapper>
