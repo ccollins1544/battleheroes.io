@@ -37,7 +37,7 @@
 /* 0.1 Color Variables
 /*------------------------------------------------------*/
 :root {
-  --accent-text: #E9290F;
+  --accent-text: #e9290f;
   --body-text: #000;
   --body-background: #fff;
   --primary-menu-text: #7289da;
@@ -70,7 +70,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 900;
   color: var(--primary-menu-text);
 }
@@ -82,7 +82,7 @@ h6 {
 body.page-template {
   font-family: "Ubuntu";
   color: var(--body-text);
-  background-image: url('/img/black_paper_800x800.png');
+  background-image: url("/img/black_paper_800x800.png");
 }
 
 #root {
@@ -128,7 +128,10 @@ article#main-container {
 .section-block {
   margin: 0 auto;
   max-width: 1080px;
-  max-height: 1080px;
+  min-height: 1080px;
+  text-align: center;
+  font-size: xx-large;
+  font-family: fantasy;
 }
 
 section.section-block {
@@ -145,16 +148,16 @@ hr {
 
 /* 1.2 Buttons and Forms
 /*------------------------------------------------------*/
-[type=button]:not(:disabled),
-[type=reset]:not(:disabled),
-[type=submit]:not(:disabled),
+[type="button"]:not(:disabled),
+[type="reset"]:not(:disabled),
+[type="submit"]:not(:disabled),
 button:not(:disabled) {
   cursor: pointer;
 }
 
-[type=button],
-[type=reset],
-[type=submit],
+[type="button"],
+[type="reset"],
+[type="submit"],
 button {
   -webkit-appearance: button;
 }
@@ -211,7 +214,7 @@ select {
 .btn-dark {
   font-size: 1.2em;
   margin-right: 10px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: var(--accent-text);
   background-color: var(--body-text);
   border-color: var(--primary-menu-background);
@@ -227,7 +230,7 @@ select {
 
 label {
   display: inline-block;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 button,
@@ -259,7 +262,7 @@ textarea {
   margin-left: -5px;
 }
 
-.form-row>.col {
+.form-row > .col {
   -ms-flex-preferred-size: 0;
   flex-basis: 0;
   -ms-flex-positive: 1;
@@ -276,8 +279,8 @@ textarea {
 .form-control {
   display: block;
   width: 100%;
-  height: calc(1.5em + .75rem + 2px);
-  padding: .375rem .75rem;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -285,8 +288,8 @@ textarea {
   background-color: var(--body-background);
   background-clip: padding-box;
   border: 1px solid #ced4da;
-  border-radius: .25rem;
-  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 textarea {
@@ -350,9 +353,9 @@ img {
   font-size: 32px;
   font-weight: 900;
   content: "\f35d";
-  -webkit-transition: all .4s;
-  -moz-transition: all .4s;
-  transition: all .4s;
+  -webkit-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
 }
 
 /* IMAGE Zoom on Hover */
@@ -366,7 +369,7 @@ img {
 /* [2] Transition property for smooth transformation of images */
 .img-hover-zoom img,
 .img-hover-zoom .image_overlay {
-  transition: transform .5s ease;
+  transition: transform 0.5s ease;
 }
 
 /* [3] Finally, transforming the image when container gets hovered */
@@ -446,7 +449,6 @@ img {
   }
 }
 
-
 /* 2.2 @media only screen and (max-width: 1040px)
 /*------------------------------------------------------*/
 @media only screen and (max-width: 1040px) {
@@ -475,7 +477,6 @@ img {
   }
 }
 
-
 /* 2.3 @media only screen and (max-width: 991px)
 /*------------------------------------------------------*/
 @media only screen and (max-width: 991px) {
@@ -498,8 +499,8 @@ img {
 
   /* Nav Links */
   #main-nav.navbar-expand-lg .navbar-nav .nav-link {
-    padding-right: .5rem;
-    padding-left: .5rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
   }
 }
 
@@ -514,7 +515,7 @@ img {
 /* 2.5 @media only screen and (max-width: 860px)
 /*------------------------------------------------------*/
 @media only screen and (max-width: 860px) {
-  .App-header>.container-fluid {
+  .App-header > .container-fluid {
     padding: 0px;
   }
 
@@ -571,7 +572,7 @@ img {
     align-items: center;
     -ms-flex-pack: justify;
     justify-content: center;
-    padding: .8rem 1rem;
+    padding: 0.8rem 1rem;
     order: 1;
   }
 
@@ -588,11 +589,9 @@ img {
   }
 }
 
-
 /* 2.8 @media only screen and (max-width: 680px)
 /*------------------------------------------------------*/
 @media only screen and (max-width: 680px) {
-
 }
 
 /* 2.9 @media only screen and (max-width: 640px)
@@ -611,11 +610,10 @@ img {
     width: 75%;
   }
 
-  .row>.container-fluid {
+  .row > .container-fluid {
     padding: 0px;
   }
 }
-
 
 /* 2.10 @media only screen and (max-width: 600px)
 /*------------------------------------------------------*/
@@ -636,9 +634,7 @@ img {
 /* 2.12 @media only screen and (max-width: 515px)
 /*------------------------------------------------------*/
 @media only screen and (max-width: 515px) {
-
 }
-
 
 /* 2.13 @media only screen and (max-width: 450px)
 /*------------------------------------------------------*/
@@ -658,5 +654,4 @@ img {
 /* 2.14 @media only screen and (max-width: 430px)
 /*------------------------------------------------------*/
 @media only screen and (max-width: 430px) {
-
 }

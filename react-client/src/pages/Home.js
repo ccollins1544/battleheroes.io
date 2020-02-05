@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Wrapper from "../components/Wrapper";
 import { SectionRow, Col } from "../components/Grid";
-import { useSpring, animated } from "react-spring";
+import AnimateTitle from "../components/AnimateTitle/AnimateTitle";
 
 const Home = () => {
-  const props = useSpring({
-    to: async (next, cancel) => {
-      await next({ opacity: 1, marginTop: "-30px", duration: "3000" });
-      await next({ opacity: 3, marginTop: "800px", duration: "3000" });
-      await next({ opacity: 5, marginTop: "500px", duration: "3000" });
-    },
-    from: { opacity: 0, marginTop: "50px" }
-  });
   const [background, setBackground] = useState({});
   useEffect(() => {
     const bg_collection = [
@@ -42,7 +34,7 @@ const Home = () => {
     <Wrapper className="App" id="main-container" style={background}>
       <SectionRow id="main-section">
         <Col size="lg-12">
-          <animated.h1 style={props}>Battle Heroes</animated.h1>
+          <AnimateTitle />
         </Col>
       </SectionRow>
     </Wrapper>
@@ -50,3 +42,26 @@ const Home = () => {
 };
 
 export default Home;
+
+//This a simple countdown animation that should be changed to a useSpring possibly countdown on battle page-->
+//<Spring>
+//  from{{ number : 10}}
+//  to{{number: 0}}
+//  config{{duration: 1000}}
+//</Spring>
+//
+//
+//style={props}
+//style={counter}
+//{props.number.toFixed()}
+//<!---->
+//<animated.h1 style={props}>Battle Heroes</animated.h1>
+
+//const props = useSpring({
+//  to: async (next, cancel) => {
+//    await next({ opacity: 1, marginTop: "-30px", duration: "3000" });
+//    await next({ opacity: 3, marginTop: "800px", duration: "3000" });
+//    await next({ opacity: 5, marginTop: "500px", duration: "3000" });
+//  },
+//  from: { opacity: 0, marginTop: "50px" }
+//});
