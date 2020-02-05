@@ -1,6 +1,6 @@
 const db = require("../models");
 
-// Defining methods for the booksController
+// Defining methods for the chatsController
 module.exports = {
   findAll: function (req, res) {
     res.setHeader("Content-Type", "application/json");

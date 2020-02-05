@@ -2,86 +2,99 @@
   {
     "_id": 1,
     "name": "Apocalypse",
+<<<<<<< HEAD:react-client/public/heroes.json
     "image": "./img/X-Men-Apocalypse.png",
+=======
+    "slug": "apocalypse",
+    "image": "./img/apocalypse.png",
+>>>>>>> 7dd16a27f6b96dcd172697900e97b1a14384faf1:react-client/public/_heroes.json
     "hp": 100,
-    "attack2_dmg": 20,
     "attack1_dmg": 10,
+    "attack2_dmg": 20,
     "attack1_description": "Telepathic Strike",
     "attack2_description": "Techno-Organic Machine Gun"
   },
   {
     "_id": 2,
     "name": "Donky Kong",
+    "slug": "donky-kong",
     "image": "./img/donky-kong.png",
     "hp": 100,
-    "attack2_dmg": 20,
     "attack1_dmg": 10,
+    "attack2_dmg": 20,
     "attack1_description": "Barrel Throw",
     "attack2_description": "Ground & Pound"
   },
   {
     "_id": 3,
     "name": "Frieza",
+    "slug": "frieza",
     "image": "./img/frieza.png",
     "hp": 100,
-    "attack2_dmg": 20,
     "attack1_dmg": 10,
+    "attack2_dmg": 20,
     "attack1_description": "Death Comet",
     "attack2_description": "Destroy The Planet!"
   },
   {
     "_id": 4,
     "name": "Gengar",
+    "slug": "gengar",
     "image": "./img/gengar.png",
     "hp": 100,
-    "attack2_dmg": 20,
     "attack1_dmg": 10,
+    "attack2_dmg": 20,
     "attack1_description": "Paralyzing Lick",
     "attack2_description": "Shadow Ball"
   },
   {
     "_id": 5,
     "name": "Goke",
+    "slug": "goke",
     "image": "./img/goku.png",
     "hp": 100,
-    "attack2_dmg": 20,
     "attack1_dmg": 10,
+    "attack2_dmg": 20,
     "attack1_description": "Kamehameha",
     "attack2_description": "Spirit Bomb"
   },
   {
     "_id": 6,
     "name": "Green Ranger",
+    "slug": "green-ranger",
     "image": "./img/green-ranger.png",
     "hp": 100,
-    "attack2_dmg": 20,
     "attack1_dmg": 10,
-    "attack1_description": "major stuff",
-    "attack2_description": "major stuff again"
+    "attack2_dmg": 20,
+    "attack1_description": "Punch",
+    "attack2_description": "Kick"
   },
   {
     "_id": 7,
     "name": "Kid Buur",
+    "slug": "kid-buur",
     "image": "./img/kid-buu.png",
     "hp": 100,
-    "attack2_dmg": 20,
     "attack1_dmg": 10,
+    "attack2_dmg": 20,
     "attack1_description": "Vanishing Beam",
     "attack2_description": "Continuous Energy Bullets"
   },
   {
     "_id": 8,
     "name": "Link",
+    "slug": "link",
     "image": "./img/link.png",
     "hp": 100,
-    "attack2_dmg": 20,
     "attack1_dmg": 10,
+    "attack2_dmg": 20,
     "attack1_description": "Arrow Barrage",
     "attack2_description": "Master Sword Slash"
   },
   {
     "_id": 9,
     "name": "Pikachu",
+    "slug": "pikachu",
     "image": "./img/pikachu.png",
     "hp": 100,
     "attack2_dmg": 20,
@@ -92,30 +105,33 @@
   {
     "_id": 10,
     "name": "Samus",
+    "slug": "samus",
     "image": "./img/samus.png",
     "hp": 100,
-    "attack2_dmg": 20,
     "attack1_dmg": 10,
+    "attack2_dmg": 20,
     "attack1_description": "Charge Shot",
     "attack2_description": "Zero Laser"
   },
   {
     "_id": 11,
     "name": "Squirtle",
+    "slug": "squirtle",
     "image": "./img/squirtle.png",
     "hp": 100,
+    "attack1_dmg": 10, 
     "attack2_dmg": 20,
-    "attack1_dmg": 10,
     "attack1_description": "Head Smash",
     "attack2_description": "Hydro Pump"
   },
   {
     "_id": 12,
     "name": "The Creech",
+    "slug": "the-creech",
     "image": "./img/the-creech.png",
     "hp": 100,
-    "attack2_dmg": 20,
     "attack1_dmg": 10,
+    "attack2_dmg": 20,
     "attack1_description": "Metallic Tentacle Melee",
     "attack2_description": "Double Fist Plasma Cannons"
   }

@@ -3,6 +3,8 @@
 # dependencies
 /node_modules
 /react-client/node_modules
+/react-client/package-lock.json
+package-lock.json
 /.pnp
 .pnp.js
 
@@ -12,9 +14,6 @@
 # production
 /build
 /react-client/build
-
-# misc
-.DS_Store
 
 # misc
 .DS_Store

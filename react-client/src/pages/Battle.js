@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
+import UserContext from "../userContext";
 import Wrapper from "../components/Wrapper";
 import Chat from "../components/Chat";
 import { SectionRow, Col } from "../components/Grid";
-import UserContext from "../userContext";
 
 function Battle() {
   const { userState } = useContext(UserContext);

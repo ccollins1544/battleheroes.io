@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Wrapper from "../components/Wrapper";
-import { SectionRow , Col } from "../components/Grid";
+import { SectionRow } from "../components/Grid";
 import Hero from "../components/Hero/"
 
 const ChooseHero = () => {
