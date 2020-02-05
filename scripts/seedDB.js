@@ -146,8 +146,8 @@ const heroesSeed = [
     "hp": 100,
     "attack1_dmg": 10,
     "attack2_dmg": 20,
-    "attack1_description": "Punch",
-    "attack2_description": "Kick",
+    "attack1_description": "Dragon Strike",
+    "attack2_description": "Dragon Dagger Slash",
     "enabled": true
   },
   {
