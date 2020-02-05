@@ -91,6 +91,7 @@ body.page-template {
 
 article#main-container {
   margin-top: 0px;
+  height: 100%;
 }
 
 /** STICKY FOOTER
@@ -127,6 +128,7 @@ article#main-container {
 .section-block {
   margin: 0 auto;
   max-width: 1080px;
+  max-height: 1080px;
 }
 
 section.section-block {
