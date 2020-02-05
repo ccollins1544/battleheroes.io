@@ -27,7 +27,12 @@ function AnimateTitle() {
     ref.current.map(clearTimeout);
     ref.current = [];
     set([]);
-    ref.current.push(setTimeout(() => set(["Welcome to", "the best game on the web"]), 2000));
+    ref.current.push(
+      setTimeout(
+        () => set(["Welcome To", "The Best Retro RPG Game On The Web"]),
+        2000
+      )
+    );
     ref.current.push(setTimeout(() => set(["Battle", "Heroes"]), 5000));
     ref.current.push(setTimeout(() => set(["Battle", "Heroes"]), 8000));
   }, []);
@@ -43,7 +48,10 @@ function AnimateTitle() {
           style={rest}
           onClick={reset}
         >
-          <animated.h1 className="text-danger" style={{ overflow: "hidden", height: innerHeight }}>
+          <animated.h1
+            className="text-danger"
+            style={{ overflow: "hidden", height: innerHeight }}
+          >
             {item}
           </animated.h1>
         </animated.div>
