@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useLocation } from "react-router-dom";
 import UserContext from "../../userContext";
-import API from "../../utils/API";
+import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import io from "socket.io-client";
 import InfoChat from "../InfoChat/";
@@ -63,13 +62,6 @@ const Chat = () => {
       socket.emit("sendMessage", message, () => setMessage(""));
     }
   };
-
-  // let username = "anonymous";
-  // if(user_id !== 0 || user_id !== undefined && userState.loggedIn !== user_id ){
-  //   API.getUserById(user_id).then(res => username = res.data )
-  // }else if (userState.loggedIn) {
-  //   username = userState.username.split("@")[0];
-  // }
 
   return (
     <div className="outerContainer">

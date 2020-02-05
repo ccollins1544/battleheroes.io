@@ -26,7 +26,7 @@ class HeroCard extends Component {
         key={this.props.id}
         id={this.props.id}
         className={["Tilt", "card bg-dark text-center", this.props.addClasses].join(" ")}
-        style={this.state.hover ? {zIndex:1} : {zIndex:0}}
+        style={(this.state.hover || this.props.nohover) ? {zIndex:1} : {zIndex:0}}
         onMouseEnter={() => this.onMouseEnter() }
         onMouseLeave={() => this.onMouseLeave() }
         options={
@@ -46,7 +46,7 @@ class HeroCard extends Component {
           alt={this.props.heading} 
           onClick={() => this.props.handleHeroClick(this.props.heroObject)} 
         />
-        <div className="card-body bg-dark text-center" style={this.state.hover ? {opacity: 1} : {opacity: 0}} >
+        <div className="card-body bg-dark text-center" style={(this.state.hover || this.props.nohover) ? {opacity: 1} : {opacity: 0}} >
           <h5 className="card-title">{this.props.heading}</h5>
           <h6 className="card-subtitle mb-2 text-muted">{this.props.subtitle}</h6>
           <p className="card-text font-weight-bold">{this.props.text}</p>
