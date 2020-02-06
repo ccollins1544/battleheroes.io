@@ -114,10 +114,10 @@ var Utils = {
       for (var key in formArray[i]) {
         // console.log(key+" => "+formArray[i][key]);
   
-        if (key == "name") {
+        if (key === "name") {
           KEY = formArray[i][key];
   
-        } else if (key == "value") {
+        } else if (key === "value") {
           VALUE = formArray[i][key];
         }
   

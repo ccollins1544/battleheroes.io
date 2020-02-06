@@ -2,6 +2,8 @@ const db = require("../models");
 
 // Defining methods for the gameController
 module.exports = {
+  
+  // POST /api/game/:user_id
   startGame: function (req, res) {
     let instigator_id = req.params.user_id;
     let { instigator_hero_id, instigator_hero_hp } = req.body;
@@ -75,7 +77,15 @@ module.exports = {
     .catch(err => res.status(422).json(err));
   },
 
+  // Matches: GET /api/game/challenge
+  /**
+   * get players available 0,1
+   * detect if you've been challenged ***
+   * detect if rival accepted 2,3
+   * something for game_status 3
+   */
   searchChallenge: function (req, res) {
+    console.log("searchChallenge");
     let { user_id } = req.body;
 
     db.User.find({
@@ -93,7 +103,30 @@ module.exports = {
     .catch(err => res.status(422).json(err));
   },
 
-  sendChallenge: function (req, res) {
-
+  findById: function (req, res) {
+    console.log("findbyid");
+    db.Game.findOne({
+        _id: req.params.game_id
+      })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
   },
+
+  pendingRival: function(req, res){
+    console.log("pending Rival", req.body);
+    let { games, my_id } = req.body;
+    if(games && my_id ){
+      db.User.find({
+        $and : [
+          { 'games' : games },
+          { '_id': { $ne: my_id } }
+        ]
+      })
+      .then(dbPending => res.json(dbPending))
+      .catch(err => res.status(422).json(err));
+    }else{
+      res.status(200).send("No Pending Rivals Found!");
+    }
+  }
+
 };

@@ -1,11 +1,10 @@
-import React, { Component, useContext, useState, useEffect } from "react";
+import React, { useContext, } from "react";
 import UserContext from "../../userContext";
-import { useLocation, Redirect, Route, Link } from "react-router-dom";
-import API from "../../utils/API";
+import { useLocation, Redirect, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fas, faShieldAlt } from "@fortawesome/pro-solid-svg-icons";
-import { far, faSwords } from "@fortawesome/pro-regular-svg-icons";
-import { fad, faSword, faDragon, faSignIn, faSignOut, faUserPlus } from "@fortawesome/pro-duotone-svg-icons";
+import { faShieldAlt } from "@fortawesome/pro-solid-svg-icons";
+import { faSwords } from "@fortawesome/pro-regular-svg-icons";
+import { faSword, faDragon, faSignIn, faSignOut, faUserPlus } from "@fortawesome/pro-duotone-svg-icons";
 
 import "./style.css";
 

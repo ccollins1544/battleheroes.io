@@ -10,7 +10,7 @@ const HowTo = () => {
   });
 
   return (
-    <div class="howto">
+    <div className="howto">
       <animated.p className="animatedHowTo" style={fade}>
         To begin sign up or log in and choose a hero and get to battling. You
         then can challenge anyone available to enter a game. Once the countdown

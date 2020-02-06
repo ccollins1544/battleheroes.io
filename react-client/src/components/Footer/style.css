@@ -74,6 +74,7 @@
 /*------------------------------------------------------*/
 #main-footer {
   position: relative;
+  font-family: "Ubuntu";
   display: flex;
   flex-flow: column;
   height: 83px;

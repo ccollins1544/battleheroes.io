@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import UserContext from "../../userContext";
 import { useLocation } from "react-router-dom";
-import queryString from "query-string";
 import io from "socket.io-client";
 import InfoChat from "../InfoChat/";
 import Input from "../Input";
@@ -25,7 +24,6 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    // const { user_id , game_id } = queryString.parse(location.search);
     const { user_id , game_id } = userState;
     socket = io(ENDPOINT);
 

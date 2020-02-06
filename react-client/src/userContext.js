@@ -30,9 +30,9 @@ function UserProvider({ children }){
             username: response.data.username,
             user_groups: response.data.user_groups,
             game_status: response.data.game_status,
-            game_id: response.data.active_game,
+            game_id: response.data.game_id,
             games: response.data.games,
-            selected_hero_id: response.data.hero ? response.data.hero : "",
+            selected_hero_id: response.data.hero,
             redirectTo: goTo
           }));
         }
