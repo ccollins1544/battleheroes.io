@@ -102,6 +102,35 @@ var Utils = {
     appendAfterElement.prepend(alertElement);
     return;
   },
+
+  getFormData: function (formID) {
+    let formArray = $("#"+formID).serializeArray();
+    var formData = {}; // NOTE: {} creates and object and [] creates an Array.
+
+    for (var i in formArray) {
+      var KEY = "";
+      var VALUE = "";
+  
+      for (var key in formArray[i]) {
+        // console.log(key+" => "+formArray[i][key]);
+  
+        if (key === "name") {
+          KEY = formArray[i][key];
+  
+        } else if (key === "value") {
+          VALUE = formArray[i][key];
+        }
+  
+      }
+      formData[KEY] = VALUE.trim();
+      if (formData[KEY] === "") {
+        return; // prevent empty entries into database
+      }
+    }
+
+    return formData;
+  },
+
 }
 
 export default Utils;

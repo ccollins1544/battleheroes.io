@@ -11,19 +11,16 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   }
 );
 
-
+// Detect if you've been challenged.
 db.User.find({
-  '_id': "5e3b567f684e2d21d81f80a4",
-  'games': "5e3b59ac19e72833a440d1b0"
-  // 'games': "5e3b5683684e2d21d81f80a5"
-}).then(wasStarted =>{
-  console.log(wasStarted);
-  console.log(wasStarted.length);
-  if(wasStarted.length > 0){
-    console.log("Game was Started");
-  }else{
-    console.log("Game Not Started");
-  }
+  '_id': "5e3bb3150a31ad6f8cc52769",
+},
+{
+  'active_game': 1,
+  'games':1
+}
+).then(searchResponse =>{
+  console.log(searchResponse);
   process.exit(0);
 }).catch(err => {
   console.error(err);

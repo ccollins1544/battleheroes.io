@@ -1,12 +1,9 @@
-import React, { Component, useContext } from "react";
+import React, { Component } from "react";
 import { UserProvider } from "./userContext";
 import {
   BrowserRouter as Router,
   Route,
-  Link,
   Switch,
-  Redirect,
-  useLocation
 } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
@@ -19,13 +16,8 @@ import Login from "./pages/Login";
 import Contact from "./pages/Contact";
 import SignUp from "./pages/SignUp";
 import Index from "./pages";
-import Chat from "./components/Chat";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <UserProvider>

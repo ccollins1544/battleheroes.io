@@ -52,8 +52,8 @@ module.exports = {
       _id: req.user._id,
       username: req.user.username,
       user_groups: req.user.user_groups,
-      game_id: req.user.active_game,
       game_status: req.user.game_status,
+      game_id: req.user.active_game,
       games: req.user.games,
       hero: req.user.hero,
     };
@@ -78,9 +78,16 @@ module.exports = {
   findById: (req, res) => {
     User.findOne(
       { _id: req.params.user_id }, 
-      { username: 1, _id: 0 }
+      { 
+        username: 1, 
+        user_groups: 1, 
+        game_status: 1,
+        active_game: 1,
+        games: 1, 
+        hero: 1,
+      }
     )
-    .then(dbModel => res.json(dbModel.username))
+    .then(dbModel => res.json(dbModel))
     .catch(err => res.status(422).json(err));
   },
 
