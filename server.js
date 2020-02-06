@@ -7,12 +7,8 @@
  * @todo 
  * -challenge page: need to decide what game[] to play
  * -battle page
- * -chatbox on battle page
+ * -chat box on battle page
  * 
- * @bugs
- * -re enable the send email feature
- * -Remember chosen hero from active game.
- * -Maybe allow players to change hero afterwards. 
  */
 /* ===============[ Dependencies  ]========================*/
 require("dotenv").config();

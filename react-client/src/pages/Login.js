@@ -5,7 +5,7 @@ import Wrapper from "../components/Wrapper";
 import { Col, SectionRow } from "../components/Grid";
 import Card from "../components/Card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fas, faUser } from "@fortawesome/free-solid-svg-icons";
+import { fas, faUser } from "@fortawesome/pro-solid-svg-icons";
 
 const Login = () => {
 const { userState, handleLoginSubmit } = useContext(UserContext);

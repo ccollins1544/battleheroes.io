@@ -14,18 +14,22 @@ const userSchema = new Schema({
 			default: "Player"
 		}
 	],
-	game: [
+	games: [
 		{
 			type: Schema.Types.ObjectId,
 			ref: "Game"
 		}	
 	],
+	active_game: {
+			type: Schema.Types.ObjectId,
+			ref: "Game"
+	},
 	game_status: {
 		type: Number,
 		ref: "game_status",
 		default: 0
 	},
-	heroes: {
+	hero: {
 		type: Schema.Types.ObjectId,
 		ref: "Heroes"
 	}

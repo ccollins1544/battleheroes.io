@@ -5,16 +5,17 @@ import Wrapper from "../components/Wrapper";
 import HeroCard from "../components/Card/heroCard";
 import { SectionRow , Col } from "../components/Grid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/pro-solid-svg-icons";
 
 const Challenge = () => {
-  const { userState } = useContext(UserContext);
+  const { userState, setUser } = useContext(UserContext);
   const [ messageData, setMessageData ] = useState({
     recipient: "chris@ccollins.io",
     subject: "You've been challenged again",
     message: "second attempt should still be working!"
   });
 
+  // const [ selectedHero, setSelectedHero ] = useState([]);
   const [ players, setPlayers ] = useState([]);
 
   const [ background, setBackground ] = useState({});
@@ -40,14 +41,23 @@ const Challenge = () => {
     }
 
     setBackground(bg_style);
+
+    // if(userState.selected_hero_id){
+    //   setSelectedHero( API.getHeroById(userState.selected_hero_id) );
+    // }
     
     // console.log("Message Data", messageData);
     // API.sendChallenge(messageData)
     //   .then( res => console.log("sendChallenge response;", res));
+    
     API.searchChallenge().then( response => {
       console.log("Search Challenge", response.data);
       setPlayers(response.data)
     });
+
+    if(!userState.selectedHero && userState.selected_hero_id){
+      API.getHeroById(userState.selected_hero_id).then(heroObj => setUser(prevState =>({...prevState, selectedHero: heroObj.data })));
+    }
 
   }, []);
 
@@ -60,10 +70,10 @@ const Challenge = () => {
       </SectionRow>
       <SectionRow >
         <Col size="lg-6">
-          {userState.selectedHero instanceof Array &&
+          {userState.selectedHero &&
             <HeroCard 
-              id={userState.selectedHero[0]._id}
-              key={userState.selectedHero[0]._id}
+              id={userState.selectedHero._id}
+              key={userState.selectedHero._id}
               addClasses="col-lg-12 col-md-12 col-sm-12"
               src={userState.selectedHero[0].image}
               heading={userState.selectedHero[0].name}  

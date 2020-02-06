@@ -7,6 +7,7 @@
   --secondary-menu-text: #99aab5;
   --secondary-menu-background: #23272a;
   --button-text: #fff;
+  --success-green: #28a745;
   --button-background: #7289da;
   --discord-blue: #7289da;
   --discord-gray: #99aab5;
@@ -107,8 +108,17 @@
   }
 }
 
+/* 2.2 Nav-Link Icons */ 
+.nav-link .svg-inline--fa {
+  color: var(--secondary-menu-text);
+}
 
-/* 2.2 Hamburger Nav
+.nav-link .fa-swords {
+  color: var(--accent-text);
+}
+
+
+/* 2.3 Hamburger Nav
 /*------------------------------------------------------*/
 #mobile-nav {
   display: flex;

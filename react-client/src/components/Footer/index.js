@@ -1,14 +1,13 @@
 import React, { useContext} from "react";
 import UserContext from "../../userContext";
 import "./style.css";
-import { Redirect, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas, faIdCard } from "@fortawesome/free-solid-svg-icons";
-import { far } from "@fortawesome/free-regular-svg-icons";
+// import { library } from "@fortawesome/fontawesome-svg-core";
+import { fad, faIdCard } from "@fortawesome/pro-duotone-svg-icons";
 import { fab, faLinkedin, faDev, faGithub} from "@fortawesome/free-brands-svg-icons";
 // Add all icons to the library so you can use it in your page
-library.add(fas, far, fab, faLinkedin, faDev, faGithub);
+// library.add(fas, far, fab, faLinkedin, faDev, faGithub);
 
 function Footer(){
   const { userState, setUser } = useContext(UserContext);
@@ -16,10 +15,9 @@ function Footer(){
   return (
     <footer id="main-footer">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark" id="footer-nav">
-        <div style={{color:"#daa520"}}>
-          {userState && Object.keys(userState).map(key => 
-            typeof userState[key] === 'object' ? `${key}: ${JSON.stringify(userState[key])} | ` : `${key}: ${userState[key]} | ` 
-          )}
+        <div style={{color:"#daa520"}}>{userState && Object.keys(userState).map(key => 
+          typeof userState[key] === 'object' ? `${key}: ${JSON.stringify(userState[key])} | ` : `${key}: ${userState[key]} | `
+        )}
         </div>
         <div className="navbar-collapse">
           <ul className="navbar-nav">

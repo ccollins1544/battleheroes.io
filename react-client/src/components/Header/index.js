@@ -1,15 +1,17 @@
 import React, { Component, useContext, useState, useEffect } from "react";
 import UserContext from "../../userContext";
 import { useLocation, Redirect, Route, Link } from "react-router-dom";
+import API from "../../utils/API";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fas, faShieldAlt, faUser, faUserSlash , faUserPlus} from "@fortawesome/free-solid-svg-icons";
+import { fas, faShieldAlt } from "@fortawesome/pro-solid-svg-icons";
+import { far, faSwords } from "@fortawesome/pro-regular-svg-icons";
+import { fad, faSword, faDragon, faSignIn, faSignOut, faUserPlus } from "@fortawesome/pro-duotone-svg-icons";
+
 import "./style.css";
 
 const Header = () => {
   const { userState, handleLogout, setUser } = useContext(UserContext);
-  // const [ gameLog, setGameLog ] = useState(null);
   let location = useLocation();
-  // console.log("location: "+ location.pathname + " ?= redirect: " + userState.redirectTo);
 
   if (userState.redirectTo !== null && userState.redirectTo !== location.pathname ) {
     return <Redirect to={{ pathname: userState.redirectTo }} />
@@ -23,49 +25,46 @@ const Header = () => {
             </Link>
             <div className="navbar-collapse collapse show">
               <ul className="navbar-nav ml-auto">
-                {userState.selectedHero.length == 0 && (
+                {userState.selectedHero ? (
                   <li className="nav-item">
-                    <Link to="/choose-hero" className="nav-link" onClick={() => setUser(prevState => ({...prevState, redirectTo: "/choose-hero"}))}>
-                      <FontAwesomeIcon icon={faShieldAlt} size="2x" /> Choose Hero
-                    </Link>
+                    <Link to="/choose-hero" className="nav-link" onClick={() => setUser(prevState => ({...prevState, redirectTo: "/choose-hero"}))}><FontAwesomeIcon icon={faDragon} size="2x" /> Choose Hero</Link>
+                  </li>
+                ):(
+                  <li className="nav-item">
+                    <Link to="/choose-hero" className="nav-link" onClick={() => setUser(prevState => ({...prevState, redirectTo: "/choose-hero"}))}><FontAwesomeIcon icon={faDragon} size="2x" /> Change Hero</Link>
                   </li>
                 )}
 
                 {userState.loggedIn ? (
                   <>
-                    {userState.user_id && userState.game_id ? (
                       <li className="nav-item">
-                        <Link to={`/battle?user_id=${userState.user_id}&game_id=${userState.game_id}`} className="nav-link">
-                          <FontAwesomeIcon icon={faShieldAlt} size="2x" /> Battle</Link>
+                        <Link to="/challenge" className="nav-link" onClick={() => setUser(prevState => ({...prevState, redirectTo: "/challenge"}))}><FontAwesomeIcon icon={faSword} size="2x" /> Challenge</Link>
                       </li>
-                    ) : (
                       <li className="nav-item">
-                        <Link to="/challenge" className="nav-link" onClick={() => setUser(prevState => ({...prevState, redirectTo: "/challenge"}))}>
-                          <FontAwesomeIcon icon={faShieldAlt} size="2x" /> Challenge</Link>
+                        <Link to="/battle" className="nav-link" onClick={() => setUser(prevState => ({...prevState, redirectTo: "/battle"}))} ><FontAwesomeIcon icon={faSwords} size="2x" /> Battle</Link>
                       </li>
-                    )}
                     
-                    {userState.selectedHero.length > 0 ? (
+                    {userState.selectedHero ? (
                       <>
                         <li className="nav-item">
                           <span className="nav-link">
                             <img id="hero-icon" 
-                              src={userState.selectedHero[0].image} 
-                              alt={userState.selectedHero[0].name}  
-                              title={userState.selectedHero[0].name}
+                              src={userState.selectedHero.image} 
+                              alt={userState.selectedHero.name}  
+                              title={userState.selectedHero.name}
                               />
                           </span>
                         </li>
                         <li className="nav-item">
                           <Link to="#" className="nav-link" onClick={(e) => handleLogout(e)}>
-                            {userState.username} <FontAwesomeIcon icon={faUserSlash} size="2x" />
+                            {userState.username} <FontAwesomeIcon icon={faSignOut} size="2x" />
                           </Link>
                         </li>
                       </>
                     ) : (
                       <li className="nav-item">
                         <Link to="#" className="nav-link" onClick={(e) => handleLogout(e)}>
-                          <FontAwesomeIcon icon={faUserSlash} size="2x" /> {userState.username}
+                          <FontAwesomeIcon icon={faSignOut} size="2x" /> {userState.username}
                         </Link>
                       </li>
                     )}  
@@ -73,8 +72,7 @@ const Header = () => {
                 ) : (
                   <>
                     <li className="nav-item">
-                      <Link to="/login" className="nav-link" onClick={() => setUser(prevState => ({...prevState, redirectTo: "/login"}))}>
-                        <FontAwesomeIcon icon={faUser} size="2x" /> Login</Link>
+                      <Link to="/login" className="nav-link" onClick={() => setUser(prevState => ({...prevState, redirectTo: "/login"}))}><FontAwesomeIcon icon={faSignIn} size="2x" /> Login</Link>
                     </li>
                     <li className="nav-item">
                       <Link to="/signup" className="nav-link" onClick={() => setUser(prevState => ({...prevState, redirectTo: "/signup"}))}>
