@@ -134,6 +134,13 @@ article#main-container {
   font-family: fantasy;
 }
 
+
+p.animatedHowTo {
+  color: 'white';
+  font-size: x-large;
+  text-align: center;
+}
+
 section.section-block {
   background-color: var(--body-background);
 }
