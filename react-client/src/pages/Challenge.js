@@ -67,15 +67,10 @@ const Challenge = () => {
               addClasses="col-lg-12 col-md-12 col-sm-12"
               src={userState.selectedHero[0].image}
               heading={userState.selectedHero[0].name}  
-              subtitle={"HP: "+userState.selectedHero[0].hp}
-              text={"Attack 1 ["+userState.selectedHero[0].attack1_dmg+"]: "+userState.selectedHero[0].attack1_description}
               heroObject={userState.selectedHero[0]}
               nohover={true}
               handleHeroClick={()=>{}}
             >
-              <p className="card-text">
-                {"Attack 2 ["+userState.selectedHero[0].attack2_dmg+"]: "+userState.selectedHero[0].attack2_description}
-              </p>
             </HeroCard>
           }
         </Col>

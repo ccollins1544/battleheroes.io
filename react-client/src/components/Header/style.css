@@ -24,7 +24,7 @@
 
 #main-nav,
 #mobile-nav {
-  max-width: 1080px;
+  max-width: 100%;
   margin: 0 auto;
   background-color: var(--primary-menu-background) !important;
 }

@@ -22,8 +22,7 @@ const Hero = () => {
             key={hero._id}
             addClasses="col-lg-3 col-md-6 col-sm-12"
             src={hero.image}
-            heading={hero.name}  
-            subtitle={"HP: "+hero.hp}
+            heading={hero.name}
             heroObject={hero}
             handleHeroClick={handleHeroClick}
           />
