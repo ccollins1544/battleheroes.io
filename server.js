@@ -78,3 +78,10 @@ app.listen(PORT, function(){
 socket_server.listen(SOCKET_PORT, () => {
   console.log(`🌎  ==> Socket Server is running on ${socket_url}`);
 });
+
+
+//SMTP Server/Hostname: smtp.gmail.com
+//SMTP Username: [battleheroeemail@gmail.com]
+//SMTP password: [Luna83222$]
+//SMTP Port: 587
+//TLS/SSL: Required
