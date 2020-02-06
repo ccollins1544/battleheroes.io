@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
+import "./style.css";
 
 const HowTo = () => {
   const [isToggled, setToggle] = useState(false);
@@ -9,13 +10,15 @@ const HowTo = () => {
   });
 
   return (
-    <div>
+    <div class="howto">
       <animated.p className="animatedHowTo" style={fade}>
         To begin sign up or log in and choose a hero and get to battling. You
         then can challenge anyone available to enter a game. Once the countdown
         clock ends you choose an attack and begin the battle good luck!!
       </animated.p>
-      <button onClick={() => setToggle(!isToggled)}>
+      <button 
+        className="btn btn-dark" 
+        onClick={() => setToggle(!isToggled)}>
         How To Play Battle Heroes
       </button>
     </div>

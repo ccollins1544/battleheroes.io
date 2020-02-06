@@ -21,7 +21,9 @@
   top: 0;
   left: 0;
   padding: 1rem;
-  font-family: "Montserrat";
+  font-family: 'Press Start 2P', cursive;
+  /* font-family: "Montserrat"; */
+  
   background-color: var(--primary-menu-background);
 }
 
@@ -82,7 +84,7 @@
   bottom: 33px;
   width: 100%;
   padding: 0 1rem;
-  background-color: var(--primary-menu-background) !important;
+  background-color: var(--secondary-menu-background) !important;
 }
 
 #footer-nav .navbar-collapse {
@@ -215,6 +217,7 @@
 
 /* Footer Credits */
 #footer-bottom {
+  font-family: "Ubuntu";
   position: absolute;
   bottom: 0;
   width: 100%;

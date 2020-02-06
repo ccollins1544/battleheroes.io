@@ -33,8 +33,8 @@ function AnimateTitle() {
         2000
       )
     );
-    ref.current.push(setTimeout(() => set(["Battle", "Heroes"]), 5000));
-    ref.current.push(setTimeout(() => set(["Battle", "Heroes"]), 8000));
+    ref.current.push(setTimeout(() => set(["Battle Heroes"]), 5000));
+    ref.current.push(setTimeout(() => set(["Battle Heroes"]), 8000));
   }, []);
 
   useEffect(() => void reset(), []);

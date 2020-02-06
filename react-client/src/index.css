@@ -70,7 +70,8 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Montserrat", sans-serif;
+  /* font-family: "Montserrat", sans-serif; */
+  font-family: 'Press Start 2P', cursive;
   font-weight: 900;
   color: var(--primary-menu-text);
 }
@@ -80,7 +81,8 @@ h6 {
 }
 
 body.page-template {
-  font-family: "Ubuntu";
+  /* font-family: "Ubuntu"; */
+  font-family: 'Press Start 2P', cursive;
   color: var(--body-text);
   background-image: url("/img/black_paper_800x800.png");
 }
@@ -128,12 +130,11 @@ article#main-container {
 .section-block {
   margin: 0 auto;
   max-width: 1080px;
-  min-height: 1080px;
+  min-height: calc(50vh - 100px);
   text-align: center;
   font-size: xx-large;
-  font-family: fantasy;
+  font-family: 'Press Start 2P', cursive;
 }
-
 
 p.animatedHowTo {
   color: 'white';
@@ -221,7 +222,8 @@ select {
 .btn-dark {
   font-size: 1.2em;
   margin-right: 10px;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Press Start 2P', cursive;
+  /* font-family: "Montserrat", sans-serif; */
   color: var(--accent-text);
   background-color: var(--body-text);
   border-color: var(--primary-menu-background);
@@ -388,7 +390,8 @@ img {
 /* BLURB */
 .module_header {
   color: #fff;
-  font-family: "Montserrat";
+  font-family: 'Press Start 2P', cursive;
+  /* font-family: "Montserrat"; */
   font-size: 1.5rem;
   font-weight: normal;
   padding: 15px;
