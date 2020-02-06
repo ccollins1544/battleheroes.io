@@ -22,7 +22,7 @@ module.exports = {
         {
           active_game: 1
         }
-      ).catch(err => res.status(422).json(err));
+      ).then(money => console.log("MONEY", money)).catch(err => res.status(422).json(err));
 
     })
     .then(userResponse => {

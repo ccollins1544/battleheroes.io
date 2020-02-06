@@ -37,7 +37,7 @@ const SignUp = () => {
   return (
     <Wrapper className="App" id="main-container">
       <SectionRow id="main-section">
-        <Col size="lg-6" addClass="mx-auto">
+        <Col size="lg-12" addClass="mx-auto">
           <Card 
             htag="h2" 
             heading="Sign Up"

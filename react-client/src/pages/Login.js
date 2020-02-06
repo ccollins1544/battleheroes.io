@@ -34,7 +34,7 @@ const { userState, handleLoginSubmit } = useContext(UserContext);
   return (
     <Wrapper className="App" id="main-container">
       <SectionRow id="main-section">
-        <Col size="lg-6" addClass="mx-auto">
+        <Col size="lg-12" addClass="mx-auto">
           <Card 
             htag="h2" 
             heading="Login"
@@ -42,8 +42,8 @@ const { userState, handleLoginSubmit } = useContext(UserContext);
           >
             <form>
               <div className="form-group row">
-                <label className="col-sm-3 form-label" htmlFor="username">Email:</label>
-                <div className="col-sm-9 input-group">
+                <label className="col-sm-4 form-label" htmlFor="username">Email:</label>
+                <div className="col-sm-8 input-group">
                   <input className="form-input"
                     type="text"
                     id="username"
@@ -61,8 +61,8 @@ const { userState, handleLoginSubmit } = useContext(UserContext);
                 </div>
               </div>
               <div className="form-group row">
-                <label className="col-sm-3 form-label" htmlFor="password">Password: </label>
-                <div className="col-sm-9 input-group">
+                <label className="col-sm-4 form-label" htmlFor="password">Password: </label>
+                <div className="col-sm-8 input-group">
                   <input className="form-input"
                     name="password"
                     type="password"
