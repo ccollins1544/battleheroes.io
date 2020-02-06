@@ -14,12 +14,25 @@ module.exports = {
     })
     .then(inGame => {
       if(inGame){
-        res.json({
-          error: `Sorry, you are already in a game. Please finish your current game before starting another one.`
-        })
+        return inGame;
       }
+
+      return db.User.findOne(
+        { '_id': instigator_id },
+        {
+          active_game: 1
+        }
+      ).catch(err => res.status(422).json(err));
+
     })
-    .then(notInGame => {
+    .then(userResponse => {
+      
+      if(userResponse){
+        return db.Game.findOne(
+          { '_id': userResponse.active_game }
+        )
+        .catch(err => res.status(422).json(err));
+      }
 
       let newGame = {
         instigator_id, 
@@ -35,15 +48,26 @@ module.exports = {
     })
     .then(startedGame => {
 
-      db.User.findOneAndUpdate(
-        { '_id': startedGame.instigator_id },
-        { 
-          $push: { 'game': startedGame._id },
-          $set: { 'game_status': 1, 'heroes': startedGame.instigator_hero_id }
-        },
-        { new: true }
-      )
-      .then(dbModel => console.log("updated users game and game_status", dbModel));
+      db.User.find({
+        '_id': startedGame.instigator_id,
+        'games': startedGame._id
+      }).then(wasStarted =>{
+        if(wasStarted.length === 0 ){
+          db.User.findOneAndUpdate(
+            { '_id': startedGame.instigator_id },
+            { 
+              $push: { 'games': startedGame._id },
+              $set: { 
+                'active_game': startedGame._id, 
+                'game_status': 1, 
+                'hero': startedGame.instigator_hero_id 
+              }
+            },
+            { new: true }
+          )
+          .then(dbModel => console.log("updated users game and game_status", dbModel));
+        }
+      });
 
       return startedGame;
     })

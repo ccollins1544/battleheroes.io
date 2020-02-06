@@ -45,6 +45,7 @@
   --secondary-menu-text: #99aab5;
   --secondary-menu-background: #23272a;
   --button-text: #fff;
+  --success-green: #28a745;
   --button-background: #7289da;
   --discord-blue: #7289da;
   --discord-gray: #99aab5;
@@ -125,8 +126,13 @@ article#main-container {
 }
 
 .section-block {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
   margin: 0 auto;
   max-width: 1080px;
+  min-height: calc(100vh - 193px);
 }
 
 section.section-block {

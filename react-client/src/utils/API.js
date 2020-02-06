@@ -9,8 +9,8 @@ export default {
 
   // getAllHeroes: () => axios.get('./_heroes.json'),
   getAllHeroes: () => axios.get('/api/heroes'),
-  getHeroBySlug: slug => fetch('/api/heroes/' + slug),
-  getHeroById: hero_id => fetch('/api/hero/' + hero_id),
+  getHeroBySlug: slug => axios.get('/api/heroes/' + slug),
+  getHeroById: hero_id => axios.get('/api/hero/' + hero_id),
 
   getUserById: user_id => axios.get('/user/' + user_id),
   sendEmail: messageData => axios.post('/api/sendemail', messageData),

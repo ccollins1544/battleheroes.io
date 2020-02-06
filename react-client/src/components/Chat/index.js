@@ -20,16 +20,17 @@ const Chat = () => {
   let location = useLocation();
   const [user_id, setUserID] = useState("");
   const [game_id, setGameID] = useState("");
-  const [users, setUsers] = useState('');
+  const [users, setUsers] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const { user_id , game_id } = queryString.parse(location.search);
+    // const { user_id , game_id } = queryString.parse(location.search);
+    const { user_id , game_id } = userState;
     socket = io(ENDPOINT);
 
     setGameID(game_id);
-    setUserID(user_id)
+    setUserID(user_id);
 
     socket.emit('join', { user_id, game_id }, (error) => {
       if(error) {
@@ -50,7 +51,6 @@ const Chat = () => {
 
     return () => {
       socket.emit('disconnect');
-
       socket.off();
     }
   }, [messages])

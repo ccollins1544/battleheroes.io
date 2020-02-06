@@ -14,25 +14,33 @@ function UserProvider({ children }){
 
     API.login(userData)
       .then(response => {
+        console.log("LOGGED IN", response.data); 
         if (response.status === 200) {
           let goTo = '/choose-hero'
 
-          if(userState.selectedHero.length > 0 && response.data.game_id){
-            goTo = `/battle?user_id=${response.data._id}&game_id=${response.data.game_id}`;
-          }else if(userState.selectedHero.length > 0){
+          if(userState.selected_hero_id && response.data.game_id){
+            goTo = '/battle'; //`/battle?user_id=${response.data._id}&game_id=${response.data.game_id}`;
+          }else if(userState.selected_hero_id){
             goTo = '/challenge';
           }
 
           setUser(prevState => ({...prevState,
             loggedIn: true,
+            user_id: response.data._id,
             username: response.data.username,
             user_groups: response.data.user_groups,
-            user_id: response.data._id,
             game_status: response.data.game_status,
-            games: response.data.game,
-            selectedHero: response.data.heroes ? [response.data.heroes] : [],
+            game_id: response.data.active_game,
+            games: response.data.games,
+            selected_hero_id: response.data.hero ? response.data.hero : "",
             redirectTo: goTo
           }));
+        }
+
+        return response.data.hero; 
+      }).then(hero => {
+        if(hero) {
+          API.getHeroById(hero).then(heroObj => setUser(prevState =>({...prevState, selectedHero: heroObj.data })))
         }
       })
       .catch(error => {
@@ -80,9 +88,14 @@ The password used to sign up was: ${password}
           if (response.status === 200) {
             setUser(prevState => ({...prevState,
               loggedIn: false,
-              username: null,
               user_id: null,
+              username: null,
+              user_groups: null,
+              game_status: 0,
               game_id: null,
+              games: null,
+              selected_hero_id: "",
+              selectedHero: "",
               redirectTo: '/', 
             }));
 
@@ -101,11 +114,13 @@ The password used to sign up was: ${password}
 
     let goTo = '/login';
     if(userState.loggedIn && userState.user_id && userState.game_id){
-      goTo = `/battle?user_id=${userState.user_id}&game_id=${userState.game_id}`;
+      // goTo = `/battle?user_id=${userState.user_id}&game_id=${userState.game_id}`;
+      goTo = '/battle';
 
       setUser(prevState => ({...prevState,
         redirectTo: goTo,
-        selectedHero: [{_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}]
+        selected_hero_id: _id,
+        selectedHero: {_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}
       }));
 
     }else if(userState.loggedIn){
@@ -113,12 +128,13 @@ The password used to sign up was: ${password}
 
       API.startGame(userState.user_id, heroData)
       .then(response => {
-        console.log("start game", response);
+        console.log("start game", response.data);
 
         setUser(prevState => ({...prevState,
           redirectTo: goTo,
           game_id: response.data._id,
-          selectedHero: [{_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}]
+          selected_hero_id: _id,
+          selectedHero: {_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}
         }));
         
       }).catch(err => console.log(err));
@@ -126,7 +142,7 @@ The password used to sign up was: ${password}
     }else{ // goTo login
       setUser(prevState => ({...prevState,
         redirectTo: goTo,
-        selectedHero: [{_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}]
+        selected_hero_id: _id
       }));
     }
   }
@@ -142,7 +158,8 @@ The password used to sign up was: ${password}
         let persist_user_groups = [];
         let persist_game_status = 0;
         let persist_games = [];
-        let persist_selected_hero = [];
+        let persist_game_id = null;
+        let persist_selected_hero = "";
 
         if(sessionUser.user){
           persist_loggedIn = true;
@@ -150,20 +167,21 @@ The password used to sign up was: ${password}
           persist_username = sessionUser.user.username;
           persist_user_groups = sessionUser.user.user_groups;
           persist_game_status = sessionUser.user.game_status;
-          persist_games = sessionUser.user.game;
-          persist_selected_hero = sessionUser.user.heroes ? [sessionUser.user.heroes] : [];
+          persist_game_id = sessionUser.user.active_game;
+          persist_games = sessionUser.user.games;
+          persist_selected_hero = sessionUser.user.hero;
         }
       
         setUser({
           loggedIn: persist_loggedIn,
+          user_id: persist_user_id, 
           username: persist_username,
           user_groups: persist_user_groups,
-          user_id: persist_user_id, 
-          game_id: null,
-          game_status: persist_game_status,
+          game_id: persist_game_id,
           games: persist_games,
-          redirectTo: null,
-          selectedHero: persist_selected_hero
+          game_status: persist_game_status,
+          selected_hero_id: persist_selected_hero,
+          redirectTo: null
         });
     });
     

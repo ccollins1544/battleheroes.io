@@ -31,7 +31,7 @@ function Battle() {
     <Wrapper className="App" id="main-container" style={background}>
       <SectionRow id="main-section">
         <Col size="lg-12">
-          <Chat />
+          {userState.loggedIn && userState.user_id && userState.game_id && <Chat />}
         </Col>
       </SectionRow>
     </Wrapper>
