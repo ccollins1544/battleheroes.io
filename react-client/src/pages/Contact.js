@@ -6,7 +6,7 @@ import Card from "../components/Card";
 import API from "../utils/API";
 import Utils from "../utils/";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { far, faEnvelopeOpen } from "@fortawesome/free-regular-svg-icons";
+import { far, faEnvelopeOpen } from "@fortawesome/pro-regular-svg-icons";
 
 const Contact = () => {
   const { userState } = useContext(UserContext);

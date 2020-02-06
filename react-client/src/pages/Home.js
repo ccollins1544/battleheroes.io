@@ -31,8 +31,8 @@ const Home = () => {
   return (
     <Wrapper className="App" id="main-container" style={background}>
       <SectionRow id="main-section">
-        <Col size="lg-12">
-        
+        <Col size="lg-12" >
+          
         </Col>
       </SectionRow>
     </Wrapper>

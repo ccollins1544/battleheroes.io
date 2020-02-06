@@ -7,6 +7,7 @@
   --secondary-menu-text: #99aab5;
   --secondary-menu-background: #23272a;
   --button-text: #fff;
+  --success-green: #28a745;
   --button-background: #7289da;
   --discord-blue: #7289da;
   --discord-gray: #99aab5;
@@ -233,11 +234,11 @@
 
 #footer-info {
   text-align: center;
-  color: var(--button-text);
+  color: var(--secondary-menu-text);
 }
 
 .footer-link {
-  color: var(--button-text);
+  color: var(--secondary-menu-text);
   text-decoration: none;
 }
 

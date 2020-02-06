@@ -52,10 +52,10 @@ module.exports = {
       _id: req.user._id,
       username: req.user.username,
       user_groups: req.user.user_groups,
-      game_id: null,
+      game_id: req.user.active_game,
       game_status: req.user.game_status,
-      game: req.user.game,
-      heroes: req.user.heroes,
+      games: req.user.games,
+      hero: req.user.hero,
     };
     res.send(userInfo);
   },
