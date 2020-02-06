@@ -9,11 +9,14 @@ import { faLinkedin, faGithub} from "@fortawesome/free-brands-svg-icons";
 function Footer(){
   const { userState, setUser } = useContext(UserContext);
 
+  // console.log("Player? " + userState.user_groups.includes("Player"));
+  // console.log("Admin? " + userState.user_groups.includes("Admin"));
+
   return (
     <footer id="main-footer">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark" id="footer-nav">
         <div style={{color:"#daa520"}}>{userState && Object.keys(userState).map(key => 
-          typeof userState[key] === 'object' ? `${key}: ${JSON.stringify(userState[key])} | ` : `${key}: ${userState[key]} | `
+          typeof userState[key] === 'object' && userState.user_groups && userState.user_groups.includes("Admin") ? `${key}: ${JSON.stringify(userState[key])} | ` : `${key}: ${userState[key]} | `
         )}
         </div>
         <div className="navbar-collapse">

@@ -25,17 +25,18 @@ const Challenge = () => {
         setUser(prevState =>({...prevState, game_status: response.data.game_status }));
       });
   }
-
-  // Timer? check pending games, 
+ 
   const updateGame = () => {
     let pendingGameID = [];
     if(userState.games && userState.game_id){
       pendingGameID = userState.games.filter(game => game !== userState.game_id );
     }
 
+    // check pending games,
     if(pendingGameID.length === 0 && userState.game_status < 2){
       API.searchChallenge().then( response => {
         console.log("Search Challenge", response);
+        setGameMessage("Search Challenge");
         setPlayers(response.data);
       });
 
@@ -44,8 +45,8 @@ const Challenge = () => {
       console.log("check if opponent accepted");
       API.getGameById(userState.game_id).then(game => {
         let { players, heroes } = game.data;
-        let rivalArray = heroes.filter(hero => hero !== userState.selected_hero_id );
-        let rivalHeroArray = heroes.filter(plyr => plyr !== userState.user_id );
+        let rivalArray = players.filter(plyr => plyr !== userState.user_id );
+        let rivalHeroArray = heroes.filter(hero => hero !== userState.selected_hero_id );
 
         if(rivalArray.length > 0 && rivalHeroArray.length > 0){
           API.getUserById(rivalArray[0])
@@ -60,9 +61,10 @@ const Challenge = () => {
               console.log("BE MY HERO", heroObj);
           });
 
-        }else{ // not accepted yet
+          setGameMessage("Game Accepted! Ready Up!");
 
-          console.log("not accepted yet");
+        }else{ // not accepted yet
+          setGameMessage("Pending Rival Response.");
 
           API.getPendingRival({ games: userState.game_id, my_id: userState.user_id })
           .then(response => {
@@ -83,10 +85,12 @@ const Challenge = () => {
       })
     }else if(userState.game_status === 3){ // game is in progress
       console.log("game is in progress");
+      setGameMessage("The Battle Has Started!");
     }
 
     // if you made it to here then you must have a pending game invite
     console.log("pendingGameID", pendingGameID);
+    setGameMessage("You Have a Pending Game Invite");
 
     API.getGameById(pendingGameID[0])
     .then(game => {
@@ -107,6 +111,7 @@ const Challenge = () => {
   const { userState, setUser } = useContext(UserContext);
   const [ players, setPlayers ] = useState([]);
   const [ rival, setRival ] = useState(null);
+  const [ gameMessage, setGameMessage ] = useState("Challenge")
   const [ background, setBackground ] = useState({});
   useEffect(() => {
     const bg_collection = [
@@ -141,7 +146,7 @@ const Challenge = () => {
     <Wrapper className="App" id="main-container" style={background}>
       <SectionRow id="main-section">
         <Col size="lg-12">
-          <h1>Challenge</h1>
+          <h2>{gameMessage}</h2>
         </Col>
         <Col size="lg-6">
           {userState.selectedHero &&

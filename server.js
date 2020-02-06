@@ -9,6 +9,8 @@
  * -battle page
  * -chat box on battle page
  * 
+ * @icebox
+ * -timer to move the game_status
  */
 /* ===============[ Dependencies  ]========================*/
 require("dotenv").config();

@@ -16,18 +16,6 @@
   --react-menu-blue: #282c34;
 }
 
-/* Navbar Brand */
-.navbar-brand {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 1rem;
-  font-family: 'Press Start 2P', cursive;
-  /* font-family: "Montserrat"; */
-  
-  background-color: var(--primary-menu-background);
-}
-
 .navbar-dark .navbar-brand {
   color: var(--accent-text);
 }
@@ -77,16 +65,17 @@
   font-family: "Ubuntu";
   display: flex;
   flex-flow: column;
-  height: 83px;
+  height: 50px; /* 83px; */ 
 }
 
 /* Footer Links */
 #footer-nav {
   position: absolute;
-  bottom: 33px;
+  bottom: 0px; /* 33px */
   width: 100%;
   padding: 0 1rem;
-  background-color: var(--secondary-menu-background) !important;
+  background-color: transparent !important; /* var(--secondary-menu-background) !important; */ 
+  z-index: 1;
 }
 
 #footer-nav .navbar-collapse {
@@ -222,6 +211,7 @@
   font-family: "Ubuntu";
   position: absolute;
   bottom: 0;
+  height: 50px; 
   width: 100%;
   display: flex;
   display: -ms-flexbox;
