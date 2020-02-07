@@ -17,13 +17,12 @@
   --discord-darker: #23272a;
   --react-menu-blue: #282c34;
 }
-
 .outerContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #1a1a1d;
+  background-color: #fff;
 }
 
 .container {
@@ -33,12 +32,20 @@
   border: solid 5px;
   border-radius: 8px;
   height: 50%;
-  width: 15%;
+  width: 20%;
   align-items: center;
   color: var(--accent-text);
   background-color: var(--hero-card-bg) !important;
   border-color: var(--primary-menu-background);
   box-shadow: 3px 3px 5px 0px;
+}
+
+.sendButton {
+  background-color: #7289da;
+}
+
+.css-y1c0xs {
+  opacity: 0.5;
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
