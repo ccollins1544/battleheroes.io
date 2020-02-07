@@ -1,0 +1,26 @@
+#hp {
+    text-align: center;
+    color: #7289da;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .card {
+    background-color: rgba(44, 47, 51, 0.75);
+    color: #7289da;
+    border-style: solid;
+    border-color: black;
+    border-width: 5px;
+    border-radius: 25px;
+  }
+  
+  .list-group-item {
+    background-color: rgb(44, 47, 51);
+    color: #7289da;
+    text-align: center;
+  }
+  
+  .btn {
+    text-align: center;
+    background-color: #e9290f;
+  }
