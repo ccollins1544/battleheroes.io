@@ -134,7 +134,7 @@ article#main-container {
   justify-content: flex-start;
   align-content: flex-start;
   margin: 0 auto;
-  max-width: 1080px;
+  max-width: 100%;
   min-height: calc(50vh - 100px);
   text-align: center;
   font-size: xx-large;

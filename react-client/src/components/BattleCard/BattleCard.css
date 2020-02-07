@@ -12,6 +12,12 @@
   border-color: black;
   border-width: 5px;
   border-radius: 25px;
+  margin: 0 auto;
+}
+
+.card-text {
+  font-size: 15px;
+  margin-top: 20px;
 }
 
 .list-group-item {
@@ -20,9 +26,14 @@
   text-align: center;
 }
 
-.btn {
-  text-align: center;
-  background-color: #e9290f;
+
+.versus {
+  display: flex;
+  align-items: center;
+}
+
+.versus img {
+  width: 100%;
 }
 
 

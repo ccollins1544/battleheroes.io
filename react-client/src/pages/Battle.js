@@ -32,10 +32,18 @@ function Battle() {
   return (
     <Wrapper className="App" id="main-container" style={background}>
       <SectionRow id="main-section">
-        <Col size="lg-12">
+        <Col size="lg-3" addClass="chatbox">
           {userState.loggedIn && userState.user_id && userState.game_id && (
             <Chat />
           )}
+        </Col>
+        <Col size="lg-4">
+        {userState.selectedHero && <BattleCard selectedHero={userState.selectedHero} /> }
+        </Col>
+        <Col size="sm-1" addClass="versus">
+          <img src="img/vs2.png" title="versus" />
+        </Col>
+        <Col size="lg-4">
           <BattleCard />
         </Col>
       </SectionRow>
