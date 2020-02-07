@@ -14,7 +14,6 @@ function UserProvider({ children }){
 
     API.login(userData)
       .then(response => {
-        console.log("LOGGED IN", response.data); 
         if (response.status === 200) {
           let goTo = '/choose-hero'
 
@@ -117,11 +116,23 @@ The password used to sign up was: ${password}
       // goTo = `/battle?user_id=${userState.user_id}&game_id=${userState.game_id}`;
       goTo = '/battle';
 
-      setUser(prevState => ({...prevState,
-        redirectTo: goTo,
-        selected_hero_id: _id,
-        selectedHero: {_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}
-      }));
+      let updateHeroData = { 
+        user_id: userState.user_id,
+        game_id: userState.game_id
+      }
+
+      updateHeroData = {...updateHeroData, ...heroData};
+
+      API.updateHero(updateHeroData.instigator_hero_id, updateHeroData)
+      .then(response => {
+        console.log("pushed hero updates to db", response);
+        
+        setUser(prevState => ({...prevState,
+          redirectTo: goTo,
+          selected_hero_id: _id,
+          selectedHero: {_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}
+        }));
+      }).catch(err => console.log(err)); 
 
     }else if(userState.loggedIn){
       goTo = '/challenge';

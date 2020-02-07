@@ -6,7 +6,7 @@ import Wrapper from "../components/Wrapper";
 import HeroCard from "../components/Card/heroCard";
 import { SectionRow , Col } from "../components/Grid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/pro-solid-svg-icons";
+import { faFlagCheckered } from "@fortawesome/pro-duotone-svg-icons";
 
 const Challenge = () => {
   const handleFormSubmit = (event) => {
@@ -19,33 +19,48 @@ const Challenge = () => {
     formData.from_email = userState.username;
     console.log("formData", formData);
 
+    /**
+     * FORMS 
+     * challenge_player_form - done
+     * player_ready_form
+     * pending_response_form
+     * in_game_form
+     * accept_challenge_form
+     */
+    if(event.target.id !== "challenge_player_form") return; // temporary break
     API.sendChallenge(formData)
       .then(response => {
-        console.log(response.data);
+        console.log("challenge_player_form", response.data);
         setUser(prevState =>({...prevState, game_status: response.data.game_status }));
-      });
+        updateGame(response.data.game_status);
+    }); 
   }
-
-  // Timer? check pending games, 
-  const updateGame = () => {
+ 
+  const updateGame = (game_status=userState.game_status) => {
     let pendingGameID = [];
     if(userState.games && userState.game_id){
       pendingGameID = userState.games.filter(game => game !== userState.game_id );
     }
 
-    if(pendingGameID.length === 0 && userState.game_status < 2){
+    // check pending games,
+    if(pendingGameID.length === 0 && game_status < 2){
       API.searchChallenge().then( response => {
         console.log("Search Challenge", response);
+        setPageContent(prevState => ({...prevState, 
+          gameMessage: "Search Challenge",
+          buttonMessage: "Send Invite",
+          formID: "challenge_player_form"
+        }));
         setPlayers(response.data);
       });
 
       return;
-    }else if(userState.game_status === 2){ // check if opponent accepted
+    }else if(game_status === 2){ // check if opponent accepted
       console.log("check if opponent accepted");
       API.getGameById(userState.game_id).then(game => {
         let { players, heroes } = game.data;
-        let rivalArray = heroes.filter(hero => hero !== userState.selected_hero_id );
-        let rivalHeroArray = heroes.filter(plyr => plyr !== userState.user_id );
+        let rivalArray = players.filter(plyr => plyr !== userState.user_id );
+        let rivalHeroArray = heroes.filter(hero => hero !== userState.selected_hero_id );
 
         if(rivalArray.length > 0 && rivalHeroArray.length > 0){
           API.getUserById(rivalArray[0])
@@ -60,9 +75,18 @@ const Challenge = () => {
               console.log("BE MY HERO", heroObj);
           });
 
-        }else{ // not accepted yet
+          setPageContent(prevState => ({...prevState, 
+            gameMessage: "Game Accepted!",
+            buttonMessage: "Ready?",
+            formID: "player_ready_form"
+          }));
 
-          console.log("not accepted yet");
+        }else{ // not accepted yet
+          setPageContent(prevState => ({...prevState, 
+            gameMessage: "Pending Rival Response",
+            buttonMessage: "Pending",
+            formID: "pending_response_form"
+          }));
 
           API.getPendingRival({ games: userState.game_id, my_id: userState.user_id })
           .then(response => {
@@ -81,12 +105,22 @@ const Challenge = () => {
           });
         }
       })
-    }else if(userState.game_status === 3){ // game is in progress
+    }else if(game_status === 3){ // game is in progress
       console.log("game is in progress");
+      setPageContent(prevState => ({...prevState, 
+        gameMessage: "The Battle Has Started!",
+        buttonMessage: "Join Game",
+        formID: "in_game_form"
+      }));
     }
 
     // if you made it to here then you must have a pending game invite
     console.log("pendingGameID", pendingGameID);
+    setPageContent(prevState => ({...prevState, 
+      gameMessage: "You Have a Pending Game Invite",
+      buttonMessage: "Accept?",
+      formID: "accept_challenge_form"
+    }));
 
     API.getGameById(pendingGameID[0])
     .then(game => {
@@ -107,6 +141,11 @@ const Challenge = () => {
   const { userState, setUser } = useContext(UserContext);
   const [ players, setPlayers ] = useState([]);
   const [ rival, setRival ] = useState(null);
+  const [ pageContent, setPageContent ] = useState({ 
+    gameMessage: "Search Challenge", 
+    buttonMessage: "Send Invite", 
+    formID: "challenge_player_form"
+  })
   const [ background, setBackground ] = useState({});
   useEffect(() => {
     const bg_collection = [
@@ -140,8 +179,8 @@ const Challenge = () => {
   return (
     <Wrapper className="App" id="main-container" style={background}>
       <SectionRow id="main-section">
-        <Col size="lg-12">
-          <h1>Challenge</h1>
+        <Col size="lg-12" addClass="mb-5">
+          <h2>{pageContent.gameMessage}</h2>
         </Col>
         <Col size="lg-6">
           {userState.selectedHero &&
@@ -172,27 +211,37 @@ const Challenge = () => {
             >
           </HeroCard>
           ) : ( // Load Players to challenge
-            <form id="challenge_player_form" onSubmit={(e) => handleFormSubmit(e)}>
-            <div className="form-row">
-              <div className="col">
-                <label className="col-sm-3 form-label" htmlFor="rival_id">Available Players:</label>
-                <select className="form-control form-control-sm" name="rival_id" id="rival_id">
-                  {players.length > 0 ? players.map(i => {
-                    return (i._id !== userState.user_id) && (
-                      <option value={i._id}>{i.username.split("@")[0]}</option>
-                      );
-                    }) : (
-                    <option value="">No Players Available</option>
-                  )}
-                </select>
+            <form id={pageContent.formID} onSubmit={(e) => handleFormSubmit(e)}>
+              <div className="form-row">
+                <div className="col">
+                  <label className="col-sm-3 form-label" htmlFor="rival_id">Available Players:</label>
+                  <select className="form-control form-control-sm" name="rival_id" id="rival_id">
+                    {players.length > 0 ? players.map(i => {
+                      return (i._id !== userState.user_id) && (
+                        <option value={i._id}>{i.username.split("@")[0]}</option>
+                        );
+                      }) : (
+                      <option value="">No Players Available</option>
+                    )}
+                  </select>
+                </div>
               </div>
+              <div className="form-row">
+                <button type="submit" className="btn btn-dark form-input mt-5" value="Submit" >
+                  <FontAwesomeIcon icon={faFlagCheckered} /> {pageContent.buttonMessage}
+                </button>
+              </div>
+            </form>
+          )}
+        </Col>
+        <Col size="lg-6" addClass="mx-auto m-5">
+          {rival && rival.hasOwnProperty('selectedHero') && (
+            <form id={pageContent.formID} onSubmit={(e) => handleFormSubmit(e)}>
+              <div className="form-row">
+              <button type="submit" className="btn btn-dark form-input" value="Submit" >
+                <FontAwesomeIcon icon={faFlagCheckered} /> {pageContent.buttonMessage}
+              </button>
             </div>
-            <button 
-              type="submit" 
-              className="btn btn-primary float-right" 
-              value="Submit"
-            >Submit
-            </button>
           </form>
           )}
         </Col>

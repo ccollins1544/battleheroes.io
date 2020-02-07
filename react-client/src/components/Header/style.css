@@ -25,6 +25,7 @@
 
 #main-nav,
 #mobile-nav {
+  padding: 0.85rem 1rem;
   max-width: 100%;
   margin: 0 auto;
   background-color: var(--primary-menu-background) !important;
@@ -32,7 +33,7 @@
 
 #main-nav .navbar-nav .nav-link,
 #mobile-nav .navbar-nav .nav-link {
-  font-size: 1.3em;
+  font-size: 1em;
   cursor: pointer;
   color: var(--primary-menu-text);
 }
@@ -63,7 +64,8 @@
   top: 0;
   left: 0;
   padding: 1rem;
-  font-family: "Montserrat";
+  font-size: 1.25rem;
+  font-family: 'Press Start 2P', cursive;
   background-color: var(--primary-menu-background);
 }
 
@@ -116,7 +118,6 @@
 .nav-link .fa-swords {
   color: var(--accent-text);
 }
-
 
 /* 2.3 Hamburger Nav
 /*------------------------------------------------------*/

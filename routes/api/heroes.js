@@ -7,6 +7,6 @@ router.route("/")
 
 // Matches with "/api/heroes/:slug"
 router.route("/:slug")
-.get(heroesController.findBySlug);
+  .get(heroesController.findBySlug);
 
 module.exports = router;

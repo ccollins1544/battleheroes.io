@@ -8,12 +8,23 @@ import { faLinkedin, faGithub} from "@fortawesome/free-brands-svg-icons";
 
 function Footer(){
   const { userState, setUser } = useContext(UserContext);
+  let debug_style = {
+    position: "absolute",
+    color:"#daa520",
+    padding: "10px",
+    maxWidth: "100%",
+    margin: "0 auto",
+    right: "0",
+    left: "0",
+    backgroundColor: "#000000",
+    bottom: "-92px"
+  }
 
   return (
     <footer id="main-footer">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark" id="footer-nav">
-        <div style={{color:"#daa520"}}>{userState && Object.keys(userState).map(key => 
-          typeof userState[key] === 'object' ? `${key}: ${JSON.stringify(userState[key])} | ` : `${key}: ${userState[key]} | `
+        <div style={debug_style}>{userState && Object.keys(userState).map(key => 
+          typeof userState[key] === 'object' && userState.user_groups && userState.user_groups.includes("Admin") ? `${key}: ${JSON.stringify(userState[key])} | ` : `${key}: ${userState[key]} | `
         )}
         </div>
         <div className="navbar-collapse">
