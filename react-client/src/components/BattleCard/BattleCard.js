@@ -3,12 +3,13 @@ import "./BattleCard.css";
 class BattleCard extends Component {
   constructor(props) {
     super(props);
+    console.log("props", props);
   }
   render() {
     return (
       <div className="card" style={{width: "18rem"}}>
         <img
-          src={this.props.src}
+          src={this.props.selectedHero ? this.props.selectedHero.image : ""}
           className="card-img-top"
           alt="green ranger"
         />
@@ -47,20 +48,20 @@ class BattleCard extends Component {
           </div>
           <p className="card-text">
             <li className="list-group-item">
-              {" "}
-              <b>Green Ranger</b>{" "}
+              
+              <b>{this.props.selectedHero ? this.props.selectedHero.name : ""}</b>
             </li>
             <li className="list-group-item">
-              {" "}
-              <b>MAX HP: 100</b>{" "}
+              
+              <b>MAX HP: 100</b>
             </li>
             <li className="list-group-item">
-              {" "}
-              <b>ATK 1:</b> <i>Iron Tail</i>{" "}
+              
+              <b>ATK 1:</b> <i>{this.props.selectedHero ? this.props.selectedHero.attack1_description : ""}</i>
             </li>
             <li className="list-group-item">
-              {" "}
-              <b>ATK 2:</b> <i>Thunderbolt</i>{" "}
+              
+              <b>ATK 2:</b> <i>{this.props.selectedHero ? this.props.selectedHero.attack2_description : ""}</i>
             </li>
           </p>
           <button type="button" className="btn btn-danger btn-lg btn-block">

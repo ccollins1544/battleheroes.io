@@ -15,6 +15,7 @@
   1.2 Comment Section
   1.3 Main Section
   1.4 Add Comment Form
+  1.5 Chatbox
 
 2.0 AlertMessages
   
@@ -141,6 +142,19 @@ td.add-comment-form {
 
 #add-comment-form .form-control {
   background-color: #fff;
+}
+
+
+/* 1.5 chatbox
+/*------------------------------------------------------*/
+.chatbox {
+  font-size: 15px;
+  font-family: "ubuntu";
+}
+
+.chatbox h3 {
+  font-family: "ubuntu";
+  font-size: 1.5em;
 }
 
 /*------------------------------------------------------*/
