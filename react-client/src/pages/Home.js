@@ -4,6 +4,7 @@ import { SectionRow, Col } from "../components/Grid";
 import AnimateTitle from "../components/AnimateTitle/AnimateTitle";
 import HowTo from "../components/HowTo/Howto";
 
+
 const Home = () => {
   const [background, setBackground] = useState({});
   useEffect(() => {

@@ -4,6 +4,7 @@ import Wrapper from "../components/Wrapper";
 import Chat from "../components/Chat";
 import { SectionRow, Col } from "../components/Grid";
 import BattleCard from "../components/BattleCard/BattleCard";
+import ProgressBar from "../components/ProgressBar/ProgressBar";
 
 function Battle() {
   const { userState } = useContext(UserContext);
