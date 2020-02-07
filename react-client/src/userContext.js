@@ -14,7 +14,6 @@ function UserProvider({ children }){
 
     API.login(userData)
       .then(response => {
-        console.log("LOGGED IN", response.data); 
         if (response.status === 200) {
           let goTo = '/choose-hero'
 
@@ -123,7 +122,6 @@ The password used to sign up was: ${password}
       }
 
       updateHeroData = {...updateHeroData, ...heroData};
-      console.log('TESTING', updateHeroData);
 
       API.updateHero(updateHeroData.instigator_hero_id, updateHeroData)
       .then(response => {

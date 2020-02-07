@@ -5,12 +5,9 @@
  * @version 2.0.0
  * 
  * @todo 
- * -challenge page: need to decide what game[] to play
+ * -challenge page: finish 5 forms logic
  * -battle page
  * -chat box on battle page
- * 
- * @icebox
- * -timer to move the game_status
  */
 /* ===============[ Dependencies  ]========================*/
 require("dotenv").config();
