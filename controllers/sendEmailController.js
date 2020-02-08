@@ -28,36 +28,55 @@ module.exports = {
   // Matches: POST /api/sendemail/challenge
   sendChallenge: function (req, res) {
     console.log("All the things", req.body)
-    let { instigator_id, rival_id, active_game, subject, message, from_email } = req.body;
+    let { instigator_id, rival_id, active_game, from_email } = req.body;
+    let subject = "New Challenge";
+    let message = `You've been challenged by ${from_email}. To accept/deny the challenge please log into http://BattleHeroes.io and go to the Challenge page.`;
 
-    // res.status(200).send("A OK !");
+    // First check to see that someone didn't already send you a challenge
+    db.User.find({
+      '_id': rival_id,
+    },
+    {
+      'active_game': 1,
+      'games':1
+    }
+    ).then(rivalResponse =>{
+    
+      db.User.find({
+        '_id': instigator_id,
+        'games': rivalResponse[0].active_game
+      }).then(dbModel =>{
+        // Send Rival Game Challenge
+        if(dbModel.length === 0){
+          db.User.findOneAndUpdate(
+            { '_id': rival_id },
+            { 
+              $push: { 'games': active_game },
+              $set: { 'game_status': 1 }
+            },
+            { new: true }
+          )
+          .then( Rival => {
+            console.log("Rival " + Rival);
 
-    // Send Rival Game Challenge
-    db.User.findOneAndUpdate(
-      { '_id': rival_id },
-      { 
-        $push: { 'games': active_game },
-        $set: { 'game_status': 1 }
-      },
-      { new: true }
-    )
-    .then( Rival => {
-      console.log("Rival " + Rival);
-
-      mailOptions = {
-        from: process.env.ADMIN_EMAIL,
-        to: Rival.username,
-        subject: subject, 
-        text: message
-      }
-  
-      if(from_email){
-        mailOptions.replyTo = from_email;
-      }
-     
-      transporter.sendMail(mailOptions);
-    })
-    .catch(err => res.status(422).json(err));
+            mailOptions = {
+              from: process.env.ADMIN_EMAIL,
+              to: Rival.username,
+              subject: subject, 
+              text: message
+            }
+        
+            if(from_email){
+              mailOptions.replyTo = from_email;
+            }
+          
+            transporter.sendMail(mailOptions);
+          })
+          .catch(err => res.status(422).json(err));
+        } // ELSE you have already been invited to a game by your rival
+      });
+    
+    }).catch(err => res.status(422).json(err));
 
     // Update My Game Status
     db.User.findOneAndUpdate(
@@ -72,7 +91,6 @@ module.exports = {
       res.json(Instigator);
     })
     .catch(err => res.status(422).json(err));
- 
   },
 
 };

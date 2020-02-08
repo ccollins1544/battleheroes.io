@@ -7,7 +7,7 @@ class BattleCard extends Component {
   }
   render() {
     return (
-      <div className="card" style={{width: "18rem"}}>
+      <div className="card battle-card" style={{width: "18rem"}}>
         <img
           src={this.props.selectedHero ? this.props.selectedHero.image : ""}
           className="card-img-top"
@@ -46,7 +46,7 @@ class BattleCard extends Component {
               20% 
             </div>
           </div>
-          <p className="card-text">
+          <p className="card-text battle-card-text">
             <li className="list-group-item">
               
               <b>{this.props.selectedHero ? this.props.selectedHero.name : ""}</b>
