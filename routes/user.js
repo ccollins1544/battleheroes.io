@@ -24,6 +24,6 @@ router.route("/logout")
 
 // Matches with "/user/:user_id"
 router.route("/:user_id")
-  .post(userController.findById);
+  .patch(userController.findById);
 
 module.exports = router
