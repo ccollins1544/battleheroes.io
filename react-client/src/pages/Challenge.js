@@ -241,9 +241,9 @@ const Challenge = () => {
     buttonMessage: "Send Invite", 
     formID: "challenge_player_form"
   })
-  const [ background, setBackground ] = useState({});
+  const [ background, setBackground ] = useState(Utils.getBgStyle);
   useEffect(() => {
-    setBackground(Utils.getBgStyle);
+    // setBackground(Utils.getBgStyle);
     updateGame();
   }, []);
 

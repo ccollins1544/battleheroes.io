@@ -6,10 +6,7 @@ import AnimateTitle from "../components/AnimateTitle/AnimateTitle";
 import HowTo from "../components/HowTo/Howto";
 
 const Home = () => {
-  const [background, setBackground] = useState({});
-  useEffect(() => {
-    setBackground(Utils.getBgStyle("home"));
-  }, []);
+  const [background, setBackground] = useState(Utils.getBgStyle("home"));
 
   return (
     <Wrapper className="App" id="main-container" style={background}>

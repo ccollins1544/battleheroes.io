@@ -5,11 +5,11 @@ import { SectionRow } from "../components/Grid";
 import Hero from "../components/Hero/"
 
 const ChooseHero = () => {
-  const [ background, setBackground ] = useState({});
-  useEffect(() => {
-    setBackground(Utils.getBgStyle("choose_hero"));
-    return; 
-  }, []);
+  const [ background, setBackground ] = useState(Utils.getBgStyle("choose_hero"));
+  // useEffect(() => {
+  //   setBackground(Utils.getBgStyle("choose_hero"));
+  //   return; 
+  // }, []);
 
   return (
     <Wrapper className="App" id="main-container" style={background}>

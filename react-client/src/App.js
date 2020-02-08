@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { UserProvider } from "./userContext";
+import { GameProvider } from "./gameContext";
 import {
   BrowserRouter as Router,
   Route,
@@ -32,7 +33,9 @@ class App extends Component {
               <Route exact path="/signup" component={SignUp} />
               <Route exact path="/choose-hero" component={ChooseHero}></Route>
               <Route exact path="/challenge" component={Challenge}></Route>
-              <Route path="/battle" component={Battle}></Route>
+              <GameProvider>
+                <Route path="/battle" component={Battle}></Route>
+              </GameProvider>
               <Route path="*" component={Index} /> 
             </Switch>
 
