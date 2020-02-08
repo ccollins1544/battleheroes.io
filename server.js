@@ -3,6 +3,10 @@
  * @subpackage server
  * @author Tyler Webb, Christopher Collins, Matthew Ayrton, Daniel Osornio
  * @version 2.0.0
+ * 
+ * @todo 
+ * -battle page
+ * -chat box on battle page
  */
 /* ===============[ Dependencies  ]========================*/
 require("dotenv").config();
@@ -11,6 +15,7 @@ const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
 const session = require("express-session");
+const cookieParser = require("cookie-parser");
 const dbConnection = require("./models/db.js"); // Connects to db
 const MongoStore = require('connect-mongo')(session)
 const passport = require("./passport");
@@ -20,6 +25,7 @@ const app = express();
 /* ===============[ Express Config ]=======================*/
 // Use Features
 app.use(logger("dev"));
+app.use(cookieParser(process.env.SESSION_SECRET || "SuperSecretSession"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -30,22 +36,43 @@ if (process.env.NODE_ENV === "production"){
 
 /* ===============[ Passport Session ]====================*/
 // We need to use sessions to keep track of our user's login status
+const cookieExpirationDate = new Date();
+const cookieExpirationDays = 1;
+cookieExpirationDate.setDate(cookieExpirationDate.getDate() + cookieExpirationDays);
+
 app.use(
   session({ 
-    secret: "showmethemoney", 
+    secret: process.env.SESSION_SECRET || "SuperSecretSession", 
     store: new MongoStore({ mongooseConnection: dbConnection }),
     resave: false, 
-    saveUninitialized: false 
+    saveUninitialized: false,
+	  cookie: {
+	    httpOnly: true,
+	    expires: cookieExpirationDate 
+	  }
   })
 );
 app.use(passport.initialize());
 app.use(passport.session());
-  
+
+/* ===============[ SOCKET.IO Config ]====================*/
+const socket_server = require("./socket_io")(app);
+const SOCKET_PORT = process.env.SOCKET_PORT || 5000;
+const HOST = process.env.HOST || "localhost"
+const socket_url = `http://${HOST}:${SOCKET_PORT}/`
+
 /* ===============[ Add routes, both API and view ]========*/
+const cors = require('cors');
 const routes = require("./routes");
+app.use(cors());
 app.use(routes);
 
 // Start the API server
 app.listen(PORT, function(){
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
+});
+
+// Start the SOCKET server
+socket_server.listen(SOCKET_PORT, () => {
+  console.log(`🌎  ==> Socket Server is running on ${socket_url}`);
 });

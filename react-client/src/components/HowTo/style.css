@@ -1,0 +1,29 @@
+:root {
+  --accent-text: #E9290F;
+  --body-text: #000;
+  --body-background: #fff;
+  --primary-menu-text: #7289da;
+  --primary-menu-background: #2c2f33;
+  --secondary-menu-text: #99aab5;
+  --secondary-menu-background: #23272a;
+  --button-text: #fff;
+  --button-background: #7289da;
+  --discord-blue: #7289da;
+  --discord-gray: #99aab5;
+  --discord-dark: #2c2f33;
+  --discord-darker: #23272a;
+  --react-menu-blue: #282c34;
+}
+
+.animatedHowTo {
+  color: var(--discord-blue);
+  background-color: rgba(30, 32, 34, 0.6);
+  padding: 15px;
+  border-radius: 15px; 
+  border-color: var(--primary-menu-background);
+  box-shadow: 3px 3px 5px 0px var(--accent-text);
+}
+
+.howto button {
+  font-size: 0.75em;
+}

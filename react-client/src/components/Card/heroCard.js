@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import "./ImageCard.css"
-import Tilt from "react-tilt"
+import "./heroCard.css";
+import Tilt from "react-tilt";
 
-class ImageCard extends Component {
+class HeroCard extends Component {
   constructor(props) {
     super(props);
     
+    // console.log("HERO OBJ", props.heroObject);
     this.state = {
       hover: false
     }
@@ -25,7 +26,7 @@ class ImageCard extends Component {
         key={this.props.id}
         id={this.props.id}
         className={["Tilt", "card bg-dark text-center", this.props.addClasses].join(" ")}
-        style={this.state.hover ? {zIndex:1} : {zIndex:0}}
+        style={(this.state.hover || this.props.nohover) ? {zIndex:1} : {zIndex:0}}
         onMouseEnter={() => this.onMouseEnter() }
         onMouseLeave={() => this.onMouseLeave() }
         options={
@@ -43,9 +44,9 @@ class ImageCard extends Component {
           className="card-img-top Tilt-inner" 
           src={this.props.src} 
           alt={this.props.heading} 
-          onClick={() => this.props.handleHeroClick(this.props.id)} 
+          onClick={() => this.props.handleHeroClick(this.props.heroObject)} 
         />
-        <div className="card-body bg-dark text-center" style={this.state.hover ? {opacity: 1} : {opacity: 0}} >
+        <div className="card-body bg-dark text-center" style={(this.state.hover || this.props.nohover) ? {opacity: 1} : {opacity: 0}} >
           <h5 className="card-title">{this.props.heading}</h5>
           <h6 className="card-subtitle mb-2 text-muted">{this.props.subtitle}</h6>
           <p className="card-text font-weight-bold">{this.props.text}</p>
@@ -56,4 +57,4 @@ class ImageCard extends Component {
   }
 }
 
-export default ImageCard;
+export default HeroCard;

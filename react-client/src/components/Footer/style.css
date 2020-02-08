@@ -7,22 +7,13 @@
   --secondary-menu-text: #99aab5;
   --secondary-menu-background: #23272a;
   --button-text: #fff;
+  --success-green: #28a745;
   --button-background: #7289da;
   --discord-blue: #7289da;
   --discord-gray: #99aab5;
   --discord-dark: #2c2f33;
   --discord-darker: #23272a;
   --react-menu-blue: #282c34;
-}
-
-/* Navbar Brand */
-.navbar-brand {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 1rem;
-  font-family: "Montserrat";
-  background-color: var(--primary-menu-background);
 }
 
 .navbar-dark .navbar-brand {
@@ -71,18 +62,20 @@
 /*------------------------------------------------------*/
 #main-footer {
   position: relative;
+  font-family: "Ubuntu";
   display: flex;
   flex-flow: column;
-  height: 83px;
+  height: 50px; /* 83px; */ 
 }
 
 /* Footer Links */
 #footer-nav {
   position: absolute;
-  bottom: 33px;
+  bottom: 0px; /* 33px */
   width: 100%;
   padding: 0 1rem;
-  background-color: var(--primary-menu-background) !important;
+  background-color: transparent !important; /* var(--secondary-menu-background) !important; */ 
+  z-index: 1;
 }
 
 #footer-nav .navbar-collapse {
@@ -215,8 +208,10 @@
 
 /* Footer Credits */
 #footer-bottom {
+  font-family: "Ubuntu";
   position: absolute;
   bottom: 0;
+  height: 50px; 
   width: 100%;
   display: flex;
   display: -ms-flexbox;
@@ -233,14 +228,15 @@
 
 #footer-info {
   text-align: center;
-  color: var(--button-text);
+  color: var(--secondary-menu-text);
 }
 
 .footer-link {
-  color: var(--button-text);
+  color: var(--secondary-menu-text);
   text-decoration: none;
 }
 
+.fa-id-card:hover,
 .footer-link:hover {
   text-decoration: none;
   color: var(--primary-menu-text);

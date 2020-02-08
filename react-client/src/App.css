@@ -15,6 +15,9 @@
   1.2 Comment Section
   1.3 Main Section
   1.4 Add Comment Form
+  1.5 Chatbox
+
+2.0 AlertMessages
   
 /*------------------------------------------------------*/
 /*--------------[ 0.0 THEME COLORS ]--------------------*/
@@ -25,11 +28,12 @@
   --accent-text: #E9290F;
   --body-text: #000;
   --body-background: #fff;
-  --primary-menu-text: #7289da;
+  --primary-menu-text: #0092CA;
   --primary-menu-background: #2c2f33;
   --secondary-menu-text: #99aab5;
   --secondary-menu-background: #23272a;
   --button-text: #fff;
+  --success-green: #28a745;
   --button-background: #7289da;
   --discord-blue: #7289da;
   --discord-gray: #99aab5;
@@ -67,6 +71,7 @@ section.section-block,
 article#main-container {
   background-color: transparent;
   box-shadow: none;
+  height: 100%;
 }
 
 section#comment-section.jumbotron {
@@ -78,17 +83,25 @@ section#comment-section.jumbotron {
   max-width: 75%;
 }
 
-/* 1.3 Main Section (#main-section)
+ Main Section#main-section{
+   height: 100%;
+   margin-top: 800px;
+ }
 /*------------------------------------------------------*/
+
+.col-lg-12 {
+  height: 100%;
+}
+
+
+
 .section-block.row>.col-lg-12 {
   padding-left: 0px;
   padding-right: 0px;
+  height: 100%;
 }
 
-.card {
-  margin-bottom: 15px;
-}
-
+/*
 .card.bg-dark {
   background-color: var(--primary-menu-background) !important;
   border-color: var(--primary-menu-background);
@@ -115,7 +128,7 @@ section#comment-section.jumbotron {
 .card.bg-light .card-header * {
   color: var(--primary-menu-background) !important;
 }
-
+*/
 
 /* 1.4 Add Comment Form (#add-comment-form)
 /*------------------------------------------------------*/
@@ -129,4 +142,44 @@ td.add-comment-form {
 
 #add-comment-form .form-control {
   background-color: #fff;
+}
+
+
+/* 1.5 chatbox
+/*------------------------------------------------------*/
+.chatbox {
+  font-size: 15px;
+  font-family: "ubuntu";
+}
+
+.chatbox h3 {
+  font-family: "ubuntu";
+  font-size: 1.5em;
+}
+
+/*------------------------------------------------------*/
+/*--------------[ 2.0 AlertMessages ]-------------------*/
+/*------------------------------------------------------*/
+/* 2.1 alerts
+/*------------------------------------------------------*/
+
+.alert-info {
+  color: var(--button-background);
+  border-color: var(--primary-menu-text);
+  background-color: var(--secondary-menu-background);
+  box-shadow: 5px 5px 10px 0 var(--primary-menu-text);
+}
+
+.alert-success {
+  color: var(--success-green);
+  border-color: var(--success-green);
+  background-color: var(--secondary-menu-background);
+  box-shadow: 5px 5px 10px 0 var(--success-green);
+}
+
+.alert-danger {
+  color: var(--accent-text);
+  border-color: var(--accent-text);
+  background-color: var(--secondary-menu-background);
+  box-shadow: 5px 5px 10px 0px var(--accent-text);
 }

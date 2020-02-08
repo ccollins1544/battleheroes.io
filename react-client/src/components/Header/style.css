@@ -7,6 +7,7 @@
   --secondary-menu-text: #99aab5;
   --secondary-menu-background: #23272a;
   --button-text: #fff;
+  --success-green: #28a745;
   --button-background: #7289da;
   --discord-blue: #7289da;
   --discord-gray: #99aab5;
@@ -24,14 +25,15 @@
 
 #main-nav,
 #mobile-nav {
-  max-width: 1080px;
+  padding: 0.85rem 1rem;
+  max-width: 100%;
   margin: 0 auto;
   background-color: var(--primary-menu-background) !important;
 }
 
 #main-nav .navbar-nav .nav-link,
 #mobile-nav .navbar-nav .nav-link {
-  font-size: 1.3em;
+  font-size: 1em;
   cursor: pointer;
   color: var(--primary-menu-text);
 }
@@ -62,7 +64,8 @@
   top: 0;
   left: 0;
   padding: 1rem;
-  font-family: "Montserrat";
+  font-size: 1.25rem;
+  font-family: 'Press Start 2P', cursive;
   background-color: var(--primary-menu-background);
 }
 
@@ -107,8 +110,16 @@
   }
 }
 
+/* 2.2 Nav-Link Icons */ 
+.nav-link .svg-inline--fa {
+  color: var(--secondary-menu-text);
+}
 
-/* 2.2 Hamburger Nav
+.nav-link .fa-swords {
+  color: var(--accent-text);
+}
+
+/* 2.3 Hamburger Nav
 /*------------------------------------------------------*/
 #mobile-nav {
   display: flex;
@@ -137,4 +148,8 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
+}
+
+#hero-icon {
+  width: 25px;
 }
