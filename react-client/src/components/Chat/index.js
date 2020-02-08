@@ -64,19 +64,6 @@ const Chat = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="outerContainer">
-      <div className="container">
-        <InfoChat game_id={game_id} />
-        <Messages messages={messages} user_id={user_id} />
-        <Input
-          message={message}
-          setMessage={setMessage}
-          sendMessage={sendMessage}
-        />
-      </div>
-    </div>
-=======
     <>
       <InfoChat game_id={game_id} />
       <Messages messages={messages} user_id={user_id} />
@@ -86,7 +73,6 @@ const Chat = () => {
         sendMessage={sendMessage}
       />
    </>
->>>>>>> 0305238c87dd5a6cf378368eb2dcb6eceddcdf6d
   );
 };
 
