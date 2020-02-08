@@ -5,7 +5,6 @@
  * @version 2.0.0
  * 
  * @todo 
- * -challenge page: finish 5 forms logic
  * -battle page
  * -chat box on battle page
  */

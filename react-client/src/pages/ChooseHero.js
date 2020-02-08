@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Utils from "../utils/";
 import Wrapper from "../components/Wrapper";
 import { SectionRow } from "../components/Grid";
 import Hero from "../components/Hero/"
@@ -6,22 +7,7 @@ import Hero from "../components/Hero/"
 const ChooseHero = () => {
   const [ background, setBackground ] = useState({});
   useEffect(() => {
-    const bg_collection = [
-      '/img/choose-hero-bg1.gif',
-      '/img/choose-hero-bg2.gif',
-      '/img/choose-hero-bg3.webp',
-      '/img/choose-hero-bg4.webp',
-      '/img/choose-hero-bg5.webp',
-    ];
-
-    let bg_url = bg_collection[Math.floor(Math.random()*bg_collection.length)];
-    let bg_style = {
-      backgroundImage: `url('${bg_url}')`,
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover'
-    }
-
-    setBackground(bg_style);
+    setBackground(Utils.getBgStyle("choose_hero"));
     return; 
   }, []);
 
