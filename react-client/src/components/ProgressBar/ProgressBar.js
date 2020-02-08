@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import "./style.css";
+
 const Range = props => {
   return (
     // render current the filled range of progress bar along its width
@@ -16,22 +18,40 @@ const ProgressBar = props => {
 };
 
 export const ProgressBarContainer = props => {
-  const [percentRange, setProgress] = useState(props.hp || 100);
+  console.log("ProgressBarContainer", props);
+
+  // const { gameState, setGameState } = props;
+  // const [percentRange, setProgress] = useState(gameState.ally_hp || 100);
 
   return (
-    <div className="container">
-      {/*pass the percentageRange state to other components*/}
-      <ProgressBar percentRange={percentRange} />
-      <div className="toggle-buttons">
-        {/* call setProgress func on button click and bind the callback*/}
-        {/* depending on the percentageRange condition to decrease /*/}
-        {/* increase in 20% range and reset the progress bar status*/}
+    <div>
+      <ProgressBar percentRange={props.team === "ally" ? props.gameState.ally_hp : props.gameState.rival_hp} />
+      {/* <div className="toggle-buttons">
         <button
-          onClick={() => setProgress(percentRange > 0 ? percentRange - 20 : 0)}
+          onClick={() => {
+            const Attack = new Promise((resolve, reject) => {
+              let damage = props.playerObj.handleAttack({ 
+                game_id: props.game_id,
+                ally_id: props.user_id,
+                ally_hero_id: props.hero,
+                ally_hero_attack1_dmg: props.selectedHero.attack1_dmg,
+                ally_hero_attack2_dmg: props.selectedHero.attack2_dmg
+              });
+              
+              resolve(damage);
+            });
+
+            Attack.then(calculatedDamage => {
+              console.log("gameState", props.gameState);
+              props.setGameState(prevState =>({...prevState,
+                rival_hp: props.gameState.rival_hp > 0 ? props.gameState.rival_hp - (calculatedDamage || 20) : 0
+              }));
+            });
+          }}
         >
           Attack
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
