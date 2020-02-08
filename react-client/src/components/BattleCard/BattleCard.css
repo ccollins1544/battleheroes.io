@@ -5,7 +5,7 @@
   margin-bottom: 20px;
 }
 
-.card {
+.battle-card {
   background-color: rgba(44, 47, 51, 0.75);
   color: #7289da;
   border-style: solid;
@@ -13,19 +13,19 @@
   border-width: 5px;
   border-radius: 25px;
   margin: 0 auto;
+  width: 430px;
 }
 
-.card-text {
+.battle-card-text {
   font-size: 15px;
   margin-top: 20px;
 }
 
-.list-group-item {
+.battle-card-text .list-group-item {
   background-color: rgb(44, 47, 51);
   color: #7289da;
   text-align: center;
 }
-
 
 .versus {
   display: flex;
@@ -35,6 +35,3 @@
 .versus img {
   width: 100%;
 }
-
-
-

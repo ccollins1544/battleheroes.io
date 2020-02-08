@@ -16,6 +16,10 @@ export function SectionRow({ fluid, id, children }) {
   return <div className={["section-block", `row${fluid ? "-fluid" : ""}`].join(" ")} id={id}>{children}</div>;
 }
 
+export function FullSectionRow({ fluid, id, children }) {
+  return <div className={["full-section-block", `row${fluid ? "-fluid" : ""}`].join(" ")} id={id}>{children}</div>;
+}
+
 // This Col component lets us size bootstrap columns with less syntax
 // e.g. <Col size="md-12"> instead of <div className="col-md-12">
 export function Col({ size, addClass, children }) {

@@ -134,6 +134,19 @@ article#main-container {
   justify-content: flex-start;
   align-content: flex-start;
   margin: 0 auto;
+  max-width: 1080px;
+  min-height: calc(50vh - 100px);
+  text-align: center;
+  font-size: xx-large;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.full-section-block {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  margin: 0 auto;
   max-width: 100%;
   min-height: calc(50vh - 100px);
   text-align: center;
