@@ -15,8 +15,8 @@ const ProgressBar = props => {
   );
 };
 
-export const ProgressBarContainer = () => {
-  const [percentRange, setProgress] = useState(100);
+export const ProgressBarContainer = props => {
+  const [percentRange, setProgress] = useState(props.hp || 100);
 
   return (
     <div className="container">
