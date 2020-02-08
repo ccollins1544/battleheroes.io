@@ -1,39 +1,74 @@
 import React, { useContext, useState, useEffect } from "react";
 import UserContext from "../userContext";
+import { GameContext } from "../gameContext";
+import Utils from "../utils/";
+import API from "../utils/API";
 import Wrapper from "../components/Wrapper";
 import Chat from "../components/Chat";
-import { SectionRow, Col } from "../components/Grid";
+import { FullSectionRow, Col } from "../components/Grid";
+import BattleCard from "../components/BattleCard/BattleCard";
 
-function Battle() {
+const Battle = () => {
+
+  // =========================[ useEffect ]=========================================
   const { userState } = useContext(UserContext);
+  const { gameState, setGameState, handleAttack, ally, setAlly, rival, setRival } = useContext(GameContext);
+  
+  const [ background, setBackground ] = useState(Utils.getBgStyle("battle"));
+  // const [ ally, setAlly ] = useState(null);
+  // const [ rival, setRival ] = useState(null);
+  const [ pageContent, setPageContent ] = useState({ 
+    gameMessage: "Fight", 
+    buttonMessage: "Attack", 
+    buttonID: "attack_btn"
+  });
 
-  const [ background, setBackground ] = useState({});
-  useEffect(() => {
-    const bg_collection = [
-      '/img/battle-bg1.gif',
-      '/img/battle-bg2.webp',
-      '/img/battle-bg3.webp',
-      '/img/battle-bg4.webp',
-      '/img/battle-bg5.webp',
-    ];
-
-    let bg_url = bg_collection[Math.floor(Math.random()*bg_collection.length)];
-    let bg_style = {
-      backgroundImage: `url('${bg_url}')`,
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover'
-    }
-
-    setBackground(bg_style);
-  }, []);
+  // useEffect(() => {
+  //   setBackground(Utils.getBgStyle("battle"));
+  // }, []);
 
   return (
     <Wrapper className="App" id="main-container" style={background}>
-      <SectionRow id="main-section">
-        <Col size="lg-12">
-          {userState.loggedIn && userState.user_id && userState.game_id && <Chat />}
+      <FullSectionRow id="main-section">
+        {userState.loggedIn && userState.user_id && userState.game_id && (
+          <Col size="lg-3" addClass="chatbox">
+            <Chat />
+          </Col>
+        )}
+        
+        {ally && ally.selectedHero && (
+          <Col size="lg-4">
+            <BattleCard 
+              id={ally.user_id}
+              key={ally.user_id}
+              selectedHero={ally.selectedHero} 
+              playerObj={ally}
+              gameState={gameState}
+              setGameState={setGameState}
+              team="ally"
+            /> 
+          </Col>
+        )}
+
+        <Col size="sm-1" addClass="versus">
+          <img src="img/vs2.png" title="versus" />
         </Col>
-      </SectionRow>
+
+        {rival && rival.selectedHero && (
+        <Col size="lg-4">
+          <BattleCard 
+            id={rival.user_id}
+            key={rival.user_id}
+            selectedHero={rival.selectedHero}
+            playerObj={rival}
+            gameState={gameState}
+            setGameState={setGameState}
+            team="rival"
+          /> 
+        </Col>
+        )}
+        
+      </FullSectionRow>
     </Wrapper>
   );
 }

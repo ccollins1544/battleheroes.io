@@ -30,5 +30,5 @@ export default {
   acceptGame: gameData => axios.post('/api/battle/accept', gameData),
   readyGame: gameData => axios.post('/api/battle/accept/' + gameData.game_id, gameData),
   attackPlayer: gameData => axios.patch('/api/battle/attack', gameData),
-
+  
 };
