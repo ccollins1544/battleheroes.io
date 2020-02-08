@@ -24,9 +24,11 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const { user_id , game_id } = userState;
-    socket = io(ENDPOINT);
+    // const { user_id , game_id } = userState;
+    const user_id = userState.username.split('@')[0];
+    const game_id = userState.game_id;
 
+    socket = io(ENDPOINT);
     setGameID(game_id);
     setUserID(user_id);
 

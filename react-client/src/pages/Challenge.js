@@ -33,6 +33,7 @@ const Challenge = () => {
         break;
     
       case "accept_challenge_form":
+        if(!rival.active_game) break;  // bug??
         let newGames = [
           game_id,
           rival.active_game
@@ -57,8 +58,13 @@ const Challenge = () => {
         break;
 
       case "player_ready_form":
+        formData.game_id = game_id; 
+        formData.rival_id = userState.user_id;
+        formData.rival_hero_id = userState.selected_hero_id;
+        formData.rival_hero_hp = userState.selectedHero.hp
+
         if(game_id) {
-          API.readyGame(game_id).then(response => {
+          API.readyGame(formData).then(response => {
             console.log("player_ready_form", response.data);
             setUser(prevState => ({...prevState, 
               game_status: 3,
@@ -71,8 +77,13 @@ const Challenge = () => {
         break;
 
       case "in_game_form":
+        formData.game_id = game_id; 
+        formData.rival_id = userState.user_id;
+        formData.rival_hero_id = userState.selected_hero_id;
+        formData.rival_hero_hp = userState.selectedHero.hp
+
         if(game_id) {
-          API.readyGame(game_id).then(response => {
+          API.readyGame(formData).then(response => {
             console.log("player_ready_form", response.data);
             setUser(prevState => ({...prevState, 
               game_status: 3,
