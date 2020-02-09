@@ -123,29 +123,6 @@ const GameProvider = ({ children }) => {
       }
     }); 
 
-    // Check for pending games
-    let pendingGameID = [];
-    if(games && game_id){
-      pendingGameID = games.filter(game => game !== game_id );
-    }
-
-    if(pendingGameID.length > 0 && game_status < 2){
-      console.log("PENDING GAME", pendingGameID);
-      check_for_pending_games(pendingGameID[0]);
-
-    }else if(game_status < 2) {
-      updatePage({
-        gameMessage: "Search Challenge", 
-        buttonMessage: "Send Invite", 
-        formID: "challenge_player_form"
-      });
-    }
-
-    if(game_status < 2) { 
-      updatePlayers(); 
-      return; 
-    }
-
     if(game_status === 3) { 
       console.log("game is in progress");
       updatePage({
@@ -156,11 +133,31 @@ const GameProvider = ({ children }) => {
       
       return;
     }
-    
+
+    // Check for pending games
+    let pendingGameID = [];
+    if(games && game_id){
+      pendingGameID = games.filter(game => game !== game_id );
+    }
+
+    if(pendingGameID.length > 0 && game_status < 2){
+      console.log("PENDING GAME", pendingGameID);
+      check_for_pending_games(pendingGameID[0]);
+      
+      return;
+    }else if(game_status < 2) {
+      updatePlayers(); 
+      updatePage({
+        gameMessage: "Search Challenge", 
+        buttonMessage: "Send Invite", 
+        formID: "challenge_player_form"
+      });
+      return; 
+    }
+
     // --------------[ game_status = 2 is everything past this point ]----------------------------
     // Check if opponent accepted......
     check_if_opponent_accepted();
-
   };
 
   // =========================[ updatePlayers ]=====================================
@@ -203,6 +200,7 @@ const GameProvider = ({ children }) => {
           setRival(prevState => ({...prevState, ...rivalObj,
             rival_id: rivalObj._id,
             rival_hero_id: rivalObj.hero,
+            handleAttack: handleAttack
           }));
 
           API.getHeroById(rivalObj.hero)
@@ -211,7 +209,8 @@ const GameProvider = ({ children }) => {
             console.log("BE MY HERO", heroObj.data);
             setRival(prevState => ({...prevState, 
               selectedHero: heroObj.data, 
-              rival_hero_hp: heroObj.data.hp
+              rival_hero_hp: heroObj.data.hp,
+              handleAttack: handleAttack
             }));
 
             updatePage({
@@ -241,12 +240,13 @@ const GameProvider = ({ children }) => {
                     rival_hero_hp: ((heroObj.data.hp / heroObj.data.hp)*100),
                     selectedHero: heroObj.data,
                     hp: ((heroObj.data.hp / heroObj.data.hp)*100),
-                    max_hp: heroObj.data.hp
+                    max_hp: heroObj.data.hp,
+                    handleAttack: handleAttack
                   }
                 ));  
               });
 
-          }).then(rivalObj => { console.log("rivalObj", rivalObj); setRival(rivalObj); })
+          }).then(rivalObj => { console.log("rivalObj", rivalObj); setRival(prevState => ({...prevState, rivalObj})); })
           // }).then(rivalObj => setRival(rivalObj))
           .catch(error => (Utils.AlertMessage("Error: " + error, "danger")));
         }
@@ -279,11 +279,12 @@ const GameProvider = ({ children }) => {
                 rival_hero_hp: ((heroObj.data.hp / heroObj.data.hp)*100),
                 selectedHero: heroObj.data,
                 hp: ((heroObj.data.hp / heroObj.data.hp)*100),
-                max_hp: heroObj.data.hp
+                max_hp: heroObj.data.hp,
+                handleAttack: handleAttack
             }
           ));  
         });
-      }).then(rivalObj => { console.log("rivalObj", rivalObj); setRival(rivalObj); })
+      }).then(rivalObj => { console.log("rivalObj", rivalObj); setRival(prevState => ({...prevState, rivalObj})); })
       // }).then(rivalObj => setRival(rivalObj))
       .catch(error => (Utils.AlertMessage("Error: " + error, "danger")));
 
@@ -315,9 +316,10 @@ const GameProvider = ({ children }) => {
               rival_id: rivalObj._id,
               rival_hero_id: rivalObj.hero,
               rival_hero_hp: heroObj.data.hp,
-              selectedHero: heroObj.data 
+              selectedHero: heroObj.data,
+              handleAttack: handleAttack
             })); 
-        }).then(rivalObj => { console.log("rivalObj", rivalObj); setRival(rivalObj); })
+        }).then(rivalObj => { console.log("rivalObj", rivalObj); setRival(prevState => ({...prevState, rivalObj})); })
         // }).then(rivalObj => setRival(rivalObj))
 
         // =========[ updateGame - Ready? ]====================================

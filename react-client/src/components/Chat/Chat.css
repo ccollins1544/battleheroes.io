@@ -17,6 +17,7 @@
   --discord-darker: #23272a;
   --react-menu-blue: #282c34;
 }
+
 .outerContainer {
   display: flex;
   justify-content: center;
@@ -41,7 +42,8 @@
 }
 
 .sendButton {
-  background-color: #7289da;
+  background-color: var(--secondary-menu-background);
+  margin-right: 0px;
 }
 
 .css-y1c0xs {

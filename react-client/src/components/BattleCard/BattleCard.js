@@ -41,11 +41,13 @@ class BattleCard extends Component {
             onClick={() => {
               const Attack = new Promise((resolve, reject) => {
                 let damage = this.props.playerObj.handleAttack({ 
-                  game_id: this.props.game_id,
-                  ally_id: this.props.user_id,
-                  ally_hero_id: this.props.hero,
-                  ally_hero_attack1_dmg: this.props.selectedHero.attack1_dmg,
-                  ally_hero_attack2_dmg: this.props.selectedHero.attack2_dmg
+                  game_id: this.props.playerObj.game_id,
+                  ally_id: this.props.playerObj.id,
+                  ally_hero_id: this.props.playerObj.hero,
+                  ally_hero_attack1_dmg: (this.props.selectedHero.attack1_dmg) ? 
+                    this.props.selectedHero.attack1_dmg : this.props.playerObj.selectedHero.attack1_dmg,
+                  ally_hero_attack2_dmg: (this.props.selectedHero.attack2_dmg) ? 
+                    this.props.selectedHero.attack2_dmg : this.props.playerObj.selectedHero.attack2_dmg,
                 });
                 
                 resolve(damage);
@@ -53,10 +55,19 @@ class BattleCard extends Component {
   
               Attack.then(calculatedDamage => {
                 console.log("gameState", this.props.gameState);
+                let starting_rival_hp = (this.props.gameState.rival_hp) ? this.props.gameState.rival_hp : (
+                  (this.props.playerObj.hp) ? this.props.playerObj : 100
+                );
+
                 this.props.setGameState(prevState =>({...prevState,
-                  rival_hp: this.props.gameState.rival_hp > 0 ? this.props.gameState.rival_hp - (calculatedDamage || 20) : 0
+                  rival_hp: starting_rival_hp > 0 ? starting_rival_hp - (calculatedDamage || 20) : 0
                 }));
-              });
+
+                return calculatedDamage;
+              }).then(calculatedDamage => {
+                console.log("calculatedDamage", calculatedDamage);
+
+              })
             }}
 
           >

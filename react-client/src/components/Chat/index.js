@@ -63,7 +63,7 @@ const Chat = () => {
   };
 
   return (
-    <>
+    <div className="chatbox">
       <InfoChat game_id={game_id} />
       <Messages messages={messages} user_id={user_id} />
       <Input
@@ -71,7 +71,7 @@ const Chat = () => {
         setMessage={setMessage}
         sendMessage={sendMessage}
       />
-   </>
+   </div>
   );
 };
 

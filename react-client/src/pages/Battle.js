@@ -27,7 +27,7 @@ const Battle = () => {
     <Wrapper className="App" id="main-container" style={background}>
       <FullSectionRow id="main-section">
         {userState.loggedIn && userState.user_id && userState.game_id && (
-          <Col size="lg-3" addClass="chatbox">
+          <Col size="lg-3">
             <Chat />
           </Col>
         )}
