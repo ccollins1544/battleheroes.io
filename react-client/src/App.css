@@ -144,6 +144,32 @@ td.add-comment-form {
   background-color: #fff;
 }
 
+/* #challenge_player_form
+/*------------------------------------------------------*/
+#challenge_player_form {
+  color: var(--discord-blue);
+  background-color: var(--primary-menu-background);
+  box-shadow: 5px 5px 10px 0 var(--primary-menu-text);
+  border: solid 1px var(--primary-menu-text);
+}
+
+#challenge_player_form .form-row {
+  padding: 15px;
+}
+
+#challenge_player_form .form-label {
+  font-size: 25px;
+}
+
+#challenge_player_form .form-control {
+  color: var(--primary-menu-text);
+  background-color: var(--secondary-menu-background);
+  border: solid 1px var(--secondary-menu-background);
+}
+
+#challenge_player_form .btn {
+  font-size: 1em;
+}
 
 /* 1.5 chatbox
 /*------------------------------------------------------*/

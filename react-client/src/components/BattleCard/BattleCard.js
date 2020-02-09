@@ -8,8 +8,6 @@ class BattleCard extends Component {
   }
   
   render() {
-    let hp_percent = (this.props.playerObj.hp / this.props.playerObj.max_hp)*100;
-
     return (
       <div className="card battle-card">
         <img
@@ -20,18 +18,6 @@ class BattleCard extends Component {
         <div className="card-body">
           <h6 className="card-subtitle mb-2 text-muted">{this.props.playerObj.username.split('@')[0]}</h6>
 
-          {/* <div className="progress">
-            <div
-              className="progress-bar bg-success"
-              role="progressbar"
-              style={{width: `${hp_percent}%`}}
-              aria-valuenow={hp_percent}
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              {`${hp_percent}%`}
-            </div>
-          </div> */}
           <ProgressBarContainer {...this.props} />
           <p className="card-text battle-card-text">
 

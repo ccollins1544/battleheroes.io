@@ -11,9 +11,10 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   }
 );
 
+/*
 // Detect if you've been challenged.
 db.User.find({
-  '_id': "5e3e331909613652d03436b5",
+  '_id': "5e3f30822600472890e11ce3",
 },
 {
   'active_game': 1,
@@ -21,24 +22,26 @@ db.User.find({
 }
 ).then(searchResponse =>{
   console.log(searchResponse);
-  console.log(searchResponse[0].active_game);
 
-  db.User.find({
-    '_id': "5e3e325b09613652d03436b3",
-    'games': searchResponse[0].active_game
-  }).then(dbModel =>{
-    if(dbModel.length === 0){
-      console.log("You not in that game", dbModel);
-    }else{
-      console.log("You are in this game", dbModel);
+  let { games, active_game } = searchResponse[0];
+  console.log("ACTIVE GAME", active_game);
+  console.log("ALL",games);
+
+  let possibleGameInvites;
+  games.forEach(element => {
+    if(active_game !== element){
+      possibleGameInvites = element;
     }
-    process.exit(0);
   });
+
+  console.log("POSSIBLE GAME:", possibleGameInvites);
+  process.exit(0);
 
 }).catch(err => {
   console.error(err);
   process.exit(1);
 });
+*/
 
 /*
 db.Game.findOneAndUpdate(
@@ -57,3 +60,39 @@ db.Game.findOneAndUpdate(
   process.exit(1);
 });
 */
+
+db.User.find({
+  $and : [
+    { 'games': "5e3f79bf7d37bc09286149a1" },
+    { '_id': "5e3f79ba7d37bc09286149a0" },
+  ]
+},
+{
+  'games': 1, '_id': 0, 'active_game': 1
+}).then(userGamesResponse =>{
+  console.log(userGamesResponse);
+
+  let { games, active_game } = userGamesResponse[0];
+  let possibleGameInvites;
+  games.forEach(element => {
+    if(active_game !== element){
+      possibleGameInvites = element;
+    }
+  });
+  
+  return possibleGameInvites;
+}).then(possibleGameInvites => {
+  console.log("POSSIBLE GAME:", possibleGameInvites);
+  
+  db.Game.findOne({
+    _id: possibleGameInvites
+  })
+  .then(dbModel => {
+    console.log(dbModel);
+    process.exit(0);
+  })
+
+}).catch(err => {
+  console.error(err);
+  process.exit(1);
+});

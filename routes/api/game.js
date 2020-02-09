@@ -17,4 +17,8 @@ router.route("/:game_id")
 router.route("/pending")
   .patch(gameController.pendingRival);
 
+// Matches with "/api/game/pending/possible"
+router.route("/pending/possible")
+  .post(gameController.myPendingGame);
+
 module.exports = router;

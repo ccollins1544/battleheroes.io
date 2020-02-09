@@ -32,8 +32,8 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={SignUp} />
               <Route exact path="/choose-hero" component={ChooseHero}></Route>
-              <Route exact path="/challenge" component={Challenge}></Route>
               <GameProvider>
+                <Route exact path="/challenge" component={Challenge}></Route>
                 <Route path="/battle" component={Battle}></Route>
               </GameProvider>
               <Route path="*" component={Index} /> 

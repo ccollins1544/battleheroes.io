@@ -9,14 +9,11 @@ import { FullSectionRow, Col } from "../components/Grid";
 import BattleCard from "../components/BattleCard/BattleCard";
 
 const Battle = () => {
-
   // =========================[ useEffect ]=========================================
   const { userState } = useContext(UserContext);
   const { gameState, setGameState, handleAttack, ally, setAlly, rival, setRival } = useContext(GameContext);
   
   const [ background, setBackground ] = useState(Utils.getBgStyle("battle"));
-  // const [ ally, setAlly ] = useState(null);
-  // const [ rival, setRival ] = useState(null);
   const [ pageContent, setPageContent ] = useState({ 
     gameMessage: "Fight", 
     buttonMessage: "Attack", 
@@ -24,7 +21,6 @@ const Battle = () => {
   });
 
   // useEffect(() => {
-  //   setBackground(Utils.getBgStyle("battle"));
   // }, []);
 
   return (

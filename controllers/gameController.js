@@ -106,12 +106,13 @@ module.exports = {
   findById: function (req, res) {
     console.log("findbyid");
     db.Game.findOne({
-        _id: req.params.game_id
-      })
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+      _id: req.params.game_id
+    })
+    .then(dbModel => res.json(dbModel))
+    .catch(err => res.status(422).json(err));
   },
 
+  // PATCH /api/game/pending
   pendingRival: function(req, res){
     console.log("pending Rival", req.body);
     let { games, my_id } = req.body;
@@ -126,6 +127,42 @@ module.exports = {
       .catch(err => res.status(422).json(err));
     }else{
       res.status(200).send("No Pending Rivals Found!");
+    }
+  },
+
+  // POST /api/game/pending/possible
+  myPendingGame: function(req, res){
+    let { games, my_id } = req.body;
+    if( games && my_id ){
+      db.User.find({
+        $and : [
+          { 'games' : games },
+          { '_id': my_id }
+        ]
+      },
+      {
+        'games': 1, '_id': 0, 'active_game': 1
+      }).then(userGamesResponse => {
+        let { games, active_game } = userGamesResponse[0];
+        let possibleGameInvites;
+
+        games.forEach(element => {
+          if(active_game !== element){
+            possibleGameInvites = element;
+          }
+        });
+        
+        return possibleGameInvites;
+      }).then(possibleGameInvites => {
+        db.Game.findOne({
+          _id: possibleGameInvites
+        })
+        .then(dbPossible => res.json(dbPossible))
+        .catch(err => res.status(200).send("No Possible Games Found!"));
+      }).catch(err => res.status(422).json(err));
+
+    }else{
+      res.status(200).send("No Possible Games Found!");
     }
   }
 

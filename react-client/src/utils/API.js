@@ -25,6 +25,7 @@ export default {
   searchChallenge: user_id => axios.get('/api/game/challenge', user_id),
   getGameById: game_id => axios.get('/api/game/' + game_id),
   getPendingRival: gameData => axios.patch('/api/game/pending', gameData),
+  getMyPendingGame: userData => axios.post('/api/game/pending/possible', userData),
 
   // BATTLE
   acceptGame: gameData => axios.post('/api/battle/accept', gameData),
