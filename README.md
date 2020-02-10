@@ -4,7 +4,7 @@
 Multiplayer battle game that gives players a chance to choose a hero and battle their friends. User friendly, simple, start to finish game play. 
 
 # Using Battle Heroes
-Access live site [here](https://battleheroes.io/)
+Access live site [here](http://battleheroes.io/)
 
 ![](react-client/public/img/battle-heroes-io-bg.png)
 
