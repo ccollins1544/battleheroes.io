@@ -1,9 +1,24 @@
 # Battle Heroes
 
-Multiplayer hero game
+Multiplayer battle game that gives players a chance to choose a hero and battle their friends. User friendly, simple, start to finish game play. 
 
 # Using Battle Heroes
-Access live site [here](https://battleheroes.io/) or dev site [here](http://dev.battleheroes.io)
+Access live site [here](https://battleheroes.io/)
+
+# Limitations 
+
+These limitations and constrains apply:
+
+* Turns are not kept track of yet.
+* Requires page reload sometimes to get data updating. 
+
+# Features 
+
+* Dozen apis to connect to MongoDB for game play manipulation. 
+* Email players on sign-up and when challenged by other players. (nodemailer)
+* Chat functionality (socket.io)
+* User Authentication (passport local strategy)
+* Animations (react-spring)
 
 ## Available Scripts
 
@@ -16,6 +31,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
+
+### `npm seed`
+
+Seeds the database with heroes. 
 
 ### Credit
 * [Tyler Webb](https://www.linkedin.com/in/tyler-webb-363843199/)

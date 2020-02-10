@@ -23,7 +23,7 @@ function SocketServer(express_app) {
 
       socket.join(user.game_id);
 
-      socket.emit('message', { user: 'admin', text: `${user.user_id}, welcome to game ${user.game_id}.`});
+      socket.emit('message', { user: 'admin', text: `${user.user_id}, welcome to game.`});
       socket.broadcast.to(user.game_id).emit('message', { user: 'admin', text: `${user.user_id} has joined!` });
 
       io.to(user.game_id).emit('gameData', { game_id: user.game_id, users: getUsersInGame(user.game_id) });

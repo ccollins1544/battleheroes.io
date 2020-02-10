@@ -23,11 +23,11 @@ function Footer(){
   return (
     <footer id="main-footer">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark" id="footer-nav">
-        {userState.loggedIn && (
+        {/* {userState.loggedIn && (
         <div style={debug_style}>{Object.keys(userState).map(key => 
           typeof userState[key] === 'object' && userState.user_groups && userState.user_groups.includes("Admin") ? `${key}: ${JSON.stringify(userState[key])} | ` : `${key}: ${userState[key]} | `
         )}
-        </div>)}
+        </div>)} */}
         <div className="navbar-collapse">
           <ul className="navbar-nav">
             <li className="nav-item"> 
