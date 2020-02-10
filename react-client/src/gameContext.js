@@ -28,7 +28,7 @@ const GameProvider = ({ children }) => {
     
     // Data Validation 
     game_id = (GAME_ID) ? GAME_ID : game_id;
-    if(GAME_STATUS){ 
+    if(GAME_STATUS){
       game_status = GAME_STATUS;
       setUser(prevState => ({...prevState, game_status: game_status })); 
       setAlly(prevState => ({...prevState, game_status: game_status }));
@@ -39,11 +39,19 @@ const GameProvider = ({ children }) => {
       setUser(prevState => ({...prevState, games: games })); 
     }
 
+    if(game_status !== 3 && gameState.hasOwnProperty('intervalId')){
+      clearInterval(gameState.intervalId);
+    }
+    
     console.log("userState", userState);
 
     API.getGameById(game_id)
     .then(gameResponse => {
       console.log("gameResponse",gameResponse.data);
+      let { true_rival } = gameResponse.data;
+      setGameState(prevState => ({ ...prevState, true_rival: true_rival }));
+      console.log("GAME STATE", gameState);
+
       if(!ally){
 
         console.log("updating ally");
@@ -80,7 +88,7 @@ const GameProvider = ({ children }) => {
       }
 
       console.log("?Rival", rival);
-      if(!rival){
+      if(!rival || rival.user_id === user_id ){
         let { players, heroes, rival_id, rival_hero_id, rival_hero_hp, turn_count } = gameResponse.data; 
         
         let rivalData = {
@@ -90,17 +98,18 @@ const GameProvider = ({ children }) => {
           handleAttack: handleAttack
         }
 
-        if( !rivalData.user_id ){
+        if( !rivalData.user_id || rivalData.user_id === user_id ){
           let rivalArray = players.filter(player => player !== user_id);
           rivalData.user_id = rivalArray[0];
         }
 
         console.log("Attempting to get Rival:", rivalData.user_id );
+
         if(!rivalData.user_id) return; 
 
         API.getUserById(rivalData.user_id)
         .then(rivalUserResponse => {
-          API.getHeroById(rivalData.hero)
+          API.getHeroById(rivalUserResponse.data.hero)
           .then(heroObj => (
             {
               ...rivalUserResponse.data, 
@@ -112,18 +121,26 @@ const GameProvider = ({ children }) => {
           .then(rivalMixedData => {
             setRival({...rivalData, ...rivalMixedData});
             setGameState(prevState => ({ ...prevState, 
-              rival_id: rivalData._id,
+              rival_id: rivalData.user_id,
               rival_hero_id: rivalData.hero,
-              rival_hp: rivalData.hp 
+              rival_hp: (rivalData.hp) ? rivalData.hp : rivalMixedData.hp
             }));
             console.log("!Rival", rival);
           });
         })
-
       }
     }); 
 
     if(game_status === 3) { 
+      /*
+      if(gameState.true_rival === userState.user_id){
+        let TRUE_RIVAL = rival;
+        let YOU = ally; 
+
+        setRival(YOU);s
+        setAlly(TRUE_RIVAL);
+      } */
+
       console.log("game is in progress");
       updatePage({
         gameMessage: "The Battle Has Started!",
@@ -226,7 +243,7 @@ const GameProvider = ({ children }) => {
           // if you made it to here then you must have a pending game invite 
           API.getMyPendingGame({ games: game_id, my_id: user_id })
           .then(possibleGameResponse => {
-            console.log("possibleGameResponse", possibleGameResponse);
+            console.log("possibleGameResponse", possibleGameResponse.data);
 
             return API.getUserById(possibleGameResponse.data.instigator_id)
               .then(rivalUserResponse => ({...rivalUserResponse.data, game: possibleGameResponse.data}))
@@ -246,17 +263,19 @@ const GameProvider = ({ children }) => {
                 ));  
               });
 
-          }).then(rivalObj => { console.log("rivalObj", rivalObj); setRival(prevState => ({...prevState, rivalObj})); })
+          }).then(rivalObj => { console.log("rivalObj", rivalObj); 
+            setRival(prevState => ({...prevState, rivalObj})); 
+
+            updatePage({
+              gameMessage: "You Have a Pending Game Invite",
+              buttonMessage: "Accept?",
+              formID: "accept_challenge_form"
+            });
+          })
           // }).then(rivalObj => setRival(rivalObj))
           .catch(error => (Utils.AlertMessage("Error: " + error, "danger")));
         }
 
-        updatePage({
-          gameMessage: "You Have a Pending Game Invite",
-          buttonMessage: "Accept?",
-          formID: "accept_challenge_form"
-        });
-        
       });   
     }else{
 
@@ -284,15 +303,17 @@ const GameProvider = ({ children }) => {
             }
           ));  
         });
-      }).then(rivalObj => { console.log("rivalObj", rivalObj); setRival(prevState => ({...prevState, rivalObj})); })
+      }).then(rivalObj => { console.log("rivalObj", rivalObj); 
+        setRival(prevState => ({...prevState, rivalObj})); 
+
+        updatePage({
+          gameMessage: "You Have a Pending Game Invite",
+          buttonMessage: "Accept?",
+          formID: "accept_challenge_form"
+        });
+      })
       // }).then(rivalObj => setRival(rivalObj))
       .catch(error => (Utils.AlertMessage("Error: " + error, "danger")));
-
-      updatePage({
-        gameMessage: "You Have a Pending Game Invite",
-        buttonMessage: "Accept?",
-        formID: "accept_challenge_form"
-      });
     }
   }
 
@@ -319,15 +340,19 @@ const GameProvider = ({ children }) => {
               selectedHero: heroObj.data,
               handleAttack: handleAttack
             })); 
-        }).then(rivalObj => { console.log("rivalObj", rivalObj); setRival(prevState => ({...prevState, rivalObj})); })
+        }).then(rivalObj => { console.log("rivalObj", rivalObj); 
+          setRival(prevState => ({...prevState, rivalObj})); 
+
+          // =========[ updateGame - Ready? ]====================================
+          updatePage({
+            gameMessage: "Game Accepted!",
+            buttonMessage: "Ready?",
+            formID: "player_ready_form"
+          });
+        })
         // }).then(rivalObj => setRival(rivalObj))
 
-        // =========[ updateGame - Ready? ]====================================
-        updatePage({
-          gameMessage: "Game Accepted!",
-          buttonMessage: "Ready?",
-          formID: "player_ready_form"
-        });
+        
       
       } else if (rivalHeroArray.length > 0){
         // =========[ updateGame - Ready? ]====================================

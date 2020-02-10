@@ -152,6 +152,7 @@ module.exports = {
           }
         });
         
+        console.log("possibleGameInvites", possibleGameInvites);
         return possibleGameInvites;
       }).then(possibleGameInvites => {
         db.Game.findOne({

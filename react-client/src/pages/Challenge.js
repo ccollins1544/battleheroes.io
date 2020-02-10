@@ -11,8 +11,8 @@ import { faFlagCheckered } from "@fortawesome/pro-duotone-svg-icons";
 
 const Challenge = () => {
   const [ background, setBackground ] = useState(Utils.getBgStyle);
-  const { updateGame, handleAttack, ally, setAlly, rival, setRival, players, updatePlayers, updatePage, pageContent, setPageContent } = useContext(GameContext);
-  const { setUser } = useContext(UserContext);
+  const { updateGame, handleAttack, ally, setAlly, rival, setRival, players, updatePlayers, updatePage, pageContent, setPageContent, setGameState } = useContext(GameContext);
+  const { userState, setUser } = useContext(UserContext);
 
   // =========================[ handleFormSubmit ]=========================================
   const handleFormSubmit = (event) => {
@@ -44,8 +44,17 @@ const Challenge = () => {
       break;
     
       case "accept_challenge_form":
+        // Check for pending games
+        rival.active_game = (rival.active_game) ? rival.active_game : rival.game_id;
+        if(!rival.active_game){
+          let { game_id, games } = userState;
+          let pendingGameID = [];
+          pendingGameID = games.filter(game => game !== game_id );
+          rival.active_game = (pendingGameID.length > 0) ? pendingGameID[0] : rival.active_game;
+        }
+
         if(!rival.active_game) {
-          console.log("!rival.active_game");
+          console.log("!rival.active_game && !rival.game_id ["+rival.active_game+"]");
           updateGame();
           break;
         }
@@ -59,6 +68,7 @@ const Challenge = () => {
         formData.rival_id = (ally.user_id) ? ally.user_id : ally._id;
         formData.rival_hero_id = (ally.selected_hero_id) ? ally.selected_hero_id : ally.selectedHero._id;
         formData.rival_hero_hp = ally.selectedHero.hp;
+        formData.true_rival = (ally.user_id) ? ally.user_id : ally._id;
 
         API.acceptGame(formData)
         .then(response => {
@@ -165,11 +175,11 @@ const Challenge = () => {
                   </select>
                 </div>
               </div>
-              {players.length > 1 && <div className="form-row">
+              <div className="form-row">
                 <button type="submit" className="btn btn-dark form-input mt-5" value="Submit" >
                   <FontAwesomeIcon icon={faFlagCheckered} /> {pageContent.buttonMessage}
                 </button>
-              </div>}
+              </div>
             </form>
           </Col>) : (<Col size="lg-12">
             <form id={pageContent.formID} onSubmit={(e) => handleFormSubmit(e)}>
