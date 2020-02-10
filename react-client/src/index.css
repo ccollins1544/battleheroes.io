@@ -135,7 +135,7 @@ article#main-container {
   align-content: flex-start;
   margin: 0 auto;
   max-width: 1080px;
-  min-height: calc(50vh - 100px);
+  min-height: calc(50vh - 79px);
   text-align: center;
   font-size: xx-large;
   font-family: 'Press Start 2P', cursive;

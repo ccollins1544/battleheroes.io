@@ -70,9 +70,10 @@
 
 /* Footer Links */
 #footer-nav {
+  align-self: flex-end;
   position: absolute;
   bottom: 0px; /* 33px */
-  width: 100%;
+  width: 165px;
   padding: 0 1rem;
   background-color: transparent !important; /* var(--secondary-menu-background) !important; */ 
   z-index: 1;
