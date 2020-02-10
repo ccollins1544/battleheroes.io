@@ -42,9 +42,11 @@ const GameProvider = ({ children }) => {
     if(game_status !== 3 && gameState.hasOwnProperty('intervalId')){
       clearInterval(gameState.intervalId);
     }
-    
+
     console.log("userState", userState);
 
+    if(!game_id) return; 
+    
     API.getGameById(game_id)
     .then(gameResponse => {
       console.log("gameResponse",gameResponse.data);
@@ -140,6 +142,10 @@ const GameProvider = ({ children }) => {
         setRival(YOU);s
         setAlly(TRUE_RIVAL);
       } */
+
+      if(checkWinCondition()){
+        return;
+      }
 
       console.log("game is in progress");
       updatePage({
@@ -372,6 +378,36 @@ const GameProvider = ({ children }) => {
       }
     });  
   }
+
+
+  // =========================[ checkWinCondition ]=====================================
+  const checkWinCondition = () => {
+    let { rival_hp, ally_hp } = gameState;
+  
+    let { game_status, game_id } = userState;  
+    if((rival_hp <= 0 || ally_hp <= 0) && game_status >= 3){
+      setUser(prevState => ({...prevState, game_status: 0}));
+
+      Utils.AlertMessage("GAME OVER", "info");
+
+      updatePage({
+        gameMessage: "Search Challenge", 
+        buttonMessage: "Send Invite", 
+        formID: "challenge_player_form"
+      });
+
+      if(gameState.hasOwnProperty('intervalId')){
+        clearInterval(gameState.intervalId);
+      }
+
+      API.deleteGame(game_id);
+      console.log("GAME OVER");
+      return true;
+    }
+
+    console.log("In Progress...");
+    return false;
+  } 
 
   // =========================[ useEffect ]=========================================
   useEffect(() => {

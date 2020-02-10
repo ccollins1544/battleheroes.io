@@ -165,6 +165,40 @@ module.exports = {
     }else{
       res.status(200).send("No Possible Games Found!");
     }
-  }
+  },
+
+  // DELETE /api/game/
+  removeGame: function(req, res){
+    let { game_id } = req.params;
+
+    db.Game.findOne({
+      _id: game_id
+    }).then(async gameModel => {
+      
+      await gameModel.players.forEach(player => {
+        db.User.findOneAndUpdate(
+          { '_id': player },
+          { 
+            $set: {
+              'game_status': 0,
+              'active_game': null
+            },
+            $pull: { 'games': gameModel._id }
+          },
+          { new: true }
+        ).then(userModel => console.log("await game_status 3", userModel));
+      });
+
+      return gameModel;
+      
+    }).then(gameModel => {
+
+      db.Game.deleteOne({ '_id': gameModel._id })
+      .then(deletedGame => res.json(deletedGame))
+      .catch(err => res.status(422).json(err));
+
+    }).catch(err => res.status(422).json(err));
+    
+  },
 
 };

@@ -36,7 +36,7 @@ class App extends Component {
                 <Route exact path="/challenge" component={Challenge}></Route>
                 <Route path="/battle" component={Battle}></Route>
               </GameProvider>
-              <Route path="*" component={Index} /> 
+              <Route path="*" component={Index} />
             </Switch>
 
             <Footer />

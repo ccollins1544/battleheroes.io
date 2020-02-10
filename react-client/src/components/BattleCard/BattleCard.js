@@ -86,7 +86,7 @@ class BattleCard extends Component {
                     calculatedDamage = (calculatedDamage || 20);
                     let new_hp = starting_rival_hp > 0 ? starting_rival_hp - calculatedDamage : 0;
                     this.props.setGameState(prevState => ({...prevState,
-                      rival_hp: new_hp
+                      rival_hp: (new_hp > 0) ? new_hp : 0
                     }));
 
                     return { 
@@ -94,7 +94,7 @@ class BattleCard extends Component {
                       rival_id: this.props.id ? this.props.id : this.props.playerObj.user_id,
                       rival_hero_id: this.props.playerObj.hero ? this.props.playerObj.hero : 
                         (this.props.playerObj.selectedHero._id ? this.props.playerObj.selectedHero._id : this.props.selectedHero._id),
-                      rival_hero_hp: new_hp,
+                      rival_hero_hp: (new_hp > 0) ? new_hp : 0,
                     };
 
                   }else{
@@ -105,7 +105,7 @@ class BattleCard extends Component {
                     calculatedDamage = (calculatedDamage || 20);
                     let new_hp = starting_ally_hp > 0 ? starting_ally_hp - calculatedDamage : 0;
                     this.props.setGameState(prevState => ({...prevState,
-                      ally_hp: new_hp
+                      ally_hp: (new_hp > 0) ? new_hp : 0
                     }));
 
                     return { 
@@ -113,9 +113,9 @@ class BattleCard extends Component {
                       ally_id: this.props.id ? this.props.id : this.props.playerObj.user_id,
                       ally_hero_id: this.props.playerObj.hero ? this.props.playerObj.hero : 
                         (this.props.playerObj.selectedHero._id ? this.props.playerObj.selectedHero._id : this.props.selectedHero._id),
-                      ally_hero_hp: new_hp,
+                      ally_hero_hp: (new_hp > 0) ? new_hp : 0,
                     };
-                  }  
+                  }
 
                 }).then(attackedData => {
                   console.log("attackedData", attackedData);
