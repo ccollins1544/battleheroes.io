@@ -1,4 +1,4 @@
-# Battle Heroes
+![](react-client/public/img/small-logo.png) # Battle Heroes
 
 Multiplayer battle game that gives players a chance to choose a hero and battle their friends. User friendly, simple, start to finish game play. 
 
