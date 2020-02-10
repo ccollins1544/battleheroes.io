@@ -1,16 +1,12 @@
+![](react-client/public/img/text-logo.PNG)
 # Battle Heroes
 
 Multiplayer battle game that gives players a chance to choose a hero and battle their friends. User friendly, simple, start to finish game play. 
 
 # Using Battle Heroes
-Access live site [here](https://battleheroes.io/)
+Access live site [here](http://battleheroes.io/)
 
-# Limitations 
-
-These limitations and constrains apply:
-
-* Turns are not kept track of yet.
-* Requires page reload sometimes to get data updating. 
+![](react-client/public/img/battle-heroes-io-bg.png)
 
 # Features 
 
@@ -19,6 +15,13 @@ These limitations and constrains apply:
 * Chat functionality (socket.io)
 * User Authentication (passport local strategy)
 * Animations (react-spring)
+
+## Limitations 
+
+These limitations and constrains apply:
+
+* Turns are not kept track of yet.
+* Requires page reload sometimes to get data updating. 
 
 ## Available Scripts
 
