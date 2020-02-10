@@ -1,8 +1,28 @@
+:root {
+  --accent-text: #e9290f;
+  --body-text: #000;
+  --body-background: #fff;
+  --primary-menu-text: #0092ca;
+  --primary-menu-background: #2c2f33;
+  --secondary-menu-text: #99aab5;
+  --secondary-menu-background: #23272a;
+  --button-text: #fff;
+  --success-green: #28a745;
+  --button-background: #7289da;
+  --hero-card-bg: #1e2022;
+  --hero-card-bg-hover: rgba(30, 32, 34, 0.6) !important;
+  --discord-blue: #7289da;
+  --discord-gray: #99aab5;
+  --discord-dark: #2c2f33;
+  --discord-darker: #23272a;
+  --react-menu-blue: #282c34;
+}
+
 .infoChat {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #2979FF;
+    background: var(--primary-menu-background);
     border-radius: 4px 4px 0 0;
     height: 60px;
     width: 100%;

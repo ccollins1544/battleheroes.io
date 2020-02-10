@@ -9,9 +9,9 @@ const InfoChat = ({ game_id }) => (
       <img className="onlineIcon" src={onlineIcon} alt="online icon" />
       <h3>{game_id}</h3>
     </div>
-    <div className="rightInnerContainer">
+    {/* <div className="rightInnerContainer">
       <a href="/"><img src={closeIcon} alt="close icon" /></a>
-    </div>
+    </div> */}
   </div>
 );
 

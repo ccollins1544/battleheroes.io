@@ -26,7 +26,6 @@ const Chat = () => {
     // const { user_id , game_id } = userState;
     const user_id = userState.username.split('@')[0];
     const game_id = userState.game_id;
-    
     socket = io(ENDPOINT);
     setGameID(game_id);
     setUserID(user_id);
@@ -64,7 +63,7 @@ const Chat = () => {
   };
 
   return (
-    <>
+    <div className="chatbox">
       <InfoChat game_id={game_id} />
       <Messages messages={messages} user_id={user_id} />
       <Input
@@ -72,7 +71,7 @@ const Chat = () => {
         setMessage={setMessage}
         sendMessage={sendMessage}
       />
-   </>
+   </div>
   );
 };
 

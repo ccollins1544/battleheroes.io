@@ -19,6 +19,7 @@ module.exports = {
       mailOptions.replyTo = from_email;
     }
    
+    // res.status(200).send("Email Sent!");
     transporter.sendMail(mailOptions, (err, data) => {
       if(err) res.status(400).json(err);
       res.status(200).send("Email Sent!");
