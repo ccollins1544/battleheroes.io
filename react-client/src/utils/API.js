@@ -25,10 +25,12 @@ export default {
   searchChallenge: user_id => axios.get('/api/game/challenge', user_id),
   getGameById: game_id => axios.get('/api/game/' + game_id),
   getPendingRival: gameData => axios.patch('/api/game/pending', gameData),
+  getMyPendingGame: userData => axios.post('/api/game/pending/possible', userData),
+  deleteGame: game_id => axios.delete('/api/game/' + game_id),
 
   // BATTLE
   acceptGame: gameData => axios.post('/api/battle/accept', gameData),
   readyGame: gameData => axios.post('/api/battle/accept/' + gameData.game_id, gameData),
   attackPlayer: gameData => axios.patch('/api/battle/attack', gameData),
-
+ 
 };

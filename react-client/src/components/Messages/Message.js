@@ -1,5 +1,6 @@
 import React from "react";
 import ReactEmoji from "react-emoji";
+//import "./Messages2.css";
 // message used to actually display message to user destructuring the object that had message
 const Message = ({ message: { user, text }, user_id, username }) => {
   let isSentByCurrentUser = false;

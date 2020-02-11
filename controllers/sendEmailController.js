@@ -19,11 +19,11 @@ module.exports = {
       mailOptions.replyTo = from_email;
     }
    
-    res.status(200).send("Email Sent!");
-    // transporter.sendMail(mailOptions, (err, data) => {
-    //   if(err) res.status(400).json(err);
-    //   res.status(200).send("Email Sent!");
-    // });
+    // res.status(200).send("Email Sent!");
+    transporter.sendMail(mailOptions, (err, data) => {
+      if(err) res.status(400).json(err);
+      res.status(200).send("Email Sent!");
+    });
   },
 
   // Matches: POST /api/sendemail/challenge
@@ -71,7 +71,7 @@ module.exports = {
               mailOptions.replyTo = from_email;
             }
           
-            // transporter.sendMail(mailOptions);
+            transporter.sendMail(mailOptions);
           })
           .catch(err => res.status(422).json(err));
         } // ELSE you have already been invited to a game by your rival

@@ -130,19 +130,52 @@ var Utils = {
     return formData;
   },
 
-  getBgStyle: function(){
-    const bg_collection = [
-      '/img/battle-bg1.gif',
-      '/img/battle-bg2.webp',
-      '/img/battle-bg3.webp',
-      '/img/battle-bg4.webp',
-      '/img/battle-bg5.webp',
+  getBgStyle: function(collection="all"){
+
+    const battle_collection = [
+      "/img/battle-bg1.gif",
+      "/img/battle-bg2.webp",
+      "/img/battle-bg3.webp",
+      "/img/battle-bg4.webp",
+      "/img/battle-bg5.webp"
+    ]
+
+    const choose_hero_collection = [
       '/img/choose-hero-bg1.gif',
       '/img/choose-hero-bg2.gif',
       '/img/choose-hero-bg3.webp',
       '/img/choose-hero-bg4.webp',
       '/img/choose-hero-bg5.webp',
+    ]
+
+    const home_collection = [
+      "/img/battle-bg1.gif",
+      "/img/battle-bg2.webp",
+      "/img/battle-bg3.webp",
+      "/img/battle-bg5.webp",
+      "/img/choose-hero-bg2.gif",
+      "/img/choose-hero-bg3.webp",
+      "/img/choose-hero-bg4.webp"
     ];
+
+    let bg_collection = [];
+    switch (collection) {
+      case "home":
+        bg_collection = home_collection;
+        break;
+
+      case "battle":
+        bg_collection = battle_collection;
+        break;
+
+      case "choose_hero":
+        bg_collection = choose_hero_collection;
+        break;
+    
+      default:
+        bg_collection = battle_collection.concat(choose_hero_collection);
+        break;
+    }
 
     let bg_url = bg_collection[Math.floor(Math.random()*bg_collection.length)];
     let bg_style = {

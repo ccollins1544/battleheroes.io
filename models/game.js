@@ -21,7 +21,10 @@ const gameSchema = new Schema({
     }
   ],
   turn_count: Number,
-  player_turn: Schema.Types.ObjectId,
+  player_turn: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  },
   in_game: Boolean
 },
 {

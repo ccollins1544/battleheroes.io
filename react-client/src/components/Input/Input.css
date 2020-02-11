@@ -1,27 +1,49 @@
+:root {
+  --accent-text: #e9290f;
+  --body-text: #000;
+  --body-background: #fff;
+  --primary-menu-text: #0092ca;
+  --primary-menu-background: #2c2f33;
+  --secondary-menu-text: #99aab5;
+  --secondary-menu-background: #23272a;
+  --button-text: #fff;
+  --success-green: #28a745;
+  --button-background: #7289da;
+  --hero-card-bg: #1e2022;
+  --hero-card-bg-hover: rgba(30, 32, 34, 0.6) !important;
+  --discord-blue: #7289da;
+  --discord-gray: #99aab5;
+  --discord-dark: #2c2f33;
+  --discord-darker: #23272a;
+  --react-menu-blue: #282c34;
+}
+
 .form {
-    display: flex;
-    border-top: 2px solid #D3D3D3;
-  }
-  
-  .input {
-    border: none;
-    border-radius: 0;
-    padding: 5%;
-    width: 80%;
-    font-size: 1.2em;
-  }
-  
-  input:focus, textarea:focus, select:focus{
-    outline: none;
-  }
-  
-  .sendButton {
-    color: #fff !important;
-    text-transform: uppercase;
-    text-decoration: none;
-    background: #2979FF;
-    padding: 20px;
-    display: inline-block;
-    border: none;
-    width: 20%;
-  }
+  display: flex;
+  border-top: 2px solid #d3d3d3;
+}
+
+.input {
+  border: none;
+  border-radius: 0;
+  padding: 5%;
+  width: 70%;
+  font-size: 1.2em;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+.sendButton {
+  color: #fff !important;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: #2979ff;
+  padding: 20px;
+  display: inline-block;
+  border: none;
+  width: 30%;
+}

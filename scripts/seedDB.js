@@ -34,16 +34,18 @@ const user_groups_seed = [
   },
 ];
 
+/*
 db.user_groups.remove({})
   .then(() => db.user_groups.collection.insertMany(user_groups_seed))
   .then(data => {
     console.log(data.result.n + " records inserted!");
-    // process.exit(0);
+    process.exit(0);
   })
   .catch(err => {
     console.error(err);
-    // process.exit(1);
+    process.exit(1);
   });
+*/
 
 const game_status_seed = [
   {
@@ -72,16 +74,18 @@ const game_status_seed = [
   },
 ];
 
+/*
 db.game_status.remove({})
   .then(() => db.game_status.collection.insertMany(game_status_seed))
   .then(data => {
     console.log(data.result.n + " records inserted!");
-    // process.exit(0);
+    process.exit(0);
   })
   .catch(err => {
     console.error(err);
-    // process.exit(1);
+    process.exit(1);
   });
+*/
 
 const heroesSeed = [
   {
@@ -129,8 +133,8 @@ const heroesSeed = [
     "enabled": true
   },
   {
-    "name": "Goke",
-    "slug": "goke",
+    "name": "Goku",
+    "slug": "goku",
     "image": "./img/goku.png",
     "hp": 100,
     "attack1_dmg": 10,
@@ -228,3 +232,4 @@ db.Heroes.remove({})
     console.error(err);
     process.exit(1);
   });
+
