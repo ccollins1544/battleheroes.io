@@ -19,11 +19,10 @@ db.User.findOneAndUpdate({
 }, {
   $set: {
     'games': [
-      "5e40db1cd5ac2c002aec5684",
-      "5e40db13d5ac2c002aec5683"
+      "5e40db1cd5ac2c002aec5684"
     ],
     'game_status': 3,
-    'active_game': "5e40db13d5ac2c002aec5683",
+    'active_game': "5e40db1cd5ac2c002aec5684",
     'hero': "5e40d6f093c53667c04d5b8e"
   }
 },
@@ -45,9 +44,9 @@ db.User.findOneAndUpdate({
 }, 
 {
   $set: {
-    'games': ["5e40db13d5ac2c002aec5683"],
+    'games': ["5e40db1cd5ac2c002aec5684"],
     'game_status': 3,
-    'active_game': "5e40db13d5ac2c002aec5683",
+    'active_game': "5e40db1cd5ac2c002aec5684",
     'hero': "5e40d6f093c53667c04d5b8c"
   }
 },
@@ -65,7 +64,7 @@ db.User.findOneAndUpdate({
 // update game for both users
 console.log("------ update game for both users ------");
 db.Game.findOneAndUpdate({
-  '_id': "5e40db13d5ac2c002aec5683"
+  '_id': "5e40db1cd5ac2c002aec5684"
 },
 {
   $set: {

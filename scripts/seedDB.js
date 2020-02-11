@@ -133,8 +133,8 @@ const heroesSeed = [
     "enabled": true
   },
   {
-    "name": "Goke",
-    "slug": "goke",
+    "name": "Goku",
+    "slug": "goku",
     "image": "./img/goku.png",
     "hp": 100,
     "attack1_dmg": 10,
