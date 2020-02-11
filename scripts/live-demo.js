@@ -23,7 +23,7 @@ db.User.findOneAndUpdate({
     ],
     'game_status': 3,
     'active_game': "5e40db1cd5ac2c002aec5684",
-    'hero': "5e40d6f093c53667c04d5b8e"
+    'hero': "5e4226c329be84000f177d7d"
   }
 },
 { new: true }
@@ -47,7 +47,7 @@ db.User.findOneAndUpdate({
     'games': ["5e40db1cd5ac2c002aec5684"],
     'game_status': 3,
     'active_game': "5e40db1cd5ac2c002aec5684",
-    'hero': "5e40d6f093c53667c04d5b8c"
+    'hero': "5e4226c329be84000f177d7f"
   }
 },
 { new: true }
@@ -77,13 +77,13 @@ db.Game.findOneAndUpdate({
     ],
 
     'heroes': [
-      "5e40d6f093c53667c04d5b8c",
-      "5e40d6f093c53667c04d5b8e"
+      "5e4226c329be84000f177d7d",
+      "5e4226c329be84000f177d7f"
     ],
 
     'instigator_id': "5e40d75294db4a002a0aad6b",
-    'instigator_hero_id': "5e40d6f093c53667c04d5b8e",
-    'rival_hero_id': "5e40d6f093c53667c04d5b8c",
+    'instigator_hero_id': "5e4226c329be84000f177d7f",
+    'rival_hero_id': "5e4226c329be84000f177d7d",
     'rival_id': "5e40d74094db4a002a0aad6a",
     'player_turn': "5e40d75294db4a002a0aad6b",
     'turn_count': 0,
