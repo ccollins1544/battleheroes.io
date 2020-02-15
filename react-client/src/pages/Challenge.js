@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import UserContext from "../userContext";
 import { GameContext } from "../gameContext";
 import API from "../utils/API";
-import Utils from "../utils/";
+import Utils from "../utils";
 import Wrapper from "../components/Wrapper";
 import HeroCard from "../components/Card/heroCard";
 import { SectionRow , Col } from "../components/Grid";

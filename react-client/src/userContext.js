@@ -1,6 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
 import API from "./utils/API";
 import Utils from "./utils/";
+import Firebase from "firebase";
+import firebaseConfig from "./config/firebase";
+
 
 const UserContext = React.createContext();
 export const UserConsumer = UserContext.Consumer;
@@ -210,6 +213,36 @@ The password used to sign up was: ${password}
     }));
   }
 
+    // ===================[ Firebase Connection Watcher ]==============================
+    const firebase_connection_watcher = (gameData) => {
+      if (!Firebase.apps.length) {
+        Firebase.initializeApp(firebaseConfig);
+      }
+  
+      let connectedRef = Firebase.database().ref(".info/connected");
+      connectedRef.on('value', async snapshot => {
+        if(gameData.loggedIn && gameData.hasOwnProperty('game_id')){
+          gameData = await API.getGameById(gameData.game_id).then(gameResponse => ({...gameData, ...gameResponse.data}));
+        }
+  
+        if(snapshot.val()){
+          gameData.onlineAt = Firebase.database.ServerValue.TIMESTAMP;
+          
+          // Add user to the connections list.
+          let online_player = Firebase.database().ref('/games').push(gameData);
+          
+          setUser(prevState => ({...prevState, 
+            firebase_ref: online_player.key
+          }));
+  
+          console.log("gameData", gameData);
+      
+          // Remove user from the connection list when they disconnect.
+          online_player.onDisconnect().remove();
+        }
+      });
+    }
+
   // =========================[ useEffect ]=========================================
   useEffect(() => {
     API.getUser()
@@ -256,7 +289,13 @@ The password used to sign up was: ${password}
         redirectTo: null
       };
 
-    }).then(userData => setUser(userData));
+    }).then(userData => {
+      setUser(userData);
+      if(userData.loggedIn) {
+        firebase_connection_watcher(userData);
+      }
+    });
+    
   }, []);
 
   return (

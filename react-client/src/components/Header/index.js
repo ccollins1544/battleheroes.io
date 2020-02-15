@@ -36,13 +36,13 @@ const Header = () => {
 
                 {userState.loggedIn ? (
                   <>
-                      <li className="nav-item">
-                        <Link to="/challenge" className="nav-link" onClick={() => setUser(prevState => ({...prevState, redirectTo: "/challenge"}))}><FontAwesomeIcon icon={faSword} size="2x" /> Challenge</Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link to="/battle" className="nav-link" onClick={() => setUser(prevState => ({...prevState, redirectTo: "/battle"}))} ><FontAwesomeIcon icon={faSwords} size="2x" /> Battle</Link>
-                      </li>
-                    
+                    <li className="nav-item">
+                      <Link to="/challenge" className="nav-link" onClick={() => setUser(prevState => ({...prevState, redirectTo: "/challenge"}))}><FontAwesomeIcon icon={faSword} size="2x" /> Challenge</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link to="/battle" className="nav-link" onClick={() => setUser(prevState => ({...prevState, redirectTo: "/battle"}))} ><FontAwesomeIcon icon={faSwords} size="2x" /> Battle</Link>
+                    </li>
+                  
                     {userState.selectedHero ? (
                       <>
                         <li className="nav-item">

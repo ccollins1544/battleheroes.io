@@ -1,13 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import UserContext from "./userContext";
-import Firebase from "firebase";
-import firebaseConfig from "./config/firebase";
 import API from "./utils/API";
-import Utils from "./utils/";
+import Utils from "./utils";
 
 const GameContext = React.createContext();
 export const GameConsumer = GameContext.Consumer;
-
 
 const GameProvider = ({ children }) => {
   const { userState, setUser } = useContext(UserContext);
@@ -25,47 +22,10 @@ const GameProvider = ({ children }) => {
     return randomDamage;
   }
 
-  // ===================[ Firebase Connection Watcher ]==============================
-  const firebase_connection_watcher = (gameData) => {
-    if (!Firebase.apps.length) {
-      Firebase.initializeApp(firebaseConfig);
-    }
-
-    let connectedRef = Firebase.database().ref(".info/connected");
-    connectedRef.on('value', async snapshot => {
-      if(gameData.loggedIn && gameData.hasOwnProperty('game_id')){
-        gameData = await API.getGameById(gameData.game_id).then(gameResponse => ({...gameData, ...gameResponse.data}));
-      }
-
-      if(snapshot.val()){
-        gameData.onlineAt = Firebase.database.ServerValue.TIMESTAMP;
-        
-        // Add user to the connections list.
-        let online_player = Firebase.database().ref('/games').push(gameData);
-        
-        setUser(prevState => ({...prevState, 
-          firebase_ref: online_player.key
-        }));
-
-        console.log("gameData", gameData);
-    
-        // Remove user from the connection list when they disconnect.
-        online_player.onDisconnect().remove();
-      }
-    });
-  }
-
   // =========================[ updateGame ]=========================================
   const updateGame = (GAME_ID, GAME_STATUS, GAMES) => {
-    let { firebase_ref, loggedIn, user_id, username, game_status, game_id, games, selected_hero_id, selectedHero } = userState;
+    let { loggedIn, user_id, username, game_status, game_id, games, selected_hero_id, selectedHero } = userState;
     
-    if( firebase_ref === undefined){
-      firebase_connection_watcher(userState);
-      firebase_ref = userState.firebase_ref;
-    }
-    
-    let gameRef = Firebase.database().ref('/games/' + firebase_ref);
-
     // Data Validation 
     game_id = (GAME_ID) ? GAME_ID : game_id;
     if(GAME_STATUS){
@@ -90,16 +50,14 @@ const GameProvider = ({ children }) => {
     API.getGameById(game_id)
     .then(gameResponse => {
       console.log("gameResponse",gameResponse.data);
+      let { true_rival } = gameResponse.data;
+      setGameState(prevState => ({ ...prevState, true_rival: true_rival }));
       console.log("GAME STATE", gameState);
-
-      // let { true_rival } = gameResponse.data;
-      // setGameState(prevState => ({ ...prevState, true_rival: true_rival }));
 
       if(!ally){
 
         console.log("updating ally");
         let { players, heroes, instigator_id, instigator_hero_id, instigator_hero_hp, turn_count } = gameResponse.data; 
-        gameRef.update(gameResponse.data);
 
         let allyData = {
           user_id: user_id,
@@ -134,8 +92,7 @@ const GameProvider = ({ children }) => {
       console.log("?Rival", rival);
       if(!rival || rival.user_id === user_id ){
         let { players, heroes, rival_id, rival_hero_id, rival_hero_hp, turn_count } = gameResponse.data; 
-        gameRef.update(gameResponse.data);
-
+        
         let rivalData = {
           user_id: rival_id,
           game_id: game_id,
@@ -229,7 +186,7 @@ const GameProvider = ({ children }) => {
   // =========================[ updatePlayers ]=====================================
   const updatePlayers = () => {
 
-    /* API.searchChallenge().then( response => {
+    API.searchChallenge().then( response => {
       console.log("Players", response.data);
       
       if(response.data.length <= 1){
@@ -239,29 +196,7 @@ const GameProvider = ({ children }) => {
 
       setPlayers(response.data);
 
-    }); */ 
-
-    let online_players = [];
-    Firebase.database().ref('/games').once('value', (snapshot) => {
-      if(snapshot.numChildren() === 0){
-        return;
-      }
-
-      snapshot.forEach( snap => {
-        online_players.push(snap.val());
-      });
-      
-    }, function (errorObject) {
-      console.log("The read failed: " + errorObject.code);
-
-    }); // END Firebase.database().ref('/games').once('value', (snapshot) => {)
-
-    if(online_players.length <= 1){
-      // Check for pending games
-      check_for_pending_games();
-    }
-
-    setPlayers(online_players);
+    });
 
   };
 
