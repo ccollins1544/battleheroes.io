@@ -22,6 +22,8 @@
   "dependencies": {
     "axios": "^0.19.1",
     "bcryptjs": "^2.4.3",
+    "cli-table2": "^0.2.0",
+    "colors": "^1.4.0",
     "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
@@ -29,6 +31,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
+    "firebase-admin": "^8.9.2",
     "if-env": "^1.0.4",
     "mongoose": "^5.8.9",
     "morgan": "^1.9.1",

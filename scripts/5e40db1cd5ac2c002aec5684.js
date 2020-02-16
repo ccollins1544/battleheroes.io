@@ -1,12 +1,12 @@
 {
   "_id" : ObjectId("5e40db1cd5ac2c002aec5684"),
   "players" : [ 
-      ObjectId("5e40d75294db4a002a0aad6b"), 
-      ObjectId("5e40d74094db4a002a0aad6a")
+    ObjectId("5e40d75294db4a002a0aad6b"), 
+    ObjectId("5e40d74094db4a002a0aad6a")
   ],
   "heroes" : [ 
-      ObjectId("5e4226c329be84000f177d7d"), 
-      ObjectId("5e4226c329be84000f177d7f")
+    ObjectId("5e4226c329be84000f177d7d"), 
+    ObjectId("5e4226c329be84000f177d7f")
   ],
   "instigator_id" : ObjectId("5e40d75294db4a002a0aad6b"),
   "instigator_hero_id" : ObjectId("5e4226c329be84000f177d7f"),

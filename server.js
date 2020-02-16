@@ -5,6 +5,9 @@
  * @version 2.0.0
  * 
  * @todo 
+ * -Add Firebase to API: sendChallenge, acceptGame, 
+ * readyGame, checkWinCondition, and handleAttack.
+ * 
  * -battle page
  * -chat box on battle page
  */

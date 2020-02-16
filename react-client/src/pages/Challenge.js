@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import UserContext from "../userContext";
 import { GameContext } from "../gameContext";
+import Firebase from "../Firebase";
 import API from "../utils/API";
 import Utils from "../utils";
 import Wrapper from "../components/Wrapper";
@@ -100,10 +101,24 @@ const Challenge = () => {
 
         setUser(prevState => ({...prevState, redirectTo: "/battle"}));
 
+        if(userState.firebase_ref){
+          let userData = {...userState, redirectTo: "/battle" };
+          let firebase_game = {}
+          Object.keys(userData).map(key=>firebase_game['/games/' + userState.firebase_ref + '/' + key] = userData[key]);
+          Firebase.database().ref().update(firebase_game);
+        }
+
         break;
 
       case "choose_hero_form":
         setUser(prevState => ({...prevState, redirectTo: "/choose-hero"}));
+
+        if(userState.firebase_ref){
+          let userData = {...userState, redirectTo: "/choose-hero" };
+          let firebase_game = {}
+          Object.keys(userData).map(key=>firebase_game['/games/' + userState.firebase_ref + '/' + key] = userData[key]);
+          Firebase.database().ref().update(firebase_game);
+        }
         break;
 
       default:
@@ -115,11 +130,7 @@ const Challenge = () => {
   
   // =========================[ useEffect ]=========================================
   useEffect(() => {
-    // updatePage({
-    //   gameMessage: "Search Challenge", 
-    //   buttonMessage: "Send Invite", 
-    //   formID: "challenge_player_form"
-    // });
+
   }, []);
 
   return (
@@ -165,9 +176,9 @@ const Challenge = () => {
                 <div className="col">
                   <label className="form-label" htmlFor="rival_id">Available Players:</label>
                   <select className="form-control form-control-sm" name="rival_id" id="rival_id">
-                    {players.length > 1 ? players.map(i => {
-                      return (i._id !== ally.user_id) && (
-                        <option value={i._id}>{i.username.split("@")[0]}</option>
+                    {players.length > 0 ? players.map(i => {
+                      return (i.user_id !== ally.user_id) && (
+                        <option value={i.user_id}>{i.username.split("@")[0]}</option>
                         );
                       }) : (
                       <option value="">No Players Available</option>

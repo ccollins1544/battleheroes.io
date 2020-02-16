@@ -2,6 +2,7 @@ const path = require("path");
 require("dotenv").config({path: path.resolve(__dirname, '../.env')});
 const transporter = require("./transporter"); 
 const db = require("../models");
+const Firebase = require("../utils/Firebase");
 
 // Defining methods for the sendEmailController
 module.exports = {
@@ -41,7 +42,7 @@ module.exports = {
       'active_game': 1,
       'games':1
     }
-    ).then(rivalResponse =>{
+    ).then(rivalResponse => {
     
       db.User.find({
         '_id': instigator_id,

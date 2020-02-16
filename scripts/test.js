@@ -1,15 +1,76 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const db = require("../models");
+const utils = require("../utils/");
+const Firebase = require("../utils/Firebase");
+var colors = require("colors");
 
-const uri = process.env.MONGODB_URI || "mongodb://localhost/battle_heroes";
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to Mongo'),
-  err => {
-    console.log('error connecting to Mongo: ')
-    console.log(err);     
+module.exports = {
+  test: () => {
+    const uri = process.env.MONGODB_URI || "mongodb://localhost/battle_heroes";
+    mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+      .then(() => console.log('Connected to Mongo'),
+      err => {
+        console.log('error connecting to Mongo: ')
+        console.log(err);     
+      }
+    );
+
+    db.User.find({
+      $and : [
+        { 'games': "5e3f79bf7d37bc09286149a1" },
+        { '_id': "5e3f79ba7d37bc09286149a0" },
+      ]
+    },
+    {
+      'games': 1, '_id': 0, 'active_game': 1
+    }).then(userGamesResponse =>{
+      console.log(userGamesResponse);
+    
+      let { games, active_game } = userGamesResponse[0];
+      let possibleGameInvites;
+      games.forEach(element => {
+        if(active_game !== element){
+          possibleGameInvites = element;
+        }
+      });
+      
+      return possibleGameInvites;
+    }).then(possibleGameInvites => {
+      console.log("POSSIBLE GAME:", possibleGameInvites);
+      
+      db.Game.findOne({
+        _id: possibleGameInvites
+      })
+      .then(dbModel => {
+        console.log(dbModel);
+        process.exit(0);
+      })
+    
+    }).catch(err => {
+      console.error(err);
+      process.exit(1);
+    });
+  },
+
+  update_firebase: () => {
+    let firebase_ref = "-M0BGouXZJaollgoh3SU";
+    let gameRef = Firebase.database().ref('/games/' + firebase_ref);
+    
+    gameRef.update({
+      'instigator_hero_hp': 90
+    }, function(error) {
+      if (error) {
+        console.log("Failed to save...".red);
+        console.log(error);
+        process.exit(1);
+      }else{
+        console.log("Updated Firebase Successfully!\r\n".green);
+        process.exit(0);
+      }
+    });
   }
-);
+}
 
 /*
 // Detect if you've been challenged.
@@ -61,38 +122,3 @@ db.Game.findOneAndUpdate(
 });
 */
 
-db.User.find({
-  $and : [
-    { 'games': "5e3f79bf7d37bc09286149a1" },
-    { '_id': "5e3f79ba7d37bc09286149a0" },
-  ]
-},
-{
-  'games': 1, '_id': 0, 'active_game': 1
-}).then(userGamesResponse =>{
-  console.log(userGamesResponse);
-
-  let { games, active_game } = userGamesResponse[0];
-  let possibleGameInvites;
-  games.forEach(element => {
-    if(active_game !== element){
-      possibleGameInvites = element;
-    }
-  });
-  
-  return possibleGameInvites;
-}).then(possibleGameInvites => {
-  console.log("POSSIBLE GAME:", possibleGameInvites);
-  
-  db.Game.findOne({
-    _id: possibleGameInvites
-  })
-  .then(dbModel => {
-    console.log(dbModel);
-    process.exit(0);
-  })
-
-}).catch(err => {
-  console.error(err);
-  process.exit(1);
-});
