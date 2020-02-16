@@ -69,9 +69,79 @@ module.exports = {
         process.exit(0);
       }
     });
+  },
+
+  send_challenge: () => {
+    let rival_id = "5e3f7fd9ff81a06890897551";
+    let instigator_id = "5e3f79ba7d37bc09286149a0";
+    let active_game = "5e4862bcafcddd5f78192875";
+    let from_email = "chris@ccollins.io";
+
+    let gameRef = Firebase.database().ref('/games/');
+    let found_instigator_ref = false;
+    let found_rival_ref = false;
+
+    gameRef.once('value', (snapshot) => {
+      if(snapshot.hasChildren()){
+        snapshot.forEach(function(innerSnap) {
+          if(innerSnap.val().hasOwnProperty('user_id')){
+
+            if(innerSnap.val()['user_id'] === rival_id ){
+              found_rival_ref = innerSnap.key;
+            }else if (innerSnap.val()['user_id'] === instigator_id ){
+              found_instigator_ref = innerSnap.key;
+            }
+
+          }
+        });
+      }
+    }).then(snap => {
+      
+      if(found_rival_ref){
+        console.log("Found!".green);
+        return Firebase.database().ref('/games/' + found_rival_ref + '/games').push(active_game);
+      }else{
+        console.log("Sorry we couldn't find that rival. They must have gone offline.".red);
+        return false;
+      }
+
+    }).then(snap => {
+      console.log("Pushed".yellow)
+      console.log(snap.path);
+
+      if(snap){
+        console.log("Last Key Pushed".yellow, snap.key);
+        console.log("Rival Key".blue, found_rival_ref);
+
+        let updateTheirGame = {};
+        updateTheirGame['/games/' + found_rival_ref + '/game_status'] = 1;
+        Firebase.database().ref().update(updateTheirGame);
+        
+        return true;
+      }else{
+        return false; 
+      }
+      
+    }).then(pass_fail => {
+      console.log("Updated".yellow)
+      console.log("Instigator Key".blue, found_instigator_ref);
+
+      if(pass_fail){
+        let updateMyGame = {};
+        updateMyGame['/games/' + found_instigator_ref + '/game_status'] = 2;
+        Firebase.database().ref().update(updateMyGame);
+
+        console.log("Success!".green);
+        process.exit(0);
+      }else{
+        console.log("Fail!".green);
+        process.exit(1);
+      }
+    })
   }
 }
 
+//==================[ Dead Code ]===============================
 /*
 // Detect if you've been challenged.
 db.User.find({

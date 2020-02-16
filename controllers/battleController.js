@@ -1,4 +1,6 @@
 const db = require("../models");
+const Firebase = require("../utils/Firebase");
+let colors = require("colors");
 
 // Defining methods for the gameController
 module.exports = {
@@ -13,6 +15,10 @@ module.exports = {
   // POST /api/battle/accept
   acceptGame: function(req, res){
     let { game_id, rival_id, rival_hero_id, rival_hero_hp, true_rival } = req.body;
+
+    let gameRef = Firebase.database().ref('/games/');
+    let found_opponent_ref = false;
+    let found_my_ref = false;
 
     db.Game.findOneAndUpdate(
       { '_id': game_id },
@@ -42,8 +48,84 @@ module.exports = {
       .then(dbModel => console.log("updated users game and game_status", dbModel));
       
       return acceptedGame;
-    }).then(acceptedGame => res.json(acceptedGame))
-    .catch(err => res.status(422).json(err));
+    }).then(acceptedGame => {
+
+      // Push updates to firebase
+      gameRef.once('value', (snapshot) => {
+        if(snapshot.hasChildren()){
+          snapshot.forEach(function(innerSnap) {
+            if(innerSnap.val().hasOwnProperty('user_id')){
+
+              if(innerSnap.val()['user_id'] == rival_id ){
+                found_my_ref = innerSnap.key;
+              }else if(innerSnap.val()['user_id'] == acceptedGame.instigator_id ) {
+                found_opponent_ref = innerSnap.key;
+              }
+
+            }
+          })
+        }
+      }).then(snap => {
+
+        console.log("FUCK THIS", found_my_ref);
+        console.log("SHETTTTTTTT", found_opponent_ref);
+        console.log("DAMMIT!", acceptedGame);
+        console.log("FUUUUUCKKKK!", acceptedGame.instigator_id);
+        
+        if(found_opponent_ref){
+          console.log("Found!".green);
+          Firebase.database().ref('/games/' + found_opponent_ref + '/players').push(rival_id);
+          return Firebase.database().ref('/games/' + found_opponent_ref + '/heroes').push(rival_hero_id);
+
+        }else{
+          console.log("Sorry we couldn't find that rival. They must have gone offline.".red);
+          return false;
+        }
+
+      }).then(snap => {
+        console.log("Pushed".yellow)
+        console.log(snap.path);
+  
+        if(snap){
+          console.log("Last Key Pushed".yellow, snap.key);
+          console.log("Rival Key".blue, found_opponent_ref);
+
+          let updateTheirGame = {};
+          updateTheirGame['/games/' + found_opponent_ref + '/rival_id'] = rival_id;
+          updateTheirGame['/games/' + found_opponent_ref + '/rival_hero_id'] = rival_hero_id;
+          updateTheirGame['/games/' + found_opponent_ref + '/rival_hero_hp'] = rival_hero_hp;
+          Firebase.database().ref().update(updateTheirGame);
+          
+          return true;
+        }else{
+          return false; 
+        }
+        
+      }).then(pass_fail => {
+        console.log("Updated".yellow)
+        console.log("My Key".blue, found_my_ref);
+
+        let updateMyGame = {};
+        updateMyGame['/games/' + found_my_ref + '/active_game'] = game_id;
+        updateMyGame['/games/' + found_my_ref + '/game_status'] = 2;
+        updateMyGame['/games/' + found_my_ref + '/selected_hero_id'] = rival_hero_id;
+        Firebase.database().ref().update(updateMyGame);
+  
+        if(pass_fail){
+          console.log("Success!".green);
+        }else{
+          console.log("Fail!".red);
+        }
+
+        res.json(acceptedGame);
+
+      }).catch(err => {
+
+        console.log("Fail!".red);
+        console.log(err);
+        res.json(acceptedGame);
+      });
+    }).catch(err => res.status(422).json(err));
   },
 
   readyGame: function(req, res){

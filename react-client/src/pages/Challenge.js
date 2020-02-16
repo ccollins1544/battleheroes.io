@@ -36,8 +36,13 @@ const Challenge = () => {
             buttonMessage: "Pending",
             formID: "pending_response_form"
           });
+
+        }).catch(err => {
+          console.log("Error sending the challenge");
+          console.log(err);
+          updateGame();
         });
-        
+
         break;
       
       case "pending_response_form": // game_status >= 2 is for everything past this point
@@ -181,7 +186,7 @@ const Challenge = () => {
                         <option value={i.user_id}>{i.username.split("@")[0]}</option>
                         );
                       }) : (
-                      <option value="">No Players Available</option>
+                      <option value="">No Players Online</option>
                     )}
                   </select>
                 </div>

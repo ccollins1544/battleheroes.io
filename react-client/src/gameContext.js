@@ -24,8 +24,21 @@ const GameProvider = ({ children }) => {
   }
 
   // =========================[ updateGame ]=========================================
-  const updateGame = () => {
+  const updateGame = (GAME_ID, GAME_STATUS, GAMES) => {
     let { firebase_ref, loggedIn, user_id, username, game_status, game_id, games, selected_hero_id, selectedHero } = userState;
+
+    // Data Validation 
+    game_id = (GAME_ID) ? GAME_ID : game_id;
+    if(GAME_STATUS){
+      game_status = GAME_STATUS;
+      setUser(prevState => ({...prevState, game_status: game_status })); 
+      setAlly(prevState => ({...prevState, game_status: game_status }));
+    }
+
+    if(GAMES){
+      games = GAMES;
+      setUser(prevState => ({...prevState, games: games })); 
+    }
     
     // Update Players
     let online_players = [];
@@ -48,7 +61,7 @@ const GameProvider = ({ children }) => {
 
     }, function (errorObject) {
       console.log("The read failed: " + errorObject.code);
-    }); // END Firebase.database().ref('/games').once('value', (snapshot) => {)
+    }); // END Firebase.database().ref('/games').on('value', (snapshot) => {)
 
     // Update Game
     if(firebase_ref !== undefined){
@@ -59,9 +72,34 @@ const GameProvider = ({ children }) => {
           return;
         }
 
-        let { players, heroes, turn_count, in_game,
+        let { players, heroes, games, turn_count, in_game,
           instigator_id, instigator_hero_id, instigator_hero_hp, 
-          rival_id, rival_hero_id, rival_hero_hp } = snapshot;
+          rival_id, rival_hero_id, rival_hero_hp } = snapshot.val();
+
+          // NOTE: We must convert snapshot Objects into arrays!!!
+          if(Array.isArray(players) === false && players !== undefined){
+            let temp_players = [];
+            Object.keys(players).map(key => temp_players.push(players[key]));
+            players = temp_players;  
+          }
+
+          if(Array.isArray(heroes) === false && heroes !== undefined){
+            let temp_heroes = [];
+            Object.keys(heroes).map(key => temp_heroes.push(heroes[key]));
+            heroes = temp_heroes;  
+          }
+
+          if(Array.isArray(games) === false && games !== undefined){
+            let temp_games = [];
+            Object.keys(games).map(key => temp_games.push(games[key]));
+            games = temp_games;
+          }
+
+          setUser(prevState => ({...prevState, games: games }));
+
+          console.log(snapshot.val());
+          console.log("RIVAL>>>>>>>>>>>>>>>>>>>>>>", rival_id);
+          console.log("GAMES>>>>>>>>>>>>>>>>>>>>>>", games);
         
         // ------[ ALLY ]-----------------------------
         let allyData = {
@@ -272,12 +310,9 @@ const GameProvider = ({ children }) => {
       });   
     }else{
 
-      let pendingGameID = [];
-      if(userState.games && userState.game_id){
-        pendingGameID = userState.games.filter(game => game !== userState.game_id );
-      }
+      console.log("We should be loading the correct game now", pending_game_id);
 
-      API.getGameById( pendingGameID )
+      API.getGameById( pending_game_id )
       .then(game => {
         return API.getUserById(game.data.instigator_id)
         .then(rivalUserResponse => ({...rivalUserResponse.data, game: game.data}))
