@@ -44,7 +44,7 @@ class BattleCard extends Component {
             <button type="button" className="btn btn-danger btn-lg btn-block"
               onClick={() => {
                 
-                setTimeout(() => this.props.updateGame(), 500);
+                // setTimeout(() => this.props.updateGame(), 500);
                 
                 const Attack = new Promise((resolve, reject) => {
 

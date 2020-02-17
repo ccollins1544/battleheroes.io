@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
+import Firebase from "./Firebase";
 import API from "./utils/API";
 import Utils from "./utils/";
-
 const UserContext = React.createContext();
 export const UserConsumer = UserContext.Consumer;
 
@@ -48,8 +48,22 @@ function UserProvider({ children }){
       }
 
       return userData;
-    }).then(userData => setUser(userData))
-    .catch(error => {
+    }).then(userData => {
+      setUser(userData);
+      userData = {...userState, ...userData};
+
+      if(userState.firebase_ref){
+        let firebase_game = {}
+        Object.keys(userData).map(key=>firebase_game['/games/' + userState.firebase_ref + '/' + key] = userData[key]);
+        Firebase.database().ref().update(firebase_game);
+      
+      }else{
+        if(userData.loggedIn) {
+          firebase_connection_watcher(userData);
+        }
+      }
+
+    }).catch(error => {
       Utils.AlertMessage("Did you create an account? " + error, "danger");
     })
   }
@@ -113,8 +127,22 @@ The password used to sign up was: ${password}
           }
     
           return userData;
-        }).then(userData => setUser(userData))
-        .catch(error => {
+        }).then(userData => {
+          setUser(userData);
+          userData = {...userState, ...userData};
+
+          if(userState.firebase_ref){
+            let firebase_game = {}
+            Object.keys(userData).map(key=>firebase_game['/games/' + userState.firebase_ref + '/' + key] = userData[key]);
+            Firebase.database().ref().update(firebase_game);
+          
+          }else{
+            if(userData.loggedIn) {
+              firebase_connection_watcher(userData);
+            }
+          }
+
+        }).catch(error => {
           Utils.AlertMessage("Login error: " + error, "danger");
         })
 
@@ -180,8 +208,22 @@ The password used to sign up was: ${password}
           selected_hero_id: _id,
           selectedHero: {_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description }
         };
-      }).then(userData => setUser(prevState => ({...prevState, ...userData})))
-      .catch(err => console.log(err)); 
+      }).then(userData => {
+        setUser(prevState => ({...prevState, ...userData}));
+        userData = {...userState, ...userData};
+
+        if(userState.firebase_ref){
+          let firebase_game = {}
+          Object.keys(userData).map(key=>firebase_game['/games/' + userState.firebase_ref + '/' + key] = userData[key]);
+          Firebase.database().ref().update(firebase_game);
+        
+        }else{
+          if(userData.loggedIn) {
+            firebase_connection_watcher(userData);
+          }
+        }
+
+      }).catch(err => console.log(err)); 
 
     }else if(userState.loggedIn){
       goTo = '/challenge';
@@ -197,9 +239,23 @@ The password used to sign up was: ${password}
           selectedHero: {_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description}
         };
         
-      }).then(userData => setUser(prevState => ({...prevState, ...userData})))
-      .catch(err => console.log(err));
+      }).then(userData => {
+        setUser(prevState => ({...prevState, ...userData}));
+        userData = {...userState, ...userData};
 
+        if(userState.firebase_ref){
+          let firebase_game = {}
+          Object.keys(userData).map(key=>firebase_game['/games/' + userState.firebase_ref + '/' + key] = userData[key]);
+          Firebase.database().ref().update(firebase_game);
+        
+        }else{
+          if(userData.loggedIn) {
+            firebase_connection_watcher(userData);
+          }
+        }
+
+      })
+      .catch(err => console.log(err));
     }
 
     // goTo login
@@ -208,7 +264,50 @@ The password used to sign up was: ${password}
       selected_hero_id: _id,
       selectedHero: {_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description }
     }));
+
+    let userData = {...userState, 
+      redirectTo: goTo,
+      selected_hero_id: _id,
+      selectedHero: {_id, name, image, hp, attack2_dmg, attack1_dmg, attack1_description, attack2_description }
+    }
+
+    if(userState.firebase_ref){
+      let firebase_game = {}
+      Object.keys(userData).map(key=>firebase_game['/games/' + userState.firebase_ref + '/' + key] = userData[key]);
+      Firebase.database().ref().update(firebase_game);
+    }else{
+      if(userData.loggedIn) {
+        firebase_connection_watcher(userData);
+      }
+    }
+
   }
+
+    // ===================[ Firebase Connection Watcher ]==============================
+    const firebase_connection_watcher = (gameData) => {
+      let connectedRef = Firebase.database().ref(".info/connected");
+      connectedRef.on('value', async snapshot => {
+        if(gameData.loggedIn && gameData.hasOwnProperty('game_id')){
+          gameData = await API.getGameById(gameData.game_id).then(gameResponse => ({...gameData, ...gameResponse.data}));
+        }
+  
+        if(snapshot.val()){
+          gameData.onlineAt = Firebase.database.ServerValue.TIMESTAMP;
+          
+          // Add user to the connections list.
+          let online_player = Firebase.database().ref('/games').push(gameData);
+          
+          setUser(prevState => ({...prevState, 
+            firebase_ref: online_player.key
+          }));
+  
+          console.log("gameData", gameData);
+      
+          // Remove user from the connection list when they disconnect.
+          online_player.onDisconnect().remove();
+        }
+      });
+    }
 
   // =========================[ useEffect ]=========================================
   useEffect(() => {
@@ -256,7 +355,13 @@ The password used to sign up was: ${password}
         redirectTo: null
       };
 
-    }).then(userData => setUser(userData));
+    }).then(userData => {
+      setUser(userData);
+      if(userData.loggedIn) {
+        firebase_connection_watcher(userData);
+      }
+    });
+    
   }, []);
 
   return (

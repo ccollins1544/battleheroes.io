@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import UserContext from "./userContext";
-import Firebase from "./Firebase";
 import API from "./utils/API";
-import Utils from "./utils/";
+import Utils from "./utils";
 
 const GameContext = React.createContext();
 export const GameConsumer = GameContext.Consumer;
@@ -25,8 +24,8 @@ const GameProvider = ({ children }) => {
 
   // =========================[ updateGame ]=========================================
   const updateGame = (GAME_ID, GAME_STATUS, GAMES) => {
-    let { firebase_ref, loggedIn, user_id, username, game_status, game_id, games, selected_hero_id, selectedHero } = userState;
-
+    let { loggedIn, user_id, username, game_status, game_id, games, selected_hero_id, selectedHero } = userState;
+    
     // Data Validation 
     game_id = (GAME_ID) ? GAME_ID : game_id;
     if(GAME_STATUS){
@@ -39,116 +38,27 @@ const GameProvider = ({ children }) => {
       games = GAMES;
       setUser(prevState => ({...prevState, games: games })); 
     }
+
+    if(game_status !== 3 && gameState.hasOwnProperty('intervalId')){
+      clearInterval(gameState.intervalId);
+    }
+
+    console.log("userState", userState);
+
+    if(!game_id) return; 
     
-    // Update Players
-    let online_players = [];
-    Firebase.database().ref('/games/').on("value", (snapshot) => {
-      if(snapshot.numChildren() <= 1 ){
-        return;
-      }
+    API.getGameById(game_id)
+    .then(gameResponse => {
+      console.log("gameResponse",gameResponse.data);
+      let { true_rival } = gameResponse.data;
+      setGameState(prevState => ({ ...prevState, true_rival: true_rival }));
+      console.log("GAME STATE", gameState);
 
-      online_players = [];
-      snapshot.forEach( async snap => {
+      if(!ally){
 
-        if(snap.val().hasOwnProperty("username")){
-          if(snap.val()['username'] !== username) {
-            online_players.push(snap.val());
-          }
-        }
+        console.log("updating ally");
+        let { players, heroes, instigator_id, instigator_hero_id, instigator_hero_hp, turn_count } = gameResponse.data; 
 
-        // Filter out doubles in ThisGame
-        let updateThisGame = {};
-        let temp_games = [];
-        let temp_heroes = [];
-        let temp_players = [];
-
-        if(snap.val().hasOwnProperty('games')){
-          Object.keys(snap.val()['games']).map(key => temp_games.push(snap.val()['games'][key]));
-          updateThisGame['/games/' + snap.key + '/games/'] = temp_games.filter((value, index, selfArray) => selfArray.indexOf(value) === index); 
-
-          if(temp_games.length === Object.keys(snap.val()['games']).length ){
-            temp_games = [];
-          }
-        }
-
-        if(snap.val().hasOwnProperty('heroes')){
-          Object.keys(snap.val()['heroes']).map(key => temp_heroes.push(snap.val()['heroes'][key]));
-          updateThisGame['/games/' + snap.key + '/heroes/'] = temp_heroes.filter((value, index, selfArray) => selfArray.indexOf(value) === index); 
-
-          if(temp_heroes.length === Object.keys(snap.val()['heroes']).length ){
-            temp_heroes = [];
-          }
-        }
-
-        if(snap.val().hasOwnProperty('players')){
-          
-          Object.keys(snap.val()['players']).map(key => temp_players.push(snap.val()['players'][key]));
-          updateThisGame['/games/' + snap.key + '/players/'] = temp_players.filter((value, index, selfArray) => selfArray.indexOf(value) === index); 
-
-          if(temp_players.length === Object.keys(snap.val()['players']).length ){
-            temp_players = [];
-          }
-        }
-
-        if (temp_games.length > 0 || temp_heroes.length > 0 || temp_players.length > 0) {
-          console.log("UPDATE THIS GAME", updateThisGame);
-          await Firebase.database().ref().update(updateThisGame);
-        }
-      });
-
-      setPlayers(online_players);
-      console.log("onlinePlayers", online_players);
-
-    }, function (errorObject) {
-      console.log("The read failed: " + errorObject.code);
-    }); // END Firebase.database().ref('/games').on('value', (snapshot) => {)
-
-    // Update Game
-    if(firebase_ref !== undefined){
-
-      let gameRef = Firebase.database().ref('/games/' + firebase_ref);
-      gameRef.on("value", (snapshot) => {
-        if (snapshot.numChildren() === 0) {
-          return;
-        }
-
-        let { players, heroes, games, turn_count, in_game,
-          instigator_id, instigator_hero_id, instigator_hero_hp, 
-          rival_id, rival_hero_id, rival_hero_hp } = snapshot.val();
-
-          // NOTE: We must convert snapshot Objects into arrays!!!
-          // and they might as well be unique....
-          if(Array.isArray(players) === false && players !== undefined){
-            let temp_players = [];
-            Object.keys(players).map(key => temp_players.push(players[key]));
-
-            // filter out doubles
-            players = temp_players.filter((value, index, selfArray) => selfArray.indexOf(value) === index);
-          }
-
-          if(Array.isArray(heroes) === false && heroes !== undefined){
-            let temp_heroes = [];
-            Object.keys(heroes).map(key => temp_heroes.push(heroes[key]));
-
-            // filter out doubles
-            heroes = temp_heroes.filter((value, index, selfArray) => selfArray.indexOf(value) === index);
-          }
-
-          if(Array.isArray(games) === false && games !== undefined){
-            let temp_games = [];
-            Object.keys(games).map(key => temp_games.push(games[key]));
-
-            // filter out doubles
-            games = temp_games.filter((value, index, selfArray) => selfArray.indexOf(value) === index); 
-          }
-
-          setUser(prevState => ({...prevState, games: games }));
-
-          console.log(snapshot.val());
-          console.log("RIVAL>>>>>>>>>>>>>>>>>>>>>>", rival_id);
-          console.log("GAMES>>>>>>>>>>>>>>>>>>>>>>", games);
-        
-        // ------[ ALLY ]-----------------------------
         let allyData = {
           user_id: user_id,
           username: username,
@@ -159,12 +69,11 @@ const GameProvider = ({ children }) => {
           selectedHero: selectedHero,
           max_hp: selectedHero.hp,
           handleAttack: handleAttack
-        }
+        };
 
         if( !allyData.selectedHero && allyData.hero ){
           API.getHeroById(allyData.hero)
           .then(heroObj => ({...allyData, 
-            hp: ((heroObj.data.hp / heroObj.data.hp )*100), 
             selectedHero: heroObj.data,
             max_hp: heroObj.data.hp
           }))
@@ -178,7 +87,12 @@ const GameProvider = ({ children }) => {
           console.log("!Ally", ally);
         }
 
-        // ------[ RIVAL ]-----------------------------
+      }
+
+      console.log("?Rival", rival);
+      if(!rival || rival.user_id === user_id ){
+        let { players, heroes, rival_id, rival_hero_id, rival_hero_hp, turn_count } = gameResponse.data; 
+        
         let rivalData = {
           user_id: rival_id,
           game_id: game_id,
@@ -186,91 +100,105 @@ const GameProvider = ({ children }) => {
           handleAttack: handleAttack
         }
 
-        if(players !== undefined && (!rivalData.user_id || rivalData.user_id === user_id)){
+        if( !rivalData.user_id || rivalData.user_id === user_id ){
           let rivalArray = players.filter(player => player !== user_id);
           rivalData.user_id = rivalArray[0];
         }
 
         console.log("Attempting to get Rival:", rivalData.user_id );
 
-        if(rivalData.user_id !== undefined){
-          API.getUserById(rivalData.user_id)
-          .then(rivalUserResponse => {
-            API.getHeroById(rivalUserResponse.data.hero)
-            .then(heroObj => (
-              {
-                ...rivalUserResponse.data, 
-                hp: ((heroObj.data.hp / heroObj.data.hp )*100), 
-                selectedHero: heroObj.data,
-                max_hp: heroObj.data.hp
-              }
-            ))
-            .then(rivalMixedData => {
-              setRival({...rivalData, ...rivalMixedData});
-              setGameState(prevState => ({ ...prevState, 
-                rival_id: rivalData.user_id,
-                rival_hero_id: rivalData.hero,
-                rival_hp: (rivalData.hp) ? rivalData.hp : rivalMixedData.hp
-              }));
-              console.log("!Rival", rival);
-            });
-          })
-        }
+        if(!rivalData.user_id) return; 
 
-        // ------[ GAME STATUS ]-----------------------------
-        switch (game_status) {
-          case 1:
-            // Check for pending games
-            let pendingGameID = [];
-            if(games && game_id){
-              pendingGameID = games.filter(game => game !== game_id );
+        API.getUserById(rivalData.user_id)
+        .then(rivalUserResponse => {
+          API.getHeroById(rivalUserResponse.data.hero)
+          .then(heroObj => (
+            {
+              ...rivalUserResponse.data, 
+              selectedHero: heroObj.data,
+              hp: ((rival_hero_hp / selectedHero.hp)*100),
+              max_hp: heroObj.data.hp
             }
+          ))
+          .then(rivalMixedData => {
+            setRival({...rivalData, ...rivalMixedData});
+            setGameState(prevState => ({ ...prevState, 
+              rival_id: rivalData.user_id,
+              rival_hero_id: rivalData.hero,
+              rival_hp: (rivalData.hp) ? rivalData.hp : rivalMixedData.hp
+            }));
+            console.log("!Rival", rival);
+          });
+        })
+      }
+    }); 
 
-            if(pendingGameID.length > 0){
-              console.log("PENDING GAME", pendingGameID);
-              check_for_pending_games(pendingGameID[0]);
-            }else{
-              updatePage({
-                gameMessage: "Search Challenge", 
-                buttonMessage: "Send Invite", 
-                formID: "challenge_player_form"
-              });
-            }
-            
-            break;
-          
-          case 2:
-            check_if_opponent_accepted();
-            break;
+    if(game_status === 3) { 
+      /*
+      if(gameState.true_rival === userState.user_id){
+        let TRUE_RIVAL = rival;
+        let YOU = ally; 
 
-          case 3: 
-            if(checkWinCondition()){
-              return;
-            }
-    
-            console.log("game is in progress");
-            updatePage({
-              gameMessage: "The Battle Has Started!",
-              buttonMessage: "Join Game",
-              formID: "in_game_form"
-            });
-          
-            break;
+        setRival(YOU);s
+        setAlly(TRUE_RIVAL);
+      } */
 
-          default: // game_status = 0 
-            updatePage({
-              gameMessage: "It looks like you still need to choose a hero.",
-              buttonMessage: "Choose Hero",
-              formID: "choose_hero_form"
-            });
-            break;
-        }
+      if(checkWinCondition()){
+        return;
+      }
 
-      }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
+      console.log("game is in progress");
+      updatePage({
+        gameMessage: "The Battle Has Started!",
+        buttonMessage: "Join Game",
+        formID: "in_game_form"
       });
+      
+      return;
     }
-  } // END updateGame
+
+    // Check for pending games
+    let pendingGameID = [];
+    if(games && game_id){
+      pendingGameID = games.filter(game => game !== game_id );
+    }
+
+    if(pendingGameID.length > 0 && game_status < 2){
+      console.log("PENDING GAME", pendingGameID);
+      check_for_pending_games(pendingGameID[0]);
+      
+      return;
+    }else if(game_status < 2) {
+      updatePlayers(); 
+      updatePage({
+        gameMessage: "Search Challenge", 
+        buttonMessage: "Send Invite", 
+        formID: "challenge_player_form"
+      });
+      return; 
+    }
+
+    // --------------[ game_status = 2 is everything past this point ]----------------------------
+    // Check if opponent accepted......
+    check_if_opponent_accepted();
+  };
+
+  // =========================[ updatePlayers ]=====================================
+  const updatePlayers = () => {
+
+    API.searchChallenge().then( response => {
+      console.log("Players", response.data);
+      
+      if(response.data.length <= 1){
+        // Check for pending games
+        check_for_pending_games();
+      }
+
+      setPlayers(response.data);
+
+    });
+
+  };
 
   // =========================[ updatePage ]=====================================
   const updatePage = ({ gameMessage, buttonMessage, formID }) => {
@@ -357,9 +285,12 @@ const GameProvider = ({ children }) => {
       });   
     }else{
 
-      console.log("We should be loading the correct game now", pending_game_id);
+      let pendingGameID = [];
+      if(userState.games && userState.game_id){
+        pendingGameID = userState.games.filter(game => game !== userState.game_id );
+      }
 
-      API.getGameById( pending_game_id )
+      API.getGameById( pendingGameID )
       .then(game => {
         return API.getUserById(game.data.instigator_id)
         .then(rivalUserResponse => ({...rivalUserResponse.data, game: game.data}))
@@ -426,6 +357,8 @@ const GameProvider = ({ children }) => {
           });
         })
         // }).then(rivalObj => setRival(rivalObj))
+
+        
       
       } else if (rivalHeroArray.length > 0){
         // =========[ updateGame - Ready? ]====================================
@@ -446,11 +379,12 @@ const GameProvider = ({ children }) => {
     });  
   }
 
+
   // =========================[ checkWinCondition ]=====================================
   const checkWinCondition = () => {
     let { rival_hp, ally_hp } = gameState;
   
-    let { game_status, game_id, firebase_ref } = userState;  
+    let { game_status, game_id } = userState;  
     if((rival_hp <= 0 || ally_hp <= 0) && game_status >= 3){
       setUser(prevState => ({...prevState, game_status: 0}));
 
@@ -462,31 +396,11 @@ const GameProvider = ({ children }) => {
         formID: "challenge_player_form"
       });
 
-      // if(gameState.hasOwnProperty('intervalId')){
-      //   clearInterval(gameState.intervalId);
-      // }
-
-      API.deleteGame(game_id);
-
-      if(firebase_ref){
-        let userData = {...userState, 
-          game_status: 0,
-          game_id: null,
-          games: [],
-          heroes: [],
-          players: [],
-          in_game: false,
-          turn_count: 0,
-          player_turn: null,
-          rival_id: null,
-          rival_hero_id: null,
-          rival_hero_hp: 0,
-        };
-        let firebase_game = {}
-        Object.keys(userData).map(key=>firebase_game['/games/' + firebase_ref + '/' + key] = userData[key]);
-        Firebase.database().ref().update(firebase_game);
+      if(gameState.hasOwnProperty('intervalId')){
+        clearInterval(gameState.intervalId);
       }
 
+      API.deleteGame(game_id);
       console.log("GAME OVER");
       return true;
     }
@@ -511,6 +425,7 @@ const GameProvider = ({ children }) => {
       rival,
       setRival,
       players,
+      updatePlayers,
       updatePage,
       pageContent,
       setPageContent,

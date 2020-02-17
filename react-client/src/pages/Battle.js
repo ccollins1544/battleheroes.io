@@ -21,8 +21,8 @@ const Battle = () => {
   });
 
   useEffect(() => {
-    let intervalId = setInterval(updateGame, 1200);
-    setGameState(prevState => ({ ...prevState, intervalId: intervalId }));
+    // let intervalId = setInterval(updateGame, 1200);
+    // setGameState(prevState => ({ ...prevState, intervalId: intervalId }));
   }, []);
 
   return (

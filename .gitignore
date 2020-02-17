@@ -1,12 +1,14 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
+/.pnp
+.pnp.js
+node_modules
 /node_modules
 /react-client/node_modules
 /react-client/package-lock.json
+/package-lock.json
 package-lock.json
-/.pnp
-.pnp.js
 
 # testing
 /coverage
@@ -22,6 +24,7 @@ package-lock.json
 .env.development.local
 .env.test.local
 .env.production.local
+.VSCodeCounter
 
 npm-debug.log*
 yarn-debug.log*

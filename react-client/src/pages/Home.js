@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import config from "../config/firebase";
 import Utils from "../utils/";
 import Wrapper from "../components/Wrapper";
 import { SectionRow, Col } from "../components/Grid";
@@ -12,7 +13,7 @@ const Home = () => {
     <Wrapper className="App" id="main-container" style={background}>
       <SectionRow id="main-section">
         <Col size="lg-12">
-          <AnimateTitle />
+          {/* <AnimateTitle /> */}
         </Col>
       </SectionRow>
       <SectionRow>
