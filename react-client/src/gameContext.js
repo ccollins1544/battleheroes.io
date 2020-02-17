@@ -48,11 +48,51 @@ const GameProvider = ({ children }) => {
       }
 
       online_players = [];
-      snapshot.forEach( snap => {
+      snapshot.forEach( async snap => {
+
         if(snap.val().hasOwnProperty("username")){
           if(snap.val()['username'] !== username) {
             online_players.push(snap.val());
           }
+        }
+
+        // Filter out doubles in ThisGame
+        let updateThisGame = {};
+        let temp_games = [];
+        let temp_heroes = [];
+        let temp_players = [];
+
+        if(snap.val().hasOwnProperty('games')){
+          Object.keys(snap.val()['games']).map(key => temp_games.push(snap.val()['games'][key]));
+          updateThisGame['/games/' + snap.key + '/games/'] = temp_games.filter((value, index, selfArray) => selfArray.indexOf(value) === index); 
+
+          if(temp_games.length === Object.keys(snap.val()['games']).length ){
+            temp_games = [];
+          }
+        }
+
+        if(snap.val().hasOwnProperty('heroes')){
+          Object.keys(snap.val()['heroes']).map(key => temp_heroes.push(snap.val()['heroes'][key]));
+          updateThisGame['/games/' + snap.key + '/heroes/'] = temp_heroes.filter((value, index, selfArray) => selfArray.indexOf(value) === index); 
+
+          if(temp_heroes.length === Object.keys(snap.val()['heroes']).length ){
+            temp_heroes = [];
+          }
+        }
+
+        if(snap.val().hasOwnProperty('players')){
+          
+          Object.keys(snap.val()['players']).map(key => temp_players.push(snap.val()['players'][key]));
+          updateThisGame['/games/' + snap.key + '/players/'] = temp_players.filter((value, index, selfArray) => selfArray.indexOf(value) === index); 
+
+          if(temp_players.length === Object.keys(snap.val()['players']).length ){
+            temp_players = [];
+          }
+        }
+
+        if (temp_games.length > 0 || temp_heroes.length > 0 || temp_players.length > 0) {
+          console.log("UPDATE THIS GAME", updateThisGame);
+          await Firebase.database().ref().update(updateThisGame);
         }
       });
 
@@ -77,22 +117,29 @@ const GameProvider = ({ children }) => {
           rival_id, rival_hero_id, rival_hero_hp } = snapshot.val();
 
           // NOTE: We must convert snapshot Objects into arrays!!!
+          // and they might as well be unique....
           if(Array.isArray(players) === false && players !== undefined){
             let temp_players = [];
             Object.keys(players).map(key => temp_players.push(players[key]));
-            players = temp_players;  
+
+            // filter out doubles
+            players = temp_players.filter((value, index, selfArray) => selfArray.indexOf(value) === index);
           }
 
           if(Array.isArray(heroes) === false && heroes !== undefined){
             let temp_heroes = [];
             Object.keys(heroes).map(key => temp_heroes.push(heroes[key]));
-            heroes = temp_heroes;  
+
+            // filter out doubles
+            heroes = temp_heroes.filter((value, index, selfArray) => selfArray.indexOf(value) === index);
           }
 
           if(Array.isArray(games) === false && games !== undefined){
             let temp_games = [];
             Object.keys(games).map(key => temp_games.push(games[key]));
-            games = temp_games;
+
+            // filter out doubles
+            games = temp_games.filter((value, index, selfArray) => selfArray.indexOf(value) === index); 
           }
 
           setUser(prevState => ({...prevState, games: games }));
@@ -415,9 +462,9 @@ const GameProvider = ({ children }) => {
         formID: "challenge_player_form"
       });
 
-      if(gameState.hasOwnProperty('intervalId')){
-        clearInterval(gameState.intervalId);
-      }
+      // if(gameState.hasOwnProperty('intervalId')){
+      //   clearInterval(gameState.intervalId);
+      // }
 
       API.deleteGame(game_id);
 

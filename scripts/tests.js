@@ -1,7 +1,7 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const db = require("../models");
-const utils = require("../utils/");
+const utils = require("../utils");
 const Firebase = require("../utils/Firebase");
 var colors = require("colors");
 
@@ -138,7 +138,21 @@ module.exports = {
         process.exit(1);
       }
     })
+  },
+
+  getTurnCount:() => {
+    let snap_key = "-M0GZoMt0X84iOPoNK0m";
+    let gameRef = Firebase.database().ref('/games/'+snap_key + "/turn_count");
+    
+    gameRef.once('value').then(snap => {
+      return snap.val();
+    }).then(response => {
+      console.log("TurnCount".green, response);
+    })
+    
   }
+
+
 }
 
 //==================[ Dead Code ]===============================

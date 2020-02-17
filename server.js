@@ -5,12 +5,12 @@
  * @version 2.0.0
  * 
  * @todo 
- * -Add Firebase to API: readyGame, checkWinCondition, and handleAttack.
- * 
- * @testing 
- * -sendChallenge, acceptGame
+ * -Damage hitting wrong player. Only 1 atk btn. 
  * -battle page
  * -chat box on battle page
+ * 
+ * @testing 
+ * -sendChallenge, acceptGame, readyGame, checkWinCondition, and handleAttack
  */
 /* ===============[ Dependencies  ]========================*/
 require("dotenv").config();
