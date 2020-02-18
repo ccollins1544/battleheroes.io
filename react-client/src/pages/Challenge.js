@@ -46,17 +46,17 @@ const Challenge = () => {
         break;
       
       case "pending_response_form": // game_status >= 2 is for everything past this point
+        // ASSUMES you are the ally
         updateGame();
       break;
     
       case "accept_challenge_form":
+        // ASSUMES you are the rival
         // Check for pending games
-        rival.active_game = (rival.active_game) ? rival.active_game : rival.game_id;
+        let { game_id, user_id, selected_hero_id, selectedHero } = userState;
+
         if(!rival.active_game){
-          let { game_id, games } = userState;
-          let pendingGameID = [];
-          pendingGameID = games.filter(game => game !== game_id );
-          rival.active_game = (pendingGameID.length > 0) ? pendingGameID[0] : rival.active_game;
+          rival.active_game = game_id; 
         }
 
         if(!rival.active_game) {
@@ -65,21 +65,16 @@ const Challenge = () => {
           break;
         }
 
-        let newGames = [
-          ally.game_id,
-          rival.active_game
-        ];
-
         formData.game_id = rival.active_game; 
-        formData.rival_id = (ally.user_id) ? ally.user_id : ally._id;
-        formData.rival_hero_id = (ally.selected_hero_id) ? ally.selected_hero_id : ally.selectedHero._id;
-        formData.rival_hero_hp = ally.selectedHero.hp;
-        formData.true_rival = (ally.user_id) ? ally.user_id : ally._id;
+        formData.rival_id = (rival.user_id) ? rival.user_id : user_id;
+        formData.rival_hero_id = (rival.selected_hero_id) ? rival.selected_hero_id : selected_hero_id;
+        formData.rival_hero_hp = (rival.selectedHero.hp) ? (rival.selectedHero.hp) : selectedHero.hp
 
         API.acceptGame(formData)
         .then(response => {
           console.log("accept_challenge_form", response.data);
-          newGames = newGames.filter(game => game != null )
+          let newGames = [ally.game_id, ally.active_game, rival.game_id, rival.active_game, userState.game_id ].filter(game => game != null )
+          newGames = newGames.filter((value, index, selfArray) => selfArray.indexOf(value) === index);
           updateGame(formData.game_id, 2, newGames);
         });
 
@@ -138,51 +133,71 @@ const Challenge = () => {
 
   }, []);
 
+  let { game_id, user_id, selected_hero_id, selectedHero } = userState;
+  let currentPlayer = {};
+  let opposingPlayer = {};
+
+  if(ally && user_id && user_id == ally.user_id){
+    currentPlayer = ally;
+    opposingPlayer = rival;
+
+  } else if(rival && user_id && user_id == rival.user_id){
+    currentPlayer = rival;
+    opposingPlayer = ally;
+  }
+
+  console.log("----------------------------------------");
+  console.log("currentPlayer", currentPlayer);
+  console.log("Ally", ally);
+  console.log("Rival", rival);
+  console.log("opposingPlayer", opposingPlayer);
+  console.log("----------------------------------------");
+
   return (
     <Wrapper className="App" id="main-container" style={background}>
       <SectionRow id="main-section">
         <Col size="lg-12" addClass="mb-5">
           <h2>{pageContent.gameMessage}</h2>
         </Col>
-        {ally && ally.hasOwnProperty('selectedHero') &&
+        {currentPlayer && currentPlayer.hasOwnProperty('selectedHero') && 
           <Col size="lg-6">
             <HeroCard 
-              id={ally.selectedHero._id}
-              key={ally.selectedHero._id}
+              id={currentPlayer.selectedHero._id}
+              key={currentPlayer.selectedHero._id}
               addClasses="col-lg-12 col-md-12 col-sm-12"
-              src={ally.selectedHero.image}
-              heading={ally.selectedHero.name}
-              subtitle={ally.username.split("@")[0]}
-              heroObject={ally.selectedHero}
+              src={currentPlayer.selectedHero.image}
+              heading={currentPlayer.selectedHero.name}
+              subtitle={currentPlayer.username.split("@")[0]}
+              heroObject={currentPlayer.selectedHero}
               nohover={true}
               handleHeroClick={()=>{}}
             >
             </HeroCard>
           </Col>
         }
-        {rival && rival.hasOwnProperty('selectedHero') ? ( // Load Rival
+        {opposingPlayer && opposingPlayer.hasOwnProperty('selectedHero') ? ( 
           <Col size="lg-6">
             <HeroCard 
-              id={rival.selectedHero._id}
-              key={rival.selectedHero._id}
+              id={opposingPlayer.selectedHero._id}
+              key={opposingPlayer.selectedHero._id}
               addClasses="col-lg-12 col-md-12 col-sm-12"
-              src={rival.selectedHero.image}
-              heading={rival.selectedHero.name}
-              subtitle={rival.username.split("@")[0]}
-              heroObject={rival.selectedHero}
+              src={opposingPlayer.selectedHero.image}
+              heading={opposingPlayer.selectedHero.name}
+              subtitle={opposingPlayer.username.split("@")[0]}
+              heroObject={opposingPlayer.selectedHero}
               nohover={true}
-              handleHeroClick={()=>{ console.log(rival); }}
+              handleHeroClick={()=>{ console.log(opposingPlayer); }}
             />
           </Col>
         ) : ( // Load Players to challenge
-          ally && ally.game_status < 2 && ally.hasOwnProperty('selectedHero') ? (<Col size="lg-6">
+          currentPlayer && currentPlayer.game_status < 2 && currentPlayer.hasOwnProperty('selectedHero') ? (<Col size="lg-6">
             <form id={pageContent.formID} onSubmit={(e) => handleFormSubmit(e)}>
               <div className="form-row">
                 <div className="col">
                   <label className="form-label" htmlFor="rival_id">Available Players:</label>
                   <select className="form-control form-control-sm" name="rival_id" id="rival_id">
                     {players.length > 0 ? players.map(i => {
-                      return (i.user_id !== ally.user_id) && (
+                      return (i.user_id !== currentPlayer.user_id) && (
                         <option value={i.user_id}>{i.username.split("@")[0]}</option>
                         );
                       }) : (
@@ -208,7 +223,7 @@ const Challenge = () => {
           </Col>
           )
         )}
-        {rival && rival.hasOwnProperty('selectedHero') && (
+        {opposingPlayer && opposingPlayer.hasOwnProperty('selectedHero') && (
           <Col size="lg-6" addClass="mx-auto m-5">
             <form id={pageContent.formID} onSubmit={(e) => handleFormSubmit(e)}>
               <div className="form-row">

@@ -14,7 +14,7 @@ module.exports = {
 
   // POST /api/battle/accept
   acceptGame: function(req, res){
-    let { game_id, rival_id, rival_hero_id, rival_hero_hp, true_rival } = req.body;
+    let { game_id, rival_id, rival_hero_id, rival_hero_hp } = req.body;
 
     let gameRef = Firebase.database().ref('/games/');
     let found_opponent_ref = false;
@@ -28,8 +28,7 @@ module.exports = {
         $set: {
           'rival_id': rival_id,
           'rival_hero_id': rival_hero_id,
-          'rival_hero_hp': rival_hero_hp,
-          'true_rival': true_rival
+          'rival_hero_hp': rival_hero_hp
         }
       },
       { new: true }

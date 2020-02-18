@@ -25,6 +25,32 @@ const Battle = () => {
     // setGameState(prevState => ({ ...prevState, intervalId: intervalId }));
   }, []);
 
+  let { game_id, user_id, selected_hero_id, selectedHero } = userState;
+  let currentPlayer = {};
+  let opposingPlayer = {};
+
+  if(ally && user_id && user_id == ally.user_id){
+    currentPlayer = ally;
+    currentPlayer.team = "ally";
+
+    opposingPlayer = rival;
+    opposingPlayer.team = "rival";
+    
+  } else if(rival && user_id && user_id == rival.user_id){
+    currentPlayer = rival;
+    currentPlayer.team = "rival";
+
+    opposingPlayer = ally;
+    opposingPlayer.team = "ally";
+  }
+
+  console.log("<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>");
+  console.log("currentPlayer", currentPlayer);
+  console.log("Ally", ally);
+  console.log("Rival", rival);
+  console.log("opposingPlayer", opposingPlayer);
+  console.log("<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>");
+
   return (
     <Wrapper className="App" id="main-container" style={background}>
       <FullSectionRow id="main-section">
@@ -34,29 +60,17 @@ const Battle = () => {
           </Col>
         )}
         
-        {ally && ally.selectedHero && (
+        {currentPlayer && currentPlayer.hasOwnProperty('selectedHero') && (
           <Col size="lg-4">
-            {/* <BattleCard 
-              id={rival && ally && (gameState.true_rival === rival.user_id ? rival.user_id : ally.user_id)}
-              key={rival && ally && (gameState.true_rival === rival.user_id ? rival.user_id : ally.user_id)}
-              selectedHero={rival && (gameState.true_rival === rival.user_id ? rival.selectedHero : ally.selectedHero)} 
-              playerObj={rival && (gameState.true_rival === rival.user_id ? rival : ally)}
-              OtherPlayerObj={rival && (gameState.true_rival === rival.user_id ? ally : rival)}
-              gameState={gameState}
-              setGameState={setGameState}
-              true_rival={rival && (rival.user_id)}
-              team={rival && (gameState.true_rival === rival.user_id ? "rival" : "ally")}
-            />  */}
             <BattleCard 
-              id={ally && ally.user_id}
-              key={ally && ally.user_id}
-              selectedHero={ally && ally.selectedHero} 
-              playerObj={ally && ally}
+              id={currentPlayer.user_id}
+              key={currentPlayer.user_id}
+              selectedHero={currentPlayer.selectedHero} 
+              playerObj={currentPlayer}
               gameState={gameState}
               setGameState={setGameState}
-              true_rival={rival && rival.user_id}
               updateGame={updateGame}
-              team="ally"
+              team={currentPlayer.team}
             /> 
           </Col>
         )}
@@ -65,29 +79,18 @@ const Battle = () => {
           <img src="img/vs2.png" title="versus" />
         </Col>
 
-        {rival && rival.selectedHero && (
+        {opposingPlayer && opposingPlayer.hasOwnProperty('selectedHero') && (
         <Col size="lg-4">
-          {/* <BattleCard 
-            id={rival && ally.user_id && (gameState.true_rival === rival.user_id ? ally.user_id : rival.user_id)}
-            key={rival && ally.user_id && (gameState.true_rival === rival.user_id ? ally.user_id : rival.user_id)}
-            selectedHero={rival && (gameState.true_rival === rival.user_id ? ally.selectedHero : rival.selectedHero)} 
-            playerObj={rival && (gameState.true_rival === rival.user_id ? ally : rival)}
-            OtherPlayerObj={rival && (gameState.true_rival === rival.user_id ? rival : ally)}
-            gameState={gameState}
-            setGameState={setGameState}
-            true_rival={rival && (rival.user_id)}
-            team={rival && (gameState.true_rival === rival.user_id ? "ally" : "rival")}
-          />  */}
           <BattleCard 
-            id={rival && rival.user_id}
-            key={rival && rival.user_id}
-            selectedHero={rival && rival.selectedHero} 
-            playerObj={rival && rival}
+            id={opposingPlayer.user_id}
+            key={opposingPlayer.user_id}
+            selectedHero={opposingPlayer.selectedHero} 
+            playerObj={opposingPlayer}
             gameState={gameState}
             setGameState={setGameState}
-            true_rival={rival && rival.user_id}
+            true_rival={opposingPlayer.user_id}
             updateGame={updateGame}
-            team="rival"
+            team={opposingPlayer.team}
           /> 
         </Col>
         )}
