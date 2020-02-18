@@ -79,7 +79,7 @@ class BattleCard extends Component {
 
                   let starting_hp = this.props.playerObj.hp; 
                   if(this.props.team === "ally"){
-                    starting_hp = this.props.gameState.ally_hp;
+                    starting_hp = this.props.gameState.instigator_hp;
                   }else{
                     starting_hp = this.props.gameState.rival_hp;
                   }

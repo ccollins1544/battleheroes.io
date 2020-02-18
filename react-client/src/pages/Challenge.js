@@ -20,6 +20,8 @@ const Challenge = () => {
     event.preventDefault();
     let formData = {};
 
+    let { game_id, games, user_id, selected_hero_id, selectedHero } = userState;
+
     switch (event.target.id) {
       case "challenge_player_form":
         formData = Utils.getFormData(event.target.id);
@@ -53,28 +55,24 @@ const Challenge = () => {
       case "accept_challenge_form":
         // ASSUMES you are the rival
         // Check for pending games
-        let { game_id, user_id, selected_hero_id, selectedHero } = userState;
+        
+        let newGames = games.filter((value, index, selfArray) => selfArray.indexOf(value) === index);
+        let pendingGameID = newGames.filter(game => game !== game_id );
 
-        if(!rival.active_game){
-          rival.active_game = game_id; 
-        }
-
-        if(!rival.active_game) {
-          console.log("!rival.active_game && !rival.game_id ["+rival.active_game+"]");
+        if(!rival) {
+          console.log("----fetching rival-------");
           updateGame();
           break;
         }
 
-        formData.game_id = rival.active_game; 
-        formData.rival_id = (rival.user_id) ? rival.user_id : user_id;
-        formData.rival_hero_id = (rival.selected_hero_id) ? rival.selected_hero_id : selected_hero_id;
-        formData.rival_hero_hp = (rival.selectedHero.hp) ? (rival.selectedHero.hp) : selectedHero.hp
+        formData.game_id = pendingGameID[0]; 
+        formData.rival_id = (rival && rival.user_id) ? rival.user_id : user_id;
+        formData.rival_hero_id = (rival && rival.selected_hero_id) ? rival.selected_hero_id : selected_hero_id;
+        formData.rival_hero_hp = (rival && rival.selectedHero.hp) ? (rival.selectedHero.hp) : selectedHero.hp
 
         API.acceptGame(formData)
         .then(response => {
           console.log("accept_challenge_form", response.data);
-          let newGames = [ally.game_id, ally.active_game, rival.game_id, rival.active_game, userState.game_id ].filter(game => game != null )
-          newGames = newGames.filter((value, index, selfArray) => selfArray.indexOf(value) === index);
           updateGame(formData.game_id, 2, newGames);
         });
 
@@ -82,7 +80,7 @@ const Challenge = () => {
 
       case "player_ready_form":
       case "in_game_form":
-        formData.game_id = ally.game_id; 
+        formData.game_id = game_id; 
         formData.rival_id = ally.user_id;
         formData.rival_hero_id = (ally.selected_hero_id) ? ally.selected_hero_id : ally.selectedHero._id;
         formData.rival_hero_hp = ally.selectedHero.hp;
@@ -90,13 +88,13 @@ const Challenge = () => {
         formData.instigator_hero_id = (rival.selected_hero_id) ? rival.selected_hero_id : rival.selectedHero._id;
         formData.instigator_hero_hp = (rival.selectedHero.hp) ? rival.selectedHero.hp : ((rival.hp) ? rival.hp : 100);
 
-        if(ally.game_id) {
+        if(game_id) {
           API.readyGame(formData).then(response => {
             console.log("player_ready_form", response.data);
-            updateGame(ally.game_id, 3);
+            updateGame(game_id, 3);
           });
         }else{ 
-          Utils.AlertMessage("Not a valid game_id (" + ally.game_id + ")", "danger");
+          Utils.AlertMessage("Not a valid game_id (" + game_id + ")", "danger");
         }
 
         setUser(prevState => ({...prevState, redirectTo: "/battle"}));

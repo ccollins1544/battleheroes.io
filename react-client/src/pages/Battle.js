@@ -34,14 +34,19 @@ const Battle = () => {
     currentPlayer.team = "ally";
 
     opposingPlayer = rival;
-    opposingPlayer.team = "rival";
+    if(opposingPlayer){
+      opposingPlayer.team = "rival";
+    }
     
   } else if(rival && user_id && user_id == rival.user_id){
     currentPlayer = rival;
     currentPlayer.team = "rival";
 
     opposingPlayer = ally;
-    opposingPlayer.team = "ally";
+    
+    if(opposingPlayer){
+      opposingPlayer.team = "ally";
+    }
   }
 
   console.log("<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>");

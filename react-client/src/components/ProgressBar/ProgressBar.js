@@ -19,7 +19,7 @@ export const ProgressBarContainer = props => {
   console.log("ProgressBarContainer", props);
   return (
     <div>
-      <ProgressBar percentRange={props.team === "ally" ? props.gameState.ally_hp : props.gameState.rival_hp} />
+      <ProgressBar percentRange={props.team === "ally" ? props.gameState.instigator_hp : props.gameState.rival_hp} />
     </div>
   );
 };

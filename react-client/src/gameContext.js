@@ -7,7 +7,7 @@ import Utils from "./utils/";
 const GameContext = React.createContext();
 export const GameConsumer = GameContext.Consumer;
 
-const GameProvider = ({ children }) => {
+const GameProvider = ({ children }) => { 
   const { userState, setUser } = useContext(UserContext);
   const [ gameState, setGameState ] = useState({});
   const [ ally, setAlly ] = useState(null); 
@@ -26,23 +26,44 @@ const GameProvider = ({ children }) => {
   // =========================[ updateGame ]=========================================
   const updateGame = (GAME_ID, GAME_STATUS, GAMES) => {
     let { firebase_ref, loggedIn, user_id, username, game_status, game_id, games, selected_hero_id, selectedHero } = userState;
-
+    /*
     // Data Validation 
     if(GAME_ID){
       game_id = GAME_ID;
       setUser(prevState => ({...prevState, game_id: game_id })); 
+
+      if(userState.firebase_ref){
+        let userData = {...userState, game_id: game_id };
+        let firebase_game = {}
+        Object.keys(userData).map(key=>firebase_game['/games/' + userState.firebase_ref + '/' + key] = userData[key]);
+        Firebase.database().ref().update(firebase_game);
+      }
     }
 
     if(GAME_STATUS){
       game_status = GAME_STATUS;
       setUser(prevState => ({...prevState, game_status: game_status }));
+
+      if(userState.firebase_ref){
+        let userData = {...userState, game_status: game_status };
+        let firebase_game = {}
+        Object.keys(userData).map(key=>firebase_game['/games/' + userState.firebase_ref + '/' + key] = userData[key]);
+        Firebase.database().ref().update(firebase_game);
+      }
     }
 
     if(GAMES){
       games = GAMES;
       setUser(prevState => ({...prevState, games: games })); 
-    }
-    
+
+      if(userState.firebase_ref){
+        let userData = {...userState, games: games };
+        let firebase_game = {}
+        Object.keys(userData).map(key=>firebase_game['/games/' + userState.firebase_ref + '/' + key] = userData[key]);
+        Firebase.database().ref().update(firebase_game);
+      }
+    } */
+
     // Update Players
     let online_players = [];
     Firebase.database().ref('/games/').on("value", (snapshot) => {
@@ -151,86 +172,87 @@ const GameProvider = ({ children }) => {
         console.log("RIVAL>>>>>>>>>>>>>>>>>>>>>>", rival_id);
         console.log("GAMES>>>>>>>>>>>>>>>>>>>>>>", games);
         
-        // ------[ ALLY ]-----------------------------
-        let allyData = {...ally,
-          user_id: instigator_id,
-          game_id: game_id,
-          hero: instigator_hero_id, 
-          handleAttack: handleAttack
-        }
-        
-        if(allyData.user_id === undefined){
-          allyData = {...allyData,
-            user_id: user_id,
-            hero: selected_hero_id
+        if(game_status > 2){
+          // ------[ ALLY ]-----------------------------
+          let allyData = {...ally,
+            user_id: instigator_id,
+            game_id: game_id,
+            hero: instigator_hero_id, 
+            handleAttack: handleAttack
           }
-        }
-
-        API.getUserById(allyData.user_id)
-        .then(allyUserResponse => {
-          API.getHeroById(allyUserResponse.data.hero)
-          .then(heroObj => (
-            {
-              ...allyUserResponse.data, 
-              hp: instigator_hero_hp ? instigator_hero_hp : ((heroObj.data.hp / heroObj.data.hp )*100), 
-              selectedHero: heroObj.data,
-              max_hp: heroObj.data.hp
+          
+          if(allyData.user_id === undefined){
+            allyData = {...allyData,
+              user_id: user_id,
+              hero: selected_hero_id
             }
-          ))
-          .then(allyMixedData => {
-            allyData = {...allyData, ...allyMixedData};
-            
-            setAlly(prevState => ({...prevState, ...allyData}));
-            setGameState(prevState => ({ ...prevState, 
-              instigator_id: allyData.user_id,
-              instigator_hero_id: allyData.hero,
-              instigator_hp: allyData.hp
-            }));
-            console.log("!Ally", ally);
-          });
-        });
-
-        // ------[ RIVAL ]-----------------------------
-        let rivalData = {...rival,
-          user_id: rival_id,
-          game_id: game_id,
-          hero: rival_hero_id, 
-          handleAttack: handleAttack
-        }
-
-        if(rivalData.user_id === undefined && allyData.user_id !== user_id){
-          rivalData = {...rivalData,
-            user_id: user_id,
-            hero: selected_hero_id
           }
-        }
-        
-        console.log("Attempting to get Rival:", rivalData.user_id );
-        API.getUserById(rivalData.user_id)
-        .then(rivalUserResponse => {
-          API.getHeroById(rivalUserResponse.data.hero)
-          .then(heroObj => (
-            {
-              ...rivalUserResponse.data, 
-              hp: rival_hero_hp ? rival_hero_hp : ((heroObj.data.hp / heroObj.data.hp )*100), 
-              selectedHero: heroObj.data,
-              max_hp: heroObj.data.hp
-            }
-          ))
-          .then(rivalMixedData => {
-            rivalData = {...rivalData, ...rivalMixedData};
 
-            setRival(prevState => ({...prevState, ...rivalData}));
-            setGameState(prevState => ({ ...prevState, 
-              rival_id: rivalData.user_id,
-              rival_hero_id: rivalData.hero,
-              rival_hp: rivalData.hp
-            })); 
-            console.log("!Rival", rival);
+          API.getUserById(allyData.user_id)
+          .then(allyUserResponse => {
+            API.getHeroById(allyUserResponse.data.hero)
+            .then(heroObj => (
+              {
+                ...allyUserResponse.data, 
+                hp: instigator_hero_hp ? instigator_hero_hp : ((heroObj.data.hp / heroObj.data.hp )*100), 
+                selectedHero: heroObj.data,
+                max_hp: heroObj.data.hp
+              }
+            ))
+            .then(allyMixedData => {
+              allyData = {...allyData, ...allyMixedData};
+
+              setAlly(prevState => ({...prevState, ...allyData}));
+              setGameState(prevState => ({ ...prevState, 
+                instigator_id: allyData.user_id,
+                instigator_hero_id: allyData.hero,
+                instigator_hp: allyData.hp
+              }));
+              console.log("!Ally", ally);
+            });
           });
-        })
 
-       
+          // ------[ RIVAL ]-----------------------------
+          let rivalData = {...rival,
+            user_id: rival_id,
+            game_id: game_id,
+            hero: rival_hero_id, 
+            handleAttack: handleAttack
+          }
+
+          if(rivalData.user_id === undefined && allyData.user_id !== user_id){
+            rivalData = {...rivalData,
+              user_id: user_id,
+              hero: selected_hero_id
+            }
+          }
+          
+          console.log("Attempting to get Rival:", rivalData.user_id );
+          API.getUserById(rivalData.user_id)
+          .then(rivalUserResponse => {
+            API.getHeroById(rivalUserResponse.data.hero)
+            .then(heroObj => (
+              {
+                ...rivalUserResponse.data, 
+                hp: rival_hero_hp ? rival_hero_hp : ((heroObj.data.hp / heroObj.data.hp )*100), 
+                selectedHero: heroObj.data,
+                max_hp: heroObj.data.hp
+              }
+            ))
+            .then(rivalMixedData => {
+              rivalData = {...rivalData, ...rivalMixedData};
+
+              setRival(prevState => ({...prevState, ...rivalData}));
+              setGameState(prevState => ({ ...prevState, 
+                rival_id: rivalData.user_id,
+                rival_hero_id: rivalData.hero,
+                rival_hp: rivalData.hp
+              })); 
+              console.log("!Rival", rival);
+            });
+          });
+
+        }
 
         // ------[ GAME STATUS ]-----------------------------
         switch (game_status) {
@@ -284,6 +306,153 @@ const GameProvider = ({ children }) => {
       }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
       });
+
+    }else{ // NOT IN FIREBASE
+      /*
+
+      // Check for pending games
+      let pendingGameID = [];
+      if(games && game_id){
+        pendingGameID = games.filter(game => game !== game_id );
+      }
+
+      if(pendingGameID.length > 0){
+        API.getGameById(pendingGameID[0])
+        .then(gameResponse => {
+          let { game_id, players, heroes, instigator_id, instigator_hero_id, instigator_hero_hp, turn_count } = gameResponse.data; 
+          
+          // ------[ ALLY ]-----------------------------
+          let allyData = {...ally,
+            user_id: instigator_id,
+            game_id: game_id,
+            hero: instigator_hero_id, 
+            handleAttack: handleAttack
+          }
+          
+          if(allyData.user_id === undefined){
+            allyData = {...allyData,
+              user_id: user_id,
+              hero: selected_hero_id
+            }
+          }
+
+          API.getUserById(allyData.user_id)
+          .then(allyUserResponse => {
+            API.getHeroById(allyUserResponse.data.hero)
+            .then(heroObj => (
+              {
+                ...allyUserResponse.data, 
+                hp: instigator_hero_hp ? instigator_hero_hp : ((heroObj.data.hp / heroObj.data.hp )*100), 
+                selectedHero: heroObj.data,
+                max_hp: heroObj.data.hp
+              }
+            ))
+            .then(allyMixedData => {
+              allyData = {...allyData, ...allyMixedData};
+
+              setAlly(prevState => ({...prevState, ...allyData}));
+              setGameState(prevState => ({ ...prevState, 
+                instigator_id: allyData.user_id,
+                instigator_hero_id: allyData.hero,
+                instigator_hp: allyData.hp
+              }));
+              console.log("!Ally", ally);
+            });
+          });
+
+          let { rival_id, rival_hero_id, rival_hero_hp } = gameResponse.data; 
+
+          // ------[ RIVAL ]-----------------------------
+          let rivalData = {...rival,
+            user_id: rival_id,
+            game_id: game_id,
+            hero: rival_hero_id, 
+            handleAttack: handleAttack
+          }
+
+          if(rivalData.user_id === undefined && allyData.user_id !== user_id){
+            rivalData = {...rivalData,
+              user_id: user_id,
+              hero: selected_hero_id
+            }
+          }
+          
+          console.log("Attempting to get Rival:", rivalData.user_id );
+          API.getUserById(rivalData.user_id)
+          .then(rivalUserResponse => {
+            API.getHeroById(rivalUserResponse.data.hero)
+            .then(heroObj => (
+              {
+                ...rivalUserResponse.data, 
+                hp: rival_hero_hp ? rival_hero_hp : ((heroObj.data.hp / heroObj.data.hp )*100), 
+                selectedHero: heroObj.data,
+                max_hp: heroObj.data.hp
+              }
+            ))
+            .then(rivalMixedData => {
+              rivalData = {...rivalData, ...rivalMixedData};
+
+              setRival(prevState => ({...prevState, ...rivalData}));
+              setGameState(prevState => ({ ...prevState, 
+                rival_id: rivalData.user_id,
+                rival_hero_id: rivalData.hero,
+                rival_hp: rivalData.hp
+              })); 
+              console.log("!Rival", rival);
+            });
+          });
+        })
+      }
+
+      // ------[ GAME STATUS ]-----------------------------
+      switch (game_status) {
+        case 1:
+          // Check for pending games
+          let pendingGameID = [];
+          if(games && game_id){
+            pendingGameID = games.filter(game => game !== game_id );
+          }
+
+          if(pendingGameID.length > 0){
+            console.log("PENDING GAME", pendingGameID);
+            check_for_pending_games(pendingGameID[0]);
+          }else{
+            updatePage({
+              gameMessage: "Search Challenge", 
+              buttonMessage: "Send Invite", 
+              formID: "challenge_player_form"
+            });
+          }
+          
+          break;
+        
+        case 2:
+          check_if_opponent_accepted();
+          break;
+
+        case 3: 
+          if(checkWinCondition()){
+            return;
+          }
+  
+          console.log("game is in progress");
+          updatePage({
+            gameMessage: "The Battle Has Started!",
+            buttonMessage: "Join Game",
+            formID: "in_game_form"
+          });
+        
+          break;
+
+        default: // game_status = 0 
+          updatePage({
+            gameMessage: "It looks like you still need to choose a hero.",
+            buttonMessage: "Choose Hero",
+            formID: "choose_hero_form"
+          });
+          break;
+      }
+      */
     }
   } // END updateGame
 
@@ -305,7 +474,7 @@ const GameProvider = ({ children }) => {
     }
 
     // ======================[ You are the ally (instigator) ]====================
-    if(ally.user_id === user_id) { 
+    if(ally && ally.user_id === user_id) { 
       API.getPendingRival({ games: game_id, my_id: user_id })
       .then(response => {
         console.log("pending rival response", response.data);
